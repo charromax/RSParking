@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="rs_yellow">#FFC107</color>
+
+    <color name="colorAccent">#0aa3f5</color>
+    <color name="rs_lightblue">#4a62ff</color>
+    <color name="rs_darkblue">#3e50c7</color>
+    <color name="rs_lightgray">#BABABA</color>
+    <color name="rs_white">#F4F4F4</color>
+    <color name="rs_black">#000000</color>
+
+
+</resources>

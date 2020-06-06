@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+    app:startDestination="@id/driverListFragment">
+
+    <fragment
+        android:id="@+id/driverListFragment"
+        android:name="com.example.rsparking.ui.driver.DriverListFragment"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:layout="@layout/driver_list_fragment"
+        android:label="DriverListFragment" />
+</navigation>

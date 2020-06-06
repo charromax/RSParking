@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Remote Stand</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="new_button">New</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="update_button">Update</string>
+    <string name="save_button">Save</string>
+    <string name="add_car_button">Add Car</string>
+    <string name="submit_button">Submit</string>
+    <string name="date_in_button">Date IN</string>
+    <string name="date_out_button">Date OUT</string>
+    <string name="search_menu">Search</string>
+
+    <string name="activity_main_screen">Main Screen</string>
+    <string name="activity_driver_list">Driver List</string>
+    <string name="activity_client_list">Client List</string>
+    <string name="activity_inhouse_cars">In-House Cars List</string>
+    <string name="activity_login_screen">Login Screen</string>
+    <string name="activity_add_new">Add New</string>
+
+    <string name="hint1">Plate Number</string>
+    <string name="hint2">Color</string>
+    <string name="hint3">Brand</string>
+    <string name="hint4">Model</string>
+    <string name="hint5">Name</string>
+    <string name="hint6">Last Name</string>
+    <string name="hint7">eMail</string>
+    <string name="hint8">Insert Plate #</string>
+    <string name="hint9">Phone Number</string>
+
+
+    <string name="status_chkbox">Status</string>
+    <string name="in_house_chkbox">Deliver?</string>
+    <string name="online_receipt_switch">Online Receipt?</string>
+    <string name="notes_text">Notes and comments</string>
+    <string name="rating">Please rate interaction with client</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="clearance_stop">You need Admin clearance to perform this task</string>
+
+    <string name="card_dropoff">New Drop-Off</string>
+    <string name="card_driverlist">Driver List</string>
+    <string name="card_clientlist">Client List</string>
+    <string name="card_inhouse">In-House Cars</string>
+    <string name="card_reg">Registered Cars</string>
+    <string name="card_reports">Reports</string>
+    <string name="card_parkinglist">Leaving today</string>
+
+
+    <string-array name="payment_mode">
+        <item>Bank Xfer</item>
+        <item>Cash</item>
+    </string-array>
+
+    <string-array name="payment_plan">
+        <item>Full Month</item>
+        <item>Leave 10</item>
+        <item>Leave 20</item>
+        <item>Special Rate</item>
+    </string-array>
+
+    <string-array name="tables">
+        <item>Parkings</item>
+        <item>Clients</item>
+        <item>Drivers</item>
+        <item>Cars</item>
+    </string-array>
+
+    <string-array name="parking_fields">
+        <item>ID</item>
+        <item>ID Client</item>
+        <item>Date IN</item>
+        <item>Date OUT</item>
+        <item>Real Date OUT</item>
+        <item>IN-House</item>
+        <item>Plate Number</item>
+        <item>Parking Lot</item>
+    </string-array>
+    <string-array name="client_fields">
+        <item>ID</item>
+        <item>Name</item>
+        <item>Last Name</item>
+        <item>Phone</item>
+        <item>E-Mail</item>
+        <item>Plan</item>
+        <item>Payment Mode</item>
+        <item>Online Receipt</item>
+        <item>Notes</item>
+        <item>Score</item>
+    </string-array>
+    <string-array name="driver_fields">
+        <item>ID</item>
+        <item>Name</item>
+        <item>Last Name</item>
+        <item>Phone</item>
+        <item>E-Mail</item>
+        <item>Status</item>
+    </string-array>
+    <string-array name="car_fields">
+        <item>Plate Number</item>
+        <item>ID Client</item>
+        <item>Color</item>
+        <item>Brand</item>
+        <item>Model</item>
+        <item>Notes</item>
+    </string-array>
+    <string name="sms_message">Hi %1$s! Thank you for trusting us with your car while you\'re away,
+     we\'ll be happy to welcome you back on %2$s to pick it up. If this changes or is not correct, please
+     let us know at +971(058)597-8952. Have a safe flight! The Remote Stand driver team.</string>
+
+
+    <string name="meta_position">1</string>
+    <string name="meta_title">meta_title</string>
+    <string name="main_title">Main Title</string>
+
+</resources>
