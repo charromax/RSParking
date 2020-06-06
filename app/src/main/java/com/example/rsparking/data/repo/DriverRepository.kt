@@ -24,4 +24,10 @@ class DriverRepository(val database: DriverDAO) {
         }
     }
 
+    suspend fun UpdateDriverToDatabase(driver: Driver) {
+        withContext(Dispatchers.IO) {
+            database.update(driver)
+        }
+    }
+
 }

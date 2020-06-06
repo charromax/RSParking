@@ -15,7 +15,7 @@ interface DriverDAO {
     @Query("SELECT * FROM $TABLE_DRIVERS WHERE id= :key")
     fun getDriver(key: Int): Driver?
 
-    @Insert(onConflict= OnConflictStrategy.ABORT)
+    @Insert(onConflict= OnConflictStrategy.REPLACE)
     suspend fun insert(driver: Driver)
 
     @Update
