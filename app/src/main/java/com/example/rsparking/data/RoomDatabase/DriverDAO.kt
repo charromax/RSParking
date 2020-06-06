@@ -10,7 +10,7 @@ import com.example.rsparking.util.Constants.TABLE_DRIVERS
 interface DriverDAO {
 
     @Query("SELECT * FROM $TABLE_DRIVERS ORDER BY id")
-    fun getAllDrivers(): LiveData<List<Driver>>
+    fun getAllDrivers(): LiveData<MutableList<Driver>>
 
     @Query("SELECT * FROM $TABLE_DRIVERS WHERE id= :key")
     fun getDriver(key: Int): Driver?

@@ -4,13 +4,15 @@ import android.app.Application
 import android.text.TextWatcher
 import androidx.lifecycle.*
 import com.example.rsparking.data.RoomDatabase.DriverDAO
+import com.example.rsparking.data.RoomDatabase.RSParkingDatabase
 import com.example.rsparking.data.model.Driver
 import com.example.rsparking.data.repo.DriverRepository
 import kotlinx.coroutines.*
 
 
-class DriverViewModel(val repo: DriverRepository,
-                      application: Application): AndroidViewModel(application) {
+class DriverViewModel(application: Application): AndroidViewModel(application) {
+    private val database: DriverDAO = RSParkingDatabase.getInstance(application).driverDAO
+    private val repo: DriverRepository
 
     private var viewModelJob= Job()
     override fun onCleared() {
@@ -23,7 +25,9 @@ class DriverViewModel(val repo: DriverRepository,
     private val _driver= MutableLiveData<Driver>()
     val driver: LiveData<Driver>
         get() = _driver
-    private val allDrivers= repo.getAllDriversFromDatabase()
+
+    val allDrivers: LiveData<MutableList<Driver>>
+
     // eventos
     private val _eventSaveNewDriver= MutableLiveData<Unit>()
     val eventSaveNewDriver: LiveData<Unit>
@@ -33,8 +37,18 @@ class DriverViewModel(val repo: DriverRepository,
     val eventUpdateDriver: LiveData<Unit>
         get() = _eventUpdateDriver
 
-    fun saveDriver() {
+    init {
+        repo = DriverRepository(database)
+        allDrivers= repo.allDrivers
+    }
 
+    fun saveDriver() {
+        val newDriver= _driver.value
+        uiScope.launch {
+            if (newDriver != null) {
+                repo.saveNewDriverToDatabase(newDriver)
+            }
+        }
     }
 
     fun getDriver(key: Int) {
