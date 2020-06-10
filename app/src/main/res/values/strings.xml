@@ -117,5 +117,6 @@
     <string name="meta_position">1</string>
     <string name="meta_title">meta_title</string>
     <string name="main_title">Main Title</string>
+    <string name="log_out">Log out</string>
 
 </resources>

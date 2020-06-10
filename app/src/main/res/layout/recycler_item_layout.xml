@@ -15,7 +15,7 @@
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_image"
+            android:id="@+id/profileImage"
             android:layout_width="96dp"
             android:layout_height="96dp"
             android:src="@drawable/ic_android"
@@ -30,21 +30,21 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/txtMainTitle"
+                android:id="@+id/mainTitle"
                 android:textSize="20sp"
                 android:text="@string/main_title"
                 android:textColor="@color/rs_black"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/txtSubTitle"
+                android:id="@+id/subTitle"
                 android:textSize="18sp"
                 android:text="Subtitle"
                 android:textColor="@color/rs_black"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/txtExtraInfo"
+                android:id="@+id/extraInfo"
                 android:textSize="16sp"
                 android:text="@string/main_title"
                 android:textColor="@color/rs_lightblue"/>

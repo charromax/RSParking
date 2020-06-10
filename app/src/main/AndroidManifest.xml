@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ui.LoginScreen"></activity>
-        <activity android:name=".ui.MainActivity" />
+        <activity android:name=".ui.mainactivity.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name=".ui.SplashScreen"
             android:theme="@style/SplashTheme">

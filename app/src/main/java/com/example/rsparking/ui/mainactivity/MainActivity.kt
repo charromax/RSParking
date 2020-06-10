@@ -1,0 +1,62 @@
+package com.example.rsparking.ui.mainactivity
+
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.util.Log
+import android.view.MenuItem
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.GravityCompat
+import androidx.databinding.DataBindingUtil
+import androidx.drawerlayout.widget.DrawerLayout
+import com.example.rsparking.R
+import com.example.rsparking.databinding.ActivityMainBinding
+import com.google.android.material.navigation.NavigationView
+
+const val TAG= "MainActivity"
+
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var toolbar: Toolbar
+    private lateinit var drawerLayout: DrawerLayout
+    private lateinit var navView: NavigationView
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        toolbar= binding.toolbar
+        drawerLayout= binding.drawerLayout
+        navView= binding.navView
+
+        val toggle= ActionBarDrawerToggle(this, drawerLayout, toolbar,0,0)
+        drawerLayout.addDrawerListener(toggle)
+        toggle.syncState()
+        navView.setNavigationItemSelectedListener(this)
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.nav_drivers -> {
+                Log.i(TAG, "onNavigationItemSelected: drivers")
+
+            }
+            R.id.nav_clients -> {
+                Log.i(TAG, "onNavigationItemSelected: clients")
+            }
+            R.id.nav_pickups -> {
+                Log.i(TAG, "onNavigationItemSelected: inhousecars")
+            }
+            R.id.nav_reg_cars -> {
+                Log.i(TAG, "onNavigationItemSelected: regCars")
+            }
+            R.id.nav_reports -> {
+                Log.i(TAG, "onNavigationItemSelected: drivers")
+            }
+            R.id.nav_exit -> {
+                this.finish()
+            }
+        }
+        drawerLayout.closeDrawer(GravityCompat.START)
+        return true
+    }
+
+}

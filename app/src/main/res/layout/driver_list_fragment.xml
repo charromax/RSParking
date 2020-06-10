@@ -1,40 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=""
-    android:background="@color/rs_white">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    <androidx.recyclerview.widget.RecyclerView
+    <data>
+        <variable
+            name="listViewModel"
+            type="com.example.rsparking.ui.driver.list.DriverListViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/driverList"
-        tools:listitem="@layout/recycler_item_layout"
-        android:scrollbars="vertical"
-        android:textColor="@color/rs_black"/>
-    <ImageView
-        android:id="@+id/splash_logo2"
-        android:layout_width="300dp"
-        android:layout_height="200dp"
-        android:layout_centerInParent="true"
-        android:alpha="0.4"
-        app:srcCompat="@drawable/logo_full" />
+        android:background="@color/rs_white">
 
-    </RelativeLayout>
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_new_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:src="@drawable/ic_add_new"
-        android:contentDescription="Add new Driver"
-        app:backgroundTint="@color/colorAccent"
-        android:layout_margin="16dp"
-        />
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/driverList"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:listitem="@layout/recycler_item_layout"
+            android:scrollbars="vertical"
+            android:textColor="@color/rs_black"/>
+        <ImageView
+            android:id="@+id/splash_logo2"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
+            android:layout_centerInParent="true"
+            android:alpha="0.4"
+            app:srcCompat="@drawable/logo_full" />
+
+        </RelativeLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_new_fab"
+            android:layout_width="wrap_content"
+            android:onClick="@{()-> listViewModel.onFabClicked()}"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:src="@drawable/ic_add_new"
+            android:contentDescription="Add new Driver"
+            app:backgroundTint="@color/colorAccent"
+            android:layout_margin="16dp"
+            />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

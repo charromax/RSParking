@@ -1,18 +1,19 @@
-package com.example.rsparking.ui.driver
+package com.example.rsparking.ui.driver.list
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.rsparking.data.RoomDatabase.DriverDAO
+import com.example.rsparking.ui.driver.addedit.AddEditDriverViewModel
 
-class DriverViewModelFactory(
-    private val dataSource: DriverDAO,
+class DriverListViewModelFactory(
     private val application: Application
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(DriverViewModel::class.java)) {
-            return DriverViewModel(dataSource, application) as T
+        if (modelClass.isAssignableFrom(DriverListViewModel::class.java)) {
+            return DriverListViewModel(
+                application
+            ) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

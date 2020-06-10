@@ -6,7 +6,7 @@
     <data>
         <variable
             name="driverViewModel"
-            type="com.example.rsparking.ui.driver.DriverViewModel" />
+            type="com.example.rsparking.ui.driver.addedit.AddEditDriverViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

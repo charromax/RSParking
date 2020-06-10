@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="nav_view">
+
+
+    <group android:checkableBehavior="single"
+        tools:showIn= "navigation_view">
+        <item android:id="@+id/nav_drivers"
+        android:icon="@drawable/ic_drivers"
+        android:title="@string/card_driverlist"/>
+        <item android:id="@+id/nav_clients"
+            android:icon="@drawable/ic_clients"
+            android:title="@string/card_clientlist"/>
+        <item android:id="@+id/nav_pickups"
+            android:icon="@drawable/ic_in_house"
+            android:title="@string/card_inhouse"/>
+        <item android:id="@+id/nav_reg_cars"
+            android:icon="@drawable/ic__car_24"
+            android:title="@string/card_reg"/>
+        <item android:id="@+id/nav_reports"
+            android:icon="@drawable/ic_reports"
+            android:title="@string/card_reports"/>
+        <item android:id="@+id/nav_exit"
+            android:icon="@drawable/ic_exit"
+            android:title="@string/log_out"/>
+    </group>
+
+</menu>

@@ -2,15 +2,13 @@ package com.example.rsparking.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.rsparking.R
 import com.example.rsparking.databinding.ActivityLoginScreenBinding
 import com.example.rsparking.databinding.ActivityLoginScreenBindingImpl
+import com.example.rsparking.ui.mainactivity.MainActivity
 import com.example.rsparking.util.Constants
 
 class LoginScreen : AppCompatActivity() {

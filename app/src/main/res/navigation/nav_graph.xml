@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
     app:startDestination="@id/driverListFragment">
 
     <fragment
         android:id="@+id/driverListFragment"
-        android:name="com.example.rsparking.ui.driver.DriverListFragment"
-        xmlns:tools="http://schemas.android.com/tools"
+        android:name="com.example.rsparking.ui.driver.list.DriverListFragment"
         tools:layout="@layout/driver_list_fragment"
-        android:label="DriverListFragment" />
+        android:label="DriverListFragment" >
+        <action
+            android:id="@+id/action_driverListFragment_to_addEditDriverFragment"
+            app:destination="@id/addEditDriverFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditDriverFragment"
+        tools:layout="@layout/driver_add_fragment"
+        android:name="com.example.rsparking.ui.driver.addedit.AddEditDriverFragment"
+        android:label="AddEditDriverFragment" />
 </navigation>

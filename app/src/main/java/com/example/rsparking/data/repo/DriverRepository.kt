@@ -30,4 +30,10 @@ class DriverRepository(val database: DriverDAO) {
         }
     }
 
+    suspend fun DeleteDriverFromDatabase(driver: Driver) {
+        withContext(Dispatchers.IO) {
+            database.delete(driver)
+        }
+    }
+
 }
