@@ -1,16 +1,20 @@
 package com.example.rsparking.ui.mainactivity
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.navigation.Navigation
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.example.rsparking.R
 import com.example.rsparking.databinding.ActivityMainBinding
+import com.example.rsparking.ui.driver.list.DriverListFragmentDirections
 import com.google.android.material.navigation.NavigationView
 
 const val TAG= "MainActivity"
@@ -20,6 +24,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var toolbar: Toolbar
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var navView: NavigationView
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
@@ -33,10 +39,24 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         navView.setNavigationItemSelectedListener(this)
     }
 
+    override fun onNavigateUp(): Boolean {
+        return NavigationUI.navigateUp(
+            Navigation.findNavController(this, R.id.nav_host),
+            drawerLayout
+        )
+    }
+    override fun onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        } else {
+            super.onBackPressed()
+        }
+    }
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.nav_drivers -> {
-                Log.i(TAG, "onNavigationItemSelected: drivers")
+                this.findNavController(R.id.nav_host).navigate(R.id.driverListFragment)
 
             }
             R.id.nav_clients -> {

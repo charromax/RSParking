@@ -16,7 +16,7 @@ import java.util.*
 class AddEditDriverViewModel(application: Application): AndroidViewModel(application) {
     private val database: DriverDAO = RSParkingDatabase.getInstance(application).driverDAO
     private val repo: DriverRepository
-    private val formatter= SimpleDateFormat(FOR_SQL)
+
 
     private var viewModelJob= Job()
     override fun onCleared() {
@@ -30,34 +30,32 @@ class AddEditDriverViewModel(application: Application): AndroidViewModel(applica
     val driver: LiveData<Driver>
         get() = _driver
 
+    private val _saveDriverEvent= MutableLiveData<Boolean>()
+    val saveDriverEvent: LiveData<Boolean>
+        get() = _saveDriverEvent
+
 
     init {
         repo = DriverRepository(database)
     }
 
-    fun saveDriver() {
-        val newDriver= setNewDriver()
+    fun saveDriver(newDriver: Driver) {
         uiScope.launch {
-            if (newDriver != null) {
-                repo.saveNewDriverToDatabase(newDriver)
-            }
+            repo.saveNewDriverToDatabase(newDriver)
         }
     }
-    fun updateDriver() {
+    fun updateDriver(newDriver: Driver) {
         uiScope.launch {
             repo.UpdateDriverToDatabase(_driver.value!!)
         }
     }
-    private fun setNewDriver(): Driver{
-        return Driver(
-            0,
-            driver.value!!.name,
-            driver.value!!.lastName,
-            driver.value!!.phone,
-            driver.value!!.eMail,
-            driver.value!!.image,
-            formatter.format(Date())
-        )
+
+    fun doneSaving() {
+        _saveDriverEvent.value= null
+    }
+
+    fun onSaveEvent(){
+        _saveDriverEvent.value= true
     }
 
 

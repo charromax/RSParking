@@ -14,6 +14,9 @@
         android:layout_height="match_parent"
         android:background="@color/rs_white"
         android:theme="@style/Theme.AppCompat.Light">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -86,9 +89,10 @@
                     android:textColor="@color/rs_black"
                     android:textColorHint="@color/rs_black"/>
             </LinearLayout>
+        </ScrollView>
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/driverFab"
-                android:onClick="@{() -> driverViewModel.saveDriver()}"
+                android:onClick="@{() -> driverViewModel.onSaveEvent()}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"

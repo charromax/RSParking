@@ -46,7 +46,7 @@ class DriverListFragment: Fragment() {
         })
 
         viewModel.navigateToAddEditFragment.observe(viewLifecycleOwner, Observer {
-            if (it) {
+            it?.let {
                 this.findNavController().navigate(DriverListFragmentDirections.actionDriverListFragmentToAddEditDriverFragment())
                 viewModel.doneNavigating()
             }
