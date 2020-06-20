@@ -43,8 +43,15 @@ class DriverListViewModel(application: Application): AndroidViewModel(applicatio
         _navigateToAddEditFragmentWithID.value = null
     }
 
-    fun onDriverSelected() {
-        TODO("implementar onitemselectedclick")
+    override fun handleEvent(event: DriverListEvent) {
+        when (event) {
+            is DriverListEvent.onListItemClick -> showItemDetails()
+            is DriverListEvent.onNewDriverClick -> onFabClicked()
+        }
+    }
+
+    private fun showItemDetails() {
+        TODO("Not yet implemented")
     }
 
     fun onFabClicked() {

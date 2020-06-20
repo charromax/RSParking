@@ -17,18 +17,21 @@ const val FRAG_TITLE = "Driver List"
 class DriverListFragment: Fragment() {
 
     private lateinit var viewModel: DriverListViewModel
+    private lateinit var binding: DriverListFragmentBinding
+    private lateinit var adapter: DriverListAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding: DriverListFragmentBinding= DataBindingUtil.inflate(
+        binding = DataBindingUtil.inflate(
             inflater,
             R.layout.driver_list_fragment,
             container,
-            false)
-        binding.lifecycleOwner= this
+            false
+        )
+        binding.lifecycleOwner = this
         val application= requireNotNull(this.activity).application
         activity?.actionBar?.title = FRAG_TITLE
         val viewModelFactory=
@@ -37,7 +40,7 @@ class DriverListFragment: Fragment() {
             )
         viewModel= ViewModelProviders.of(this, viewModelFactory).get(DriverListViewModel::class.java)
         binding.listViewModel= viewModel
-        val adapter = DriverListAdapter(viewModel, requireActivity())
+        setupAdapter(binding)
         binding.driverList.adapter= adapter
 
         viewModel.allDrivers.observe(viewLifecycleOwner, Observer {
@@ -60,9 +63,21 @@ class DriverListFragment: Fragment() {
         return binding.root
     }
 
+    private fun setupAdapter(binding: DriverListFragmentBinding) {
+        adapter = DriverListAdapter(viewModel, requireActivity())
+        adapter.event.observe(viewLifecycleOwner, Observer {
+            viewModel.handleEvent(it)
+        })
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.driverList.adapter = null
     }
 }

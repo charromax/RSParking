@@ -3,20 +3,27 @@ package com.example.rsparking.ui.driver.list
 import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rsparking.data.model.Driver
 import com.example.rsparking.data.model.ListItem
 import com.example.rsparking.databinding.RecyclerItemLayoutBinding
+import com.example.rsparking.ui.driver.list.DriverListEvent.onListItemClick
 
-class DriverListAdapter(viewModel: DriverListViewModel, activity: Activity) :
-    ListAdapter<Driver, DriverListAdapter.ViewHolder>(DriverListDiffCallback()) {
-    val activity = activity
+class DriverListAdapter(
+    private val viewModel: DriverListViewModel,
+    private val activity: Activity,
+    val event: MutableLiveData<DriverListEvent> = MutableLiveData()
+) : ListAdapter<Driver, DriverListAdapter.ViewHolder>(DriverListDiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         getItem(position).let(holder::bind)  //item is passed automatically to bind function
         //TODO onclicklistener
+        holder.binding.root.setOnClickListener {
+            event.value = onListItemClick(position)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
