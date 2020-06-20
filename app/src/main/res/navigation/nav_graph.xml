@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/driverListFragment"
         android:name="com.example.rsparking.ui.driver.list.DriverListFragment"
-        tools:layout="@layout/driver_list_fragment"
-        android:label="DriverListFragment" >
+        android:label="@string/activity_driver_list"
+        tools:layout="@layout/driver_list_fragment">
         <action
             android:id="@+id/action_driverListFragment_to_addEditDriverFragment"
             app:destination="@id/addEditDriverFragment" />
@@ -18,5 +18,10 @@
         android:id="@+id/addEditDriverFragment"
         tools:layout="@layout/driver_add_fragment"
         android:name="com.example.rsparking.ui.driver.addedit.AddEditDriverFragment"
-        android:label="AddEditDriverFragment" />
+        android:label="AddEditDriverFragment">
+        <argument
+            android:name="driverID"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
 </navigation>

@@ -1,43 +1,62 @@
 package com.example.rsparking.ui.driver.list
 
+import android.app.Activity
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.view.menu.ActionMenuItemView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.example.rsparking.R
 import com.example.rsparking.data.model.Driver
-import kotlinx.android.synthetic.main.recycler_item_layout.view.*
+import com.example.rsparking.data.model.ListItem
+import com.example.rsparking.databinding.RecyclerItemLayoutBinding
 
-class DriverListAdapter: RecyclerView.Adapter<DriverListAdapter.ViewHolder>() {
-    var driverList= listOf<Driver>()
-        set(value){
-            field = value
-            notifyDataSetChanged()
-        }
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        fun bind(driver: Driver) {
-            itemView.mainTitle.text= "${driver.name} ${driver.lastName}"
-            itemView.subTitle.text= "Tel: ${driver.phone}"
-            itemView.extraInfo.text= "Email: ${driver.eMail}"
-            Glide.with(itemView)
-                .load(driver.image)
-                .into(itemView.profileImage)
-        }
-
-    }
-
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.recycler_item_layout, parent, false)
-        return ViewHolder(view)
-    }
-
-    override fun getItemCount() = driverList.size
+class DriverListAdapter(viewModel: DriverListViewModel, activity: Activity) :
+    ListAdapter<Driver, DriverListAdapter.ViewHolder>(DriverListDiffCallback()) {
+    val activity = activity
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val driver= driverList.get(position)
-        holder.bind(driver)
+        getItem(position).let(holder::bind)  //item is passed automatically to bind function
+        //TODO onclicklistener
     }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder.from(parent, activity)
+    }
+
+    class ViewHolder private constructor(
+        val binding: RecyclerItemLayoutBinding,
+        val activity: Activity
+    ) : RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(driver: Driver) {
+            val listItem = ListItem(
+                title = "${driver.name} ${driver.lastName}",
+                subTitle = "Tel: ${driver.phone}",
+                extraInfo = "Email: ${driver.eMail}",
+                profilePic = driver.image
+            )
+            binding.listItem = listItem
+            binding.executePendingBindings()
+        }
+
+        companion object {
+            fun from(parent: ViewGroup, activity: Activity): ViewHolder {
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = RecyclerItemLayoutBinding.inflate(layoutInflater, parent, false)
+                return ViewHolder(binding, activity)
+            }
+        }
+
+    }
+}
+
+class DriverListDiffCallback : DiffUtil.ItemCallback<Driver>() {
+    override fun areItemsTheSame(oldItem: Driver, newItem: Driver): Boolean {
+        return oldItem.id == newItem.id
+    }
+
+    override fun areContentsTheSame(oldItem: Driver, newItem: Driver): Boolean {
+        return oldItem == newItem
+    }
+
 }

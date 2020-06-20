@@ -8,41 +8,51 @@ import com.example.rsparking.data.RoomDatabase.DriverDAO
 import com.example.rsparking.data.RoomDatabase.RSParkingDatabase
 import com.example.rsparking.data.model.Driver
 import com.example.rsparking.data.repo.DriverRepository
-import com.example.rsparking.util.Constants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 
 class DriverListViewModel(application: Application): AndroidViewModel(application) {
     private val database: DriverDAO = RSParkingDatabase.getInstance(application).driverDAO
     private val repo: DriverRepository
 
-    private var viewModelJob= Job()
-    private val uiScope= CoroutineScope(Dispatchers.Main + viewModelJob)
+    private var viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    val allDrivers= database.getAllDrivers()
+    val allDrivers = database.getAllDrivers()
 
-    private val _navigateToAddEditFragment= MutableLiveData<Boolean>()
+    private val _navigateToAddEditFragment = MutableLiveData<Boolean>()
     val navigateToAddEditFragment: LiveData<Boolean>
         get() = _navigateToAddEditFragment
 
+    private val _navigateToAddEditFragmentWithID = MutableLiveData<String>()
+    val navigateToAddEditFragmentWithID: LiveData<String>
+        get() = _navigateToAddEditFragmentWithID
+
 
     init {
-        repo= DriverRepository(database)
+        repo = DriverRepository(database)
     }
 
     fun doneNavigating() {
-        _navigateToAddEditFragment.value= null
+        _navigateToAddEditFragment.value = null
     }
 
-    fun onDriverSelected(){
+    fun doneNavigatingWithID() {
+        _navigateToAddEditFragmentWithID.value = null
+    }
+
+    fun onDriverSelected() {
         TODO("implementar onitemselectedclick")
     }
 
     fun onFabClicked() {
-        _navigateToAddEditFragment.value= true
+        _navigateToAddEditFragment.value = true
+    }
+
+    fun onListItemClicked(driverID: String) {
+        _navigateToAddEditFragmentWithID.value = driverID
     }
 
     fun deleteDriver(driver: Driver) {

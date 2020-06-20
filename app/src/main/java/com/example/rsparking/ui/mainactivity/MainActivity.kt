@@ -1,7 +1,10 @@
 package com.example.rsparking.ui.mainactivity
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -14,7 +17,6 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.rsparking.R
 import com.example.rsparking.databinding.ActivityMainBinding
-import com.example.rsparking.ui.driver.list.DriverListFragmentDirections
 import com.google.android.material.navigation.NavigationView
 
 const val TAG= "MainActivity"
@@ -31,8 +33,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         toolbar= binding.toolbar
         drawerLayout= binding.drawerLayout
-        navView= binding.navView
-
+        navView = binding.navView
+        actionBar?.customView = toolbar
         val toggle= ActionBarDrawerToggle(this, drawerLayout, toolbar,0,0)
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
@@ -45,12 +47,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             drawerLayout
         )
     }
+
     override fun onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater: MenuInflater = menuInflater
+        inflater.inflate(R.menu.main, menu)
+        return true
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -79,4 +88,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+    }
 }

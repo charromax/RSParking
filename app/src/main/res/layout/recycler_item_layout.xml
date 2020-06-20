@@ -1,56 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:elevation="10dp"
-    android:padding="16dp"
-    android:background="@drawable/list_item_background"
-    tools:targetApi="lollipop">
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="listItem"
+            type="com.example.rsparking.data.model.ListItem" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/list_item_background"
+        android:elevation="10dp"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:targetApi="lollipop">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profileImage"
-            android:layout_width="96dp"
-            android:layout_height="96dp"
-            android:src="@drawable/ic_android"
-            app:civ_border_color="@color/rs_black"
-            app:civ_border_width="2dp"
-            android:layout_marginEnd="8dp"/>
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="vertical">
-            <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profileImage"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_android"
+                app:civ_border_color="@color/rs_black"
+                app:civ_border_width="1dp"
+                app:image="@{listItem}" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/mainTitle"
-                android:textSize="20sp"
-                android:text="@string/main_title"
-                android:textColor="@color/rs_black"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/subTitle"
-                android:textSize="18sp"
-                android:text="Subtitle"
-                android:textColor="@color/rs_black"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/extraInfo"
-                android:textSize="16sp"
-                android:text="@string/main_title"
-                android:textColor="@color/rs_lightblue"/>
+                android:layout_gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/mainTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/main_title"
+                    android:textColor="@color/rs_black"
+                    android:textSize="20sp"
+                    app:title="@{listItem}" />
+
+                <TextView
+                    android:id="@+id/subTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Subtitle"
+                    android:textColor="@color/rs_black"
+                    android:textSize="18sp"
+                    app:subTitle="@{listItem}" />
+
+                <TextView
+                    android:id="@+id/extraInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/main_title"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="16sp"
+                    app:extraInfo="@{listItem}" />
+
+            </LinearLayout>
 
         </LinearLayout>
 
     </LinearLayout>
-
-</LinearLayout>
+</layout>

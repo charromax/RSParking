@@ -11,9 +11,9 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.example.rsparking.R
 import com.example.rsparking.databinding.DriverListFragmentBinding
-import com.example.rsparking.ui.driver.addedit.AddEditDriverViewModel
-import com.example.rsparking.ui.driver.addedit.AddEditDriverViewModelFactory
+import com.example.rsparking.ui.driver.addedit.FRAG_TITLE
 
+const val FRAG_TITLE = "Driver List"
 class DriverListFragment: Fragment() {
 
     private lateinit var viewModel: DriverListViewModel
@@ -30,24 +30,29 @@ class DriverListFragment: Fragment() {
             false)
         binding.lifecycleOwner= this
         val application= requireNotNull(this.activity).application
+        activity?.actionBar?.title = FRAG_TITLE
         val viewModelFactory=
             DriverListViewModelFactory(
                 application
             )
         viewModel= ViewModelProviders.of(this, viewModelFactory).get(DriverListViewModel::class.java)
         binding.listViewModel= viewModel
-        val adapter= DriverListAdapter()
+        val adapter = DriverListAdapter(viewModel, requireActivity())
         binding.driverList.adapter= adapter
 
         viewModel.allDrivers.observe(viewLifecycleOwner, Observer {
             it?.let {
-                adapter.driverList= it
+                adapter.submitList(it)
             }
         })
 
         viewModel.navigateToAddEditFragment.observe(viewLifecycleOwner, Observer {
             it?.let {
-                this.findNavController().navigate(DriverListFragmentDirections.actionDriverListFragmentToAddEditDriverFragment())
+                this.findNavController().navigate(
+                    DriverListFragmentDirections.actionDriverListFragmentToAddEditDriverFragment(
+                        driverID = null
+                    )
+                )
                 viewModel.doneNavigating()
             }
         })
