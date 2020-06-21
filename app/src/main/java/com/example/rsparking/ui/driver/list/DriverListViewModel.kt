@@ -43,23 +43,12 @@ class DriverListViewModel(application: Application): AndroidViewModel(applicatio
         _navigateToAddEditFragmentWithID.value = null
     }
 
-    override fun handleEvent(event: DriverListEvent) {
-        when (event) {
-            is DriverListEvent.onListItemClick -> showItemDetails()
-            is DriverListEvent.onNewDriverClick -> onFabClicked()
-        }
-    }
-
-    private fun showItemDetails() {
-        TODO("Not yet implemented")
-    }
-
     fun onFabClicked() {
         _navigateToAddEditFragment.value = true
     }
 
-    fun onListItemClicked(driverID: String) {
-        _navigateToAddEditFragmentWithID.value = driverID
+    fun onListItemClicked(id: String) {
+        _navigateToAddEditFragmentWithID.value = id
     }
 
     fun deleteDriver(driver: Driver) {

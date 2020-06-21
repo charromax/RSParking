@@ -8,24 +8,32 @@ import com.example.rsparking.R
 import com.example.rsparking.data.model.ListItem
 
 @BindingAdapter("title")
-fun TextView.setListItemTitle(listItem: ListItem) {
-    text = listItem.title
+fun TextView.setListItemTitle(listItem: ListItem?) {
+    listItem?.let {
+        text = it.title
+    }
 }
 
 @BindingAdapter("subTitle")
-fun TextView.setListItemSubtitle(listItem: ListItem) {
-    text = listItem.subTitle
+fun TextView.setListItemSubtitle(listItem: ListItem?) {
+    listItem?.let {
+        text = it.subTitle
+    }
 }
 
 @BindingAdapter("extraInfo")
-fun TextView.setListItemExtra(listItem: ListItem) {
-    text = listItem.extraInfo
+fun TextView.setListItemExtra(listItem: ListItem?) {
+    listItem?.let {
+        text = it.extraInfo
+    }
 }
 
 @BindingAdapter("image")
-fun ImageView.setProfilePic(listItem: ListItem) {
-    Glide.with(context)
-        .load(listItem.profilePic)
-        .error(R.drawable.ic_drivers)
-        .into(this)
+fun ImageView.setProfilePic(imageString: String?) {
+    imageString?.let {
+        Glide.with(context)
+            .load(imageString)
+            .error(R.drawable.ic_drivers)
+            .into(this)
+    }
 }

@@ -8,6 +8,10 @@
         <variable
             name="listItem"
             type="com.example.rsparking.data.model.ListItem" />
+
+        <variable
+            name="clickListener"
+            type="com.example.rsparking.ui.driver.list.DriverListAdapter.DriverListListener" />
     </data>
 
     <LinearLayout
@@ -16,6 +20,7 @@
         android:layout_marginBottom="20dp"
         android:background="@drawable/list_item_background"
         android:elevation="10dp"
+        android:onClick="@{() -> clickListener.onItemClick(listItem)}"
         android:orientation="vertical"
         android:padding="16dp"
         tools:targetApi="lollipop">
@@ -34,7 +39,7 @@
                 android:src="@drawable/ic_android"
                 app:civ_border_color="@color/rs_black"
                 app:civ_border_width="1dp"
-                app:image="@{listItem}" />
+                app:image="@{listItem.component5()}" />
 
             <LinearLayout
                 android:layout_width="wrap_content"

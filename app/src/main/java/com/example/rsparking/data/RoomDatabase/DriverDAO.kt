@@ -1,7 +1,6 @@
 package com.example.rsparking.data.RoomDatabase
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.room.*
 import com.example.rsparking.data.model.Driver
 import com.example.rsparking.util.Constants.TABLE_DRIVERS
@@ -13,7 +12,7 @@ interface DriverDAO {
     fun getAllDrivers(): LiveData<MutableList<Driver>>
 
     @Query("SELECT * FROM $TABLE_DRIVERS WHERE id= :key")
-    fun getDriver(key: Int): Driver?
+    fun getDriver(key: String): Driver?
 
     @Insert(onConflict= OnConflictStrategy.REPLACE)
     suspend fun insert(driver: Driver)

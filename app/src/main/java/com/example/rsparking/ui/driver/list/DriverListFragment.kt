@@ -53,10 +53,18 @@ class DriverListFragment: Fragment() {
             it?.let {
                 this.findNavController().navigate(
                     DriverListFragmentDirections.actionDriverListFragmentToAddEditDriverFragment(
-                        driverID = null
+                        null
                     )
                 )
                 viewModel.doneNavigating()
+            }
+        })
+        viewModel.navigateToAddEditFragmentWithID.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                this.findNavController().navigate(
+                    DriverListFragmentDirections.actionDriverListFragmentToAddEditDriverFragment(it)
+                )
+                viewModel.doneNavigatingWithID()
             }
         })
 
@@ -64,16 +72,16 @@ class DriverListFragment: Fragment() {
     }
 
     private fun setupAdapter(binding: DriverListFragmentBinding) {
-        adapter = DriverListAdapter(viewModel, requireActivity())
-        adapter.event.observe(viewLifecycleOwner, Observer {
-            viewModel.handleEvent(it)
-        })
+        adapter = DriverListAdapter(viewModel,
+            requireActivity(),
+            DriverListAdapter.DriverListListener {
+                viewModel.onListItemClicked(it)
+            })
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-
     }
 
     override fun onDestroyView() {

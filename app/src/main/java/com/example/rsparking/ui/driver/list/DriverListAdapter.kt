@@ -3,27 +3,24 @@ package com.example.rsparking.ui.driver.list
 import android.app.Activity
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rsparking.data.model.Driver
 import com.example.rsparking.data.model.ListItem
 import com.example.rsparking.databinding.RecyclerItemLayoutBinding
-import com.example.rsparking.ui.driver.list.DriverListEvent.onListItemClick
 
 class DriverListAdapter(
     private val viewModel: DriverListViewModel,
     private val activity: Activity,
-    val event: MutableLiveData<DriverListEvent> = MutableLiveData()
+    val clickListener: DriverListListener
 ) : ListAdapter<Driver, DriverListAdapter.ViewHolder>(DriverListDiffCallback()) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        getItem(position).let(holder::bind)  //item is passed automatically to bind function
-        //TODO onclicklistener
-        holder.binding.root.setOnClickListener {
-            event.value = onListItemClick(position)
-        }
+        getItem(position).let {
+            holder.bind(it, clickListener)
+        } //item is passed automatically to bind function
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -35,8 +32,12 @@ class DriverListAdapter(
         val activity: Activity
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(driver: Driver) {
+        fun bind(
+            driver: Driver,
+            clickListener: DriverListListener
+        ) {
             val listItem = ListItem(
+                id = driver.id,
                 title = "${driver.name} ${driver.lastName}",
                 subTitle = "Tel: ${driver.phone}",
                 extraInfo = "Email: ${driver.eMail}",
@@ -44,6 +45,7 @@ class DriverListAdapter(
             )
             binding.listItem = listItem
             binding.executePendingBindings()
+            binding.clickListener = clickListener
         }
 
         companion object {
@@ -54,6 +56,10 @@ class DriverListAdapter(
             }
         }
 
+    }
+
+    class DriverListListener(val clickListener: (driverID: String) -> Unit) {
+        fun onItemClick(item: ListItem) = clickListener(item.id)
     }
 }
 
@@ -67,3 +73,5 @@ class DriverListDiffCallback : DiffUtil.ItemCallback<Driver>() {
     }
 
 }
+
+

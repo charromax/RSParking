@@ -14,14 +14,13 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 
-class AddEditDriverViewModel(application: Application): AndroidViewModel(application) {
+class AddEditDriverViewModel(
+    private val driverID: String = ""
+    , application: Application
+) : AndroidViewModel(application) {
     private val database: DriverDAO = RSParkingDatabase.getInstance(application).driverDAO
     private val repo: DriverRepository
-
-
-    private var viewModelJob= Job()
-
-
+    private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     // driver personal info
@@ -40,6 +39,8 @@ class AddEditDriverViewModel(application: Application): AndroidViewModel(applica
 
     init {
         repo = DriverRepository(database)
+        getDriver(driverID)
+
     }
 
     fun saveDriver(newDriver: Driver) {
@@ -70,7 +71,7 @@ class AddEditDriverViewModel(application: Application): AndroidViewModel(applica
         _openCameraEvent.value = null
     }
 
-    fun getDriver(key: Int) {
+    fun getDriver(key: String) {
         uiScope.launch {
             _driver.value = repo.getDriverFromDatabase(key)
         }

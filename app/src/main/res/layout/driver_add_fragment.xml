@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -26,6 +27,7 @@
                     android:id="@+id/imgPhoto"
                     android:contentDescription="@{driverViewModel.driver.image}"
                     android:clickable="true"
+                    app:image="@{driverViewModel.driver.image}"
                     android:onClick="@{()-> driverViewModel.onOpenCameraEvent()}"
                     android:layout_width="200dp"
                     android:layout_height="200dp"

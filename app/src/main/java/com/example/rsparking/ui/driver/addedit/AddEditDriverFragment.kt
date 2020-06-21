@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.example.rsparking.R
 import com.example.rsparking.data.model.Driver
@@ -40,7 +42,9 @@ const val PERMISSION_REQUEST_CODE = 101
 class AddEditDriverFragment : Fragment() {
     private lateinit var binding: DriverAddFragmentBinding
     private lateinit var viewModelAddEdit: AddEditDriverViewModel
+    val args: AddEditDriverFragmentArgs by navArgs()
     private val formatter = SimpleDateFormat(Constants.FOR_SQL)
+    private var driverIDArg: String = ""
     private var currentPhotoPath = ""
     private lateinit var photoURI: Uri
 
@@ -55,10 +59,15 @@ class AddEditDriverFragment : Fragment() {
         val actionbar = requireActivity().actionBar
         actionbar?.title = FRAG_TITLE
         val application = requireNotNull(this.activity).application
+        args.driverID?.let {
+            driverIDArg = it
+        }
         val viewModelFactory =
             AddEditDriverViewModelFactory(
+                driverIDArg,
                 application
             )
+
         viewModelAddEdit = ViewModelProviders.of(this, viewModelFactory)
             .get(AddEditDriverViewModel::class.java) // ver como se hace bien esto
         binding.driverViewModel = viewModelAddEdit
@@ -82,6 +91,9 @@ class AddEditDriverFragment : Fragment() {
                     viewModelAddEdit.doneWithCamera()
                 }
             }
+        })
+        viewModelAddEdit.driver.observe(viewLifecycleOwner, Observer {
+            Log.i("FRAG_TITLE", "driver image: ${it.image}")
         })
 
         return binding.root
@@ -195,7 +207,7 @@ class AddEditDriverFragment : Fragment() {
 
     private fun setNewDriver(): Driver {
         return Driver(
-            0,
+            "",
             binding.txtName.text.toString(),
             binding.txtLastName.text.toString(),
             binding.txtPhone.text.toString(),
