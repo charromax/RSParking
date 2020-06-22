@@ -44,6 +44,9 @@
     <string name="clearance_stop">You need Admin clearance to perform this task</string>
     <string name="saved_succesfully">Saving succesful!</string>
     <string name="error_message">An error ocurred :(</string>
+    <string name="confirm_delete">Do you really wish to delete?</string>
+    <string name="on_item_deleted">Deleted succesfully</string>
+    <string name="on_cancel_delete">Cancelled</string>
 
     <string name="card_dropoff">New Drop-Off</string>
     <string name="card_driverlist">Driver List</string>

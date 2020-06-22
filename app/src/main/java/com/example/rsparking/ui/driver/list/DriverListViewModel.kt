@@ -30,31 +30,53 @@ class DriverListViewModel(application: Application): AndroidViewModel(applicatio
     val navigateToAddEditFragmentWithID: LiveData<String>
         get() = _navigateToAddEditFragmentWithID
 
+    private val _doneDeletingItem = MutableLiveData<Boolean>()
+    val doneDeletingItem: LiveData<Boolean>
+        get() = _doneDeletingItem
+
 
     init {
         repo = DriverRepository(database)
-    }
-
-    fun doneNavigating() {
-        _navigateToAddEditFragment.value = null
-    }
-
-    fun doneNavigatingWithID() {
-        _navigateToAddEditFragmentWithID.value = null
     }
 
     fun onFabClicked() {
         _navigateToAddEditFragment.value = true
     }
 
+    fun doneNavigating() {
+        _navigateToAddEditFragment.value = null
+    }
+
+
     fun onListItemClicked(id: String) {
         _navigateToAddEditFragmentWithID.value = id
     }
 
-    fun deleteDriver(driver: Driver) {
+    fun doneNavigatingWithID() {
+        _navigateToAddEditFragmentWithID.value = null
+    }
+
+
+    fun onListItemSwipeRight() {
+        _doneDeletingItem.value = null
+    }
+
+    private fun doneDeletingItem() {
+        _doneDeletingItem.value = true
+    }
+
+    fun onConfirmDelete(position: Int) {
+        allDrivers.value?.let {
+            val driverToDelete = it[position]
+            deleteDriver(driverToDelete)
+        }
+    }
+
+    private fun deleteDriver(driver: Driver) {
         uiScope.launch {
             repo.DeleteDriverFromDatabase(driver)
         }
+        doneDeletingItem()
     }
 
     override fun onCleared() {

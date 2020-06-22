@@ -4,11 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.example.rsparking.R
 import com.example.rsparking.databinding.DriverListFragmentBinding
 import com.example.rsparking.ui.driver.addedit.FRAG_TITLE
@@ -32,16 +36,20 @@ class DriverListFragment: Fragment() {
             false
         )
         binding.lifecycleOwner = this
-        val application= requireNotNull(this.activity).application
+        val application = requireNotNull(this.activity).application
         activity?.actionBar?.title = FRAG_TITLE
-        val viewModelFactory=
+        val viewModelFactory =
             DriverListViewModelFactory(
                 application
             )
-        viewModel= ViewModelProviders.of(this, viewModelFactory).get(DriverListViewModel::class.java)
-        binding.listViewModel= viewModel
-        setupAdapter(binding)
-        binding.driverList.adapter= adapter
+        viewModel =
+            ViewModelProviders.of(this, viewModelFactory).get(DriverListViewModel::class.java)
+        binding.listViewModel = viewModel
+        setupAdapter()
+        binding.driverList.adapter = adapter
+
+        val itemTouchHelper = ItemTouchHelper(listTouchHelperCallback)
+        itemTouchHelper.attachToRecyclerView(binding.driverList)
 
         viewModel.allDrivers.observe(viewLifecycleOwner, Observer {
             it?.let {
@@ -67,11 +75,19 @@ class DriverListFragment: Fragment() {
                 viewModel.doneNavigatingWithID()
             }
         })
+        viewModel.doneDeletingItem.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                if (it) {
+                    Toast.makeText(requireContext(), R.string.on_item_deleted, Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
+        })
 
         return binding.root
     }
 
-    private fun setupAdapter(binding: DriverListFragmentBinding) {
+    private fun setupAdapter() {
         adapter = DriverListAdapter(viewModel,
             requireActivity(),
             DriverListAdapter.DriverListListener {
@@ -80,12 +96,39 @@ class DriverListFragment: Fragment() {
 
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
         binding.driverList.adapter = null
+    }
+
+    private val listTouchHelperCallback = object :
+        ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            return false
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            val position = viewHolder.adapterPosition
+            val builder = AlertDialog.Builder(requireContext())
+            builder.setTitle("Confirm delete")
+            builder.setMessage(resources.getString(R.string.confirm_delete))
+            builder.setPositiveButton(R.string.yes) { dialog, which ->
+                viewModel.onListItemSwipeRight()
+                viewModel.onConfirmDelete(position)
+            }
+            builder.setNegativeButton(R.string.no) { dialog, which ->
+                adapter.notifyItemChanged(position)
+                Toast.makeText(requireContext(), R.string.on_cancel_delete, Toast.LENGTH_SHORT)
+                    .show()
+            }
+            val alertDialog = builder.create()
+            alertDialog.show()
+
+        }
+
     }
 }
