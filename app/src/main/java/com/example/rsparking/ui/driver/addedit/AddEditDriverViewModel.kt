@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import com.example.rsparking.data.RoomDatabase.DriverDAO
 import com.example.rsparking.data.RoomDatabase.RSParkingDatabase
 import com.example.rsparking.data.model.Driver
@@ -15,13 +16,16 @@ import kotlinx.coroutines.launch
 
 
 class AddEditDriverViewModel(
-    private val driverID: String = ""
-    , application: Application
+    private val driverID: String, application: Application
 ) : AndroidViewModel(application) {
     private val database: DriverDAO = RSParkingDatabase.getInstance(application).driverDAO
     private val repo: DriverRepository
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    val incomingDriverImage = liveData<String> {
+        _driver.value?.image
+    }
+
 
     // driver personal info
     private val _driver = MutableLiveData<Driver>()
@@ -40,7 +44,6 @@ class AddEditDriverViewModel(
     init {
         repo = DriverRepository(database)
         getDriver(driverID)
-
     }
 
     fun saveDriver(newDriver: Driver) {

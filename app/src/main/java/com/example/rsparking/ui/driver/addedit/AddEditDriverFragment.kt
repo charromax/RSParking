@@ -46,6 +46,7 @@ class AddEditDriverFragment : Fragment() {
     private val formatter = SimpleDateFormat(Constants.FOR_SQL)
     private var driverIDArg: String = ""
     private var currentPhotoPath = ""
+    private var driverImagePath: String = ""
     private lateinit var photoURI: Uri
 
 
@@ -74,7 +75,18 @@ class AddEditDriverFragment : Fragment() {
 
         viewModelAddEdit.saveDriverEvent.observe(viewLifecycleOwner, Observer {
             it?.let {
-                viewModelAddEdit.saveDriver(setNewDriver())
+                if (driverIDArg == "") {
+                    viewModelAddEdit.saveDriver(setNewDriver())
+                } else {
+                    viewModelAddEdit.incomingDriverImage.observe(
+                        viewLifecycleOwner,
+                        Observer { image ->
+                            driverImagePath = image
+                            viewModelAddEdit.updateDriver(setNewDriver())
+                            //TODO no actualiza datos
+                        })
+
+                }
                 viewModelAddEdit.doneSaving()
                 Snackbar.make(this.requireView(), R.string.saved_succesfully, Snackbar.LENGTH_SHORT)
                     .show()
@@ -201,18 +213,19 @@ class AddEditDriverFragment : Fragment() {
             storageDir /* directory */
         )
         currentPhotoPath = image.absolutePath
+        driverImagePath = currentPhotoPath
         return image
 
     }
 
     private fun setNewDriver(): Driver {
         return Driver(
-            "",
+            if (driverIDArg != "") driverIDArg else UUID.randomUUID().toString(),
             binding.txtName.text.toString(),
             binding.txtLastName.text.toString(),
             binding.txtPhone.text.toString(),
             binding.txtEmail.text.toString(),
-            currentPhotoPath,
+            driverImagePath,
             formatter.format(Date())
         )
     }
