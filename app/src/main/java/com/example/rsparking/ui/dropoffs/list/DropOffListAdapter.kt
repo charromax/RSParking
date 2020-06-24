@@ -1,16 +1,18 @@
-package com.example.rsparking.ui.driver.list
+package com.example.rsparking.ui.dropoffs.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.rsparking.data.model.Driver
+import com.example.rsparking.data.model.DropOff
 import com.example.rsparking.data.model.ListItem
 import com.example.rsparking.databinding.RecyclerItemLayoutBinding
 
-class DriverListAdapter(var clickListener: DriverListClickListener) :
-    ListAdapter<Driver, DriverListAdapter.ViewHolder>(DriverListDiffCallback()) {
+class DropOffListAdapter(var clickListener: DropOffListClickListener) :
+    ListAdapter<DropOff, DropOffListAdapter.ViewHolder>(
+        DriverListDiffCallback()
+    ) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         getItem(position).let {
@@ -20,7 +22,9 @@ class DriverListAdapter(var clickListener: DriverListClickListener) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder.from(parent)
+        return ViewHolder.from(
+            parent
+        )
     }
 
     class ViewHolder private constructor(
@@ -28,20 +32,20 @@ class DriverListAdapter(var clickListener: DriverListClickListener) :
     ) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(
-            driver: Driver,
-            listener: DriverListClickListener
+            dropOff: DropOff,
+            listener: DropOffListClickListener
         ) {
 
             val listItem = ListItem(
-                id = driver.id,
-                title = "${driver.name} ${driver.lastName}",
-                subTitle = "Tel: ${driver.phone}",
-                extraInfo = "Email: ${driver.eMail}",
-                profilePic = driver.image
+                id = dropOff.id,
+                title = "Plate #${dropOff.plateNumber}\nName: ${dropOff.clientName}",
+                subTitle = "Date OUT: ${dropOff.dateOUT}",
+                extraInfo = "Service: ${dropOff.serviceType} - Fee: ${dropOff.feeType}",
+                profilePic = ""
             )
             binding.listItem = listItem
             binding.executePendingBindings()
-            binding.root.setOnClickListener { listener.onClick(driver) }
+            binding.root.setOnClickListener { listener.onClick(dropOff) }
         }
 
         companion object {
@@ -55,19 +59,19 @@ class DriverListAdapter(var clickListener: DriverListClickListener) :
     }
 }
 
-class DriverListDiffCallback : DiffUtil.ItemCallback<Driver>() {
-    override fun areItemsTheSame(oldItem: Driver, newItem: Driver): Boolean {
+class DriverListDiffCallback : DiffUtil.ItemCallback<DropOff>() {
+    override fun areItemsTheSame(oldItem: DropOff, newItem: DropOff): Boolean {
         return oldItem.id == newItem.id
     }
 
-    override fun areContentsTheSame(oldItem: Driver, newItem: Driver): Boolean {
+    override fun areContentsTheSame(oldItem: DropOff, newItem: DropOff): Boolean {
         return oldItem == newItem
     }
 
 }
 
-interface DriverListClickListener {
-    fun onClick(driver: Driver)
+interface DropOffListClickListener {
+    fun onClick(dropOff: DropOff)
 }
 
 

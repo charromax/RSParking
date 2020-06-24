@@ -31,11 +31,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        toolbar= binding.toolbar
-        drawerLayout= binding.drawerLayout
+        toolbar = binding.toolbar
+        drawerLayout = binding.drawerLayout
         navView = binding.navView
-        actionBar?.customView = toolbar
-        val toggle= ActionBarDrawerToggle(this, drawerLayout, toolbar,0,0)
+        setSupportActionBar(binding.toolbar)
+        supportActionBar?.title = "RS Parking"
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0)
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         navView.setNavigationItemSelectedListener(this)

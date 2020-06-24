@@ -1,18 +1,16 @@
-package com.example.rsparking.ui.driver.addedit
+package com.example.rsparking.ui.dropoffs.list
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
-class AddEditDriverViewModelFactory(
-    private val driverID: String?,
+class DropOffViewModelFactory(
     private val application: Application
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(AddEditDriverViewModel::class.java)) {
-            return AddEditDriverViewModel(
-                driverID,
+        if (modelClass.isAssignableFrom(DropOffListViewModel::class.java)) {
+            return DropOffListViewModel(
                 application
             ) as T
         }

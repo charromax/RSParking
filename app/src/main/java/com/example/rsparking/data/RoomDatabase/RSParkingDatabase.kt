@@ -9,8 +9,10 @@ import com.example.rsparking.data.model.*
 import com.example.rsparking.util.Constants.DATABASE_NAME
 import com.example.rsparking.util.Converter
 
-@Database(entities = [Driver::class, Client::class, Vehicle::class, DropOff::class, ParkingLot::class],
-                        version = 1, exportSchema = false)
+@Database(
+    entities = [Driver::class, Client::class, Vehicle::class, DropOff::class, ParkingLot::class],
+    version = 2, exportSchema = false
+)
 @TypeConverters(Converter::class)
 abstract class RSParkingDatabase : RoomDatabase() {
 
@@ -18,6 +20,7 @@ abstract class RSParkingDatabase : RoomDatabase() {
      * Connects the database to the DAO.
      */
     abstract val driverDAO: DriverDAO
+    abstract val dropOffDAO: DropOffDAO
 
     /**
      * Define a companion object, this allows us to add functions on the SleepDatabase class.

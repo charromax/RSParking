@@ -11,15 +11,16 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 @Entity(tableName = Constants.TABLE_CLIENTS)
 data class Client(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
-    val name: String= "",
-    val lastName: String= "",
-    val phone: String= "",
-    val eMail: String= "",
-    val notes: String= "",
-    val dateAdded: String= "",
+    @PrimaryKey
+    val id: String = "",
+    val name: String = "",
+    val phone: String = "",
+    val eMail: String = "",
+    val plateNumber: String = "",
+    val notes: String = "",
+    val dateAdded: String = "",
     @TypeConverters(Converter::class)
-    val score: ArrayList<Float>): Parcelable {
+    val score: ArrayList<Float>
+) : Parcelable {
 
 }

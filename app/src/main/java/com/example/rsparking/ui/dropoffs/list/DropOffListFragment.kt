@@ -1,4 +1,4 @@
-package com.example.rsparking.ui.driver.list
+package com.example.rsparking.ui.dropoffs.list
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,17 +14,17 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rsparking.R
-import com.example.rsparking.data.model.Driver
-import com.example.rsparking.databinding.DriverListFragmentBinding
+import com.example.rsparking.data.model.DropOff
+import com.example.rsparking.databinding.DropOffListFragmentBinding
 import com.example.rsparking.ui.driver.addedit.FRAG_TITLE
 
-const val FRAG_TITLE = "Driver List"
-class DriverListFragment: Fragment() {
+const val FRAG_TITLE = "DropOff List"
 
-    private lateinit var viewModel: DriverListViewModel
-    private lateinit var binding: DriverListFragmentBinding
-    private lateinit var adapter: DriverListAdapter
+class DropOffListFragment : Fragment() {
 
+    private lateinit var viewModel: DropOffListViewModel
+    private lateinit var binding: DropOffListFragmentBinding
+    private lateinit var adapter: DropOffListAdapter
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,7 +32,7 @@ class DriverListFragment: Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.driver_list_fragment,
+            R.layout.drop_off_list_fragment,
             container,
             false
         )
@@ -40,19 +40,19 @@ class DriverListFragment: Fragment() {
         val application = requireNotNull(this.activity).application
         activity?.actionBar?.title = FRAG_TITLE
         val viewModelFactory =
-            DriverListViewModelFactory(
+            DropOffViewModelFactory(
                 application
             )
         viewModel =
-            ViewModelProviders.of(this, viewModelFactory).get(DriverListViewModel::class.java)
+            ViewModelProviders.of(this, viewModelFactory).get(DropOffListViewModel::class.java)
         binding.listViewModel = viewModel
         setupAdapter()
-        binding.driverList.adapter = adapter
+        binding.dropOffList.adapter = adapter
 
         val itemTouchHelper = ItemTouchHelper(listTouchHelperCallback)
-        itemTouchHelper.attachToRecyclerView(binding.driverList)
+        itemTouchHelper.attachToRecyclerView(binding.dropOffList)
 
-        viewModel.allDrivers.observe(viewLifecycleOwner, Observer {
+        viewModel.allDropoffs.observe(viewLifecycleOwner, Observer {
             it?.let {
                 adapter.submitList(it)
             }
@@ -61,18 +61,21 @@ class DriverListFragment: Fragment() {
         viewModel.navigateToAddEditFragment.observe(viewLifecycleOwner, Observer {
             it?.let {
                 this.findNavController().navigate(
-                    DriverListFragmentDirections.actionDriverListFragmentToAddEditDriverFragment(
-                        null
+                    DropOffListFragmentDirections.actionDropOffListFragmentToAddEditDropOffFragment(
+                        selectedDropOff = null
                     )
                 )
                 viewModel.doneNavigating()
             }
         })
-        viewModel.navigateToAddEditFragmentWithDriver.observe(viewLifecycleOwner, Observer {
+        viewModel.navigateToAddEditFragmentWithDropOff.observe(viewLifecycleOwner, Observer {
             it?.let {
                 this.findNavController().navigate(
-                    DriverListFragmentDirections.actionDriverListFragmentToAddEditDriverFragment(it)
+                    DropOffListFragmentDirections.actionDropOffListFragmentToAddEditDropOffFragment(
+                        selectedDropOff = it
+                    )
                 )
+                //TODO navigate to details
                 viewModel.doneNavigatingWithID()
             }
         })
@@ -89,20 +92,21 @@ class DriverListFragment: Fragment() {
     }
 
     private fun setupAdapter() {
-        adapter = DriverListAdapter(object : DriverListClickListener {
-            override fun onClick(driver: Driver) {
-                viewModel.onListItemClicked(driver)
+        adapter = DropOffListAdapter(object :
+            DropOffListClickListener {
+            override fun onClick(dropOff: DropOff) {
+                viewModel.onListItemClicked(dropOff)
             }
         })
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding.driverList.adapter = null
+        binding.dropOffList.adapter = null
     }
 
     private val listTouchHelperCallback = object :
-        ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT) {
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
@@ -113,20 +117,25 @@ class DriverListFragment: Fragment() {
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             val position = viewHolder.adapterPosition
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle("Confirm delete")
-            builder.setMessage(resources.getString(R.string.confirm_delete))
-            builder.setPositiveButton(R.string.yes) { dialog, which ->
-                viewModel.onListItemSwipeRight()
-                viewModel.onConfirmDelete(position)
+
+            if (direction == ItemTouchHelper.RIGHT) {
+                val builder = AlertDialog.Builder(requireContext())
+                builder.setTitle("Confirm delete")
+                builder.setMessage(resources.getString(R.string.confirm_delete))
+                builder.setPositiveButton(R.string.yes) { dialog, which ->
+                    viewModel.onListItemSwipeRight()
+                    viewModel.onConfirmDelete(position)
+                }
+                builder.setNegativeButton(R.string.no) { dialog, which ->
+                    adapter.notifyItemChanged(position)
+                    Toast.makeText(requireContext(), R.string.on_cancel_delete, Toast.LENGTH_SHORT)
+                        .show()
+                }
+                val alertDialog = builder.create()
+                alertDialog.show()
+            } else {
+                //TODO swipe left to deliver car
             }
-            builder.setNegativeButton(R.string.no) { dialog, which ->
-                adapter.notifyItemChanged(position)
-                Toast.makeText(requireContext(), R.string.on_cancel_delete, Toast.LENGTH_SHORT)
-                    .show()
-            }
-            val alertDialog = builder.create()
-            alertDialog.show()
 
         }
 

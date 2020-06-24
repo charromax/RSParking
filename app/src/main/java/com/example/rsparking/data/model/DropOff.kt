@@ -8,16 +8,18 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 @Entity(tableName = Constants.TABLE_DROPOFFS)
-class DropOff(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
-    val dateIN: String= "",
-    val dateOUT: String= "",
-    val idClient: String= "",
-    val plateNumber: String= "",
-    val idParkingLot: String= "",
-    val isPickedUp: Boolean= false,
-    val realDateOut: String= "",
-    val dateAdded: String= ""
-): Parcelable {
+data class DropOff(
+    @PrimaryKey
+    var id: String = "",
+    var dateAdded: String = "",
+    var dateOUT: String = "",
+    var clientName: String = "",
+    var clientPhone: String = "",
+    var plateNumber: String = "",
+    var parkingLot: String = "",
+    var isPickedUp: Boolean = false,
+    var realDateOut: String = "",
+    var serviceType: String = "",
+    var feeType: String = ""
+) : Parcelable {
 }

@@ -40,11 +40,12 @@ const val FRAG_TITLE = "Add/Edit Fragment"
 const val PERMISSION_REQUEST_CODE = 101
 
 class AddEditDriverFragment : Fragment() {
+    private var currentDriver: Driver? = null
     private lateinit var binding: DriverAddFragmentBinding
     private lateinit var viewModelAddEdit: AddEditDriverViewModel
     val args: AddEditDriverFragmentArgs by navArgs()
     private val formatter = SimpleDateFormat(Constants.FOR_SQL)
-    private var driverIDArg: String = ""
+    private var driverIDArg: String? = null
     private var currentPhotoPath = ""
     private var driverImagePath: String = ""
     private lateinit var photoURI: Uri
@@ -60,8 +61,10 @@ class AddEditDriverFragment : Fragment() {
         val actionbar = requireActivity().actionBar
         actionbar?.title = FRAG_TITLE
         val application = requireNotNull(this.activity).application
-        args.driverID?.let {
-            driverIDArg = it
+
+        args.selectedDriver?.let {
+            driverIDArg = it.id
+            currentDriver = it
         }
         val viewModelFactory =
             AddEditDriverViewModelFactory(
@@ -70,23 +73,17 @@ class AddEditDriverFragment : Fragment() {
             )
 
         viewModelAddEdit = ViewModelProviders.of(this, viewModelFactory)
-            .get(AddEditDriverViewModel::class.java) // ver como se hace bien esto
+            .get(AddEditDriverViewModel::class.java)
         binding.driverViewModel = viewModelAddEdit
 
         viewModelAddEdit.saveDriverEvent.observe(viewLifecycleOwner, Observer {
             it?.let {
-                if (driverIDArg == "") {
-                    viewModelAddEdit.saveDriver(setNewDriver())
-                } else {
-                    viewModelAddEdit.incomingDriverImage.observe(
-                        viewLifecycleOwner,
-                        Observer { image ->
-                            driverImagePath = image
-                            viewModelAddEdit.updateDriver(setNewDriver())
-                            //TODO no actualiza datos
-                        })
+                currentDriver?.let {
+                    driverImagePath = it.image
+                    viewModelAddEdit.updateDriver()
+                    viewModelAddEdit.doneUpdating()
+                } ?: viewModelAddEdit.saveDriver(setNewDriver())
 
-                }
                 viewModelAddEdit.doneSaving()
                 Snackbar.make(this.requireView(), R.string.saved_succesfully, Snackbar.LENGTH_SHORT)
                     .show()
@@ -104,9 +101,10 @@ class AddEditDriverFragment : Fragment() {
                 }
             }
         })
-        viewModelAddEdit.driver.observe(viewLifecycleOwner, Observer {
-            Log.i("FRAG_TITLE", "driver image: ${it.image}")
+        viewModelAddEdit.currentdriver.observe(viewLifecycleOwner, Observer {
+            Log.i("FRAG_TITLE", "driver name: ${it.name}")
         })
+
 
         return binding.root
     }
@@ -145,10 +143,6 @@ class AddEditDriverFragment : Fragment() {
                     Toast.makeText(activity, "Permission Denied", Toast.LENGTH_SHORT).show()
                 }
                 return
-            }
-
-            else -> {
-
             }
         }
     }
@@ -220,13 +214,13 @@ class AddEditDriverFragment : Fragment() {
 
     private fun setNewDriver(): Driver {
         return Driver(
-            if (driverIDArg != "") driverIDArg else UUID.randomUUID().toString(),
-            binding.txtName.text.toString(),
-            binding.txtLastName.text.toString(),
-            binding.txtPhone.text.toString(),
-            binding.txtEmail.text.toString(),
-            driverImagePath,
-            formatter.format(Date())
+            id = currentDriver?.id ?: UUID.randomUUID().toString(),
+            name = binding.txtName.text.toString(),
+            lastName = binding.txtLastName.text.toString(),
+            phone = binding.txtPhone.text.toString(),
+            eMail = binding.txtEmail.text.toString(),
+            image = driverImagePath,
+            dateAdded = currentDriver?.dateAdded ?: formatter.format(Date())
         )
     }
 

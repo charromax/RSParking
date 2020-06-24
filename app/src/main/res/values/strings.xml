@@ -21,15 +21,15 @@
     <string name="activity_login_screen">Login Screen</string>
     <string name="activity_add_new">Add New</string>
 
-    <string name="hint1">Plate Number</string>
-    <string name="hint2">Color</string>
-    <string name="hint3">Brand</string>
-    <string name="hint4">Model</string>
-    <string name="hint5">Name</string>
-    <string name="hint6">Last Name</string>
-    <string name="hint7">eMail</string>
-    <string name="hint8">Insert Plate #</string>
-    <string name="hint9">Phone Number</string>
+    <string name="hint_plate_number">Plate Number</string>
+    <string name="hint_color">Color</string>
+    <string name="hint_brand">Brand</string>
+    <string name="hint_model">Model</string>
+    <string name="hint_name">Name</string>
+    <string name="hint_last_name">Last Name</string>
+    <string name="hint_email">eMail</string>
+    <string name="hint_insert_plate">Insert Plate #</string>
+    <string name="hint_phone">Phone Number</string>
 
 
     <string name="status_chkbox">Status</string>
@@ -123,5 +123,8 @@
     <string name="meta_title">meta_title</string>
     <string name="main_title">Main Title</string>
     <string name="log_out">Log out</string>
+    <string name="hint_fee">Fee</string>
+    <string name="hint_service">Service</string>
+    <string name="hint_parking_lot">Parking Lot #</string>
 
 </resources>

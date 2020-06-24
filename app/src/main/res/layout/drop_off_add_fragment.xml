@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.rsparking.ui.dropoffs.addedit.AddEditDropOffViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/rs_white"
+        android:theme="@style/Theme.AppCompat.Light">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/txtPlateNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="81dp"
+                    android:layout_marginEnd="28dp"
+                    android:ems="10"
+                    android:hint="@string/hint_plate_number"
+                    android:inputType="text"
+                    android:text="@={viewModel.currentDropOff.plateNumber}"
+                    android:textColor="@color/rs_black"
+                    android:textColorHint="@color/rs_black" />
+
+                <EditText
+                    android:id="@+id/txtClientName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="28dp"
+                    android:ems="10"
+                    android:hint="@string/hint_name"
+                    android:inputType="textPersonName"
+                    android:text="@={viewModel.currentDropOff.clientName}"
+                    android:textColor="@color/rs_black"
+                    android:textColorHint="@color/rs_black" />
+
+                <EditText
+                    android:id="@+id/txtClientPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="28dp"
+                    android:ems="10"
+                    android:hint="@string/hint_phone"
+                    android:inputType="phone"
+                    android:text="@={viewModel.currentDropOff.clientPhone}"
+                    android:textColor="@color/rs_black"
+                    android:textColorHint="@color/rs_black" />
+
+                <EditText
+                    android:id="@+id/txtDateOut"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="28dp"
+                    android:hint="@string/date_out_button"
+                    android:inputType="datetime"
+                    android:text="@={viewModel.currentDropOff.dateOUT}"
+                    android:textColor="@color/rs_black"
+                    android:textColorHint="@color/rs_black" />
+
+                <EditText
+                    android:id="@+id/txtFeeType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="28dp"
+                    android:hint="@string/hint_fee"
+                    android:inputType="text"
+                    android:text="@={viewModel.currentDropOff.feeType}"
+                    android:textColor="@color/rs_black"
+                    android:textColorHint="@color/rs_black" />
+
+                <EditText
+                    android:id="@+id/txtServiceType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="28dp"
+                    android:hint="@string/hint_service"
+                    android:inputType="text"
+                    android:text="@={viewModel.currentDropOff.serviceType}"
+                    android:textColor="@color/rs_black"
+                    android:textColorHint="@color/rs_black" />
+
+                <EditText
+                    android:id="@+id/txtParkingLot"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="28dp"
+                    android:hint="@string/hint_parking_lot"
+                    android:inputType="text"
+                    android:text="@={viewModel.currentDropOff.parkingLot}"
+                    android:textColor="@color/rs_black"
+                    android:textColorHint="@color/rs_black" />
+            </LinearLayout>
+        </ScrollView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/driverFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:backgroundTint="@color/colorAccent"
+            android:onClick="@{() -> viewModel.onSaveEvent()}"
+            android:src="@drawable/ic_save_button" />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>

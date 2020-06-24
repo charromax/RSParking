@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/driverListFragment">
+    app:startDestination="@id/dropOffListFragment">
 
     <fragment
         android:id="@+id/driverListFragment"
@@ -20,8 +20,30 @@
         android:name="com.example.rsparking.ui.driver.addedit.AddEditDriverFragment"
         android:label="AddEditDriverFragment">
         <argument
-            android:name="driverID"
-            app:argType="string"
+            android:name="selectedDriver"
+            app:argType="com.example.rsparking.data.model.Driver"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/dropOffListFragment"
+        android:name="com.example.rsparking.ui.dropoffs.list.DropOffListFragment"
+        android:label="DropOffListFragment"
+        tools:layout="@layout/drop_off_list_fragment">
+        <action
+            android:id="@+id/action_dropOffListFragment_to_addEditDropOffFragment"
+            app:destination="@id/addEditDropOffFragment" />
+        <action
+            android:id="@+id/action_dropOffListFragment_to_driverListFragment"
+            app:destination="@id/driverListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditDropOffFragment"
+        android:name="com.example.rsparking.ui.dropoffs.addedit.AddEditDropOffFragment"
+        android:label="AddEditDropOffFragment"
+        tools:layout="@layout/drop_off_add_fragment">
+        <argument
+            android:name="selectedDropOff"
+            app:argType="com.example.rsparking.data.model.DropOff"
             app:nullable="true" />
     </fragment>
 </navigation>

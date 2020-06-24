@@ -26,9 +26,9 @@ class DriverListViewModel(application: Application): AndroidViewModel(applicatio
     val navigateToAddEditFragment: LiveData<Boolean>
         get() = _navigateToAddEditFragment
 
-    private val _navigateToAddEditFragmentWithID = MutableLiveData<String>()
-    val navigateToAddEditFragmentWithID: LiveData<String>
-        get() = _navigateToAddEditFragmentWithID
+    private val _navigateToAddEditFragmentWithDriver = MutableLiveData<Driver>()
+    val navigateToAddEditFragmentWithDriver: LiveData<Driver>
+        get() = _navigateToAddEditFragmentWithDriver
 
     private val _doneDeletingItem = MutableLiveData<Boolean>()
     val doneDeletingItem: LiveData<Boolean>
@@ -48,12 +48,12 @@ class DriverListViewModel(application: Application): AndroidViewModel(applicatio
     }
 
 
-    fun onListItemClicked(id: String) {
-        _navigateToAddEditFragmentWithID.value = id
+    fun onListItemClicked(driver: Driver) {
+        _navigateToAddEditFragmentWithDriver.value = driver
     }
 
     fun doneNavigatingWithID() {
-        _navigateToAddEditFragmentWithID.value = null
+        _navigateToAddEditFragmentWithDriver.value = null
     }
 
 

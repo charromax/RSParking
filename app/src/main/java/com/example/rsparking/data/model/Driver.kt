@@ -10,13 +10,13 @@ import kotlinx.android.parcel.Parcelize
 @Entity(tableName = Constants.TABLE_DRIVERS)
 data class Driver(
     @PrimaryKey()
-    val id: String,
-    val name: String = "",
-    val lastName: String = "",
-    val phone: String = "",
-    val eMail: String = "",
-    val image: String = "",
-    val dateAdded: String = ""
+    var id: String,
+    var name: String,
+    var lastName: String,
+    var phone: String,
+    var eMail: String,
+    var image: String,
+    val dateAdded: String
 ): Parcelable
 {
 }

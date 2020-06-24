@@ -3,7 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
         <variable
             name="driverViewModel"
             type="com.example.rsparking.ui.driver.addedit.AddEditDriverViewModel" />
@@ -19,15 +18,13 @@
             android:layout_height="match_parent">
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical"
                 >
-
                 <ImageView
                     android:id="@+id/imgPhoto"
-                    android:contentDescription="@{driverViewModel.driver.image}"
                     android:clickable="true"
-                    app:image="@{driverViewModel.driver.image}"
+                    app:image="@{driverViewModel.currentdriver.image}"
                     android:onClick="@{()-> driverViewModel.onOpenCameraEvent()}"
                     android:layout_width="200dp"
                     android:layout_height="200dp"
@@ -40,55 +37,55 @@
 
                 <EditText
                     android:id="@+id/txtName"
-                    android:text="@{driverViewModel.driver.name}"
+                    android:hint="@string/hint_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="28dp"
                     android:layout_marginTop="81dp"
                     android:layout_marginEnd="28dp"
                     android:ems="10"
-                    android:hint="@string/hint5"
+                    android:text="@={driverViewModel.currentdriver.name}"
                     android:inputType="textPersonName"
                     android:textColor="@color/rs_black"
                     android:textColorHint="@color/rs_black" />
 
                 <EditText
                     android:id="@+id/txtLastName"
-                    android:text="@{driverViewModel.driver.lastName}"
+                    android:hint="@string/hint_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="28dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="28dp"
                     android:ems="10"
-                    android:hint="@string/hint6"
+                    android:text="@={driverViewModel.currentdriver.lastName}"
                     android:inputType="textPersonName"
                     android:textColor="@color/rs_black"
                     android:textColorHint="@color/rs_black" />
 
                 <EditText
                     android:id="@+id/txtEmail"
-                    android:text="@{driverViewModel.driver.eMail}"
+                    android:hint="@string/hint_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="28dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="28dp"
                     android:ems="10"
-                    android:hint="@string/hint7"
+                    android:text="@={driverViewModel.currentdriver.eMail}"
                     android:inputType="textEmailAddress"
                     android:textColor="@color/rs_black"
                     android:textColorHint="@color/rs_black" />
 
                 <EditText
                     android:id="@+id/txtPhone"
-                    android:text="@{driverViewModel.driver.phone}"
+                    android:hint="@string/hint_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="28dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="28dp"
-                    android:hint="@string/hint9"
+                    android:text="@={driverViewModel.currentdriver.phone}"
                     android:inputType="phone"
                     android:textColor="@color/rs_black"
                     android:textColorHint="@color/rs_black"/>
