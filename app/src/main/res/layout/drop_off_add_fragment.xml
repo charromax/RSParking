@@ -88,8 +88,7 @@
                     android:layout_marginEnd="28dp"
                     android:spinnerMode="dropdown"
                     app:entries="@{viewModel.feeTypes}"
-                    app:newValue="@{viewModel.currentDropOff.feeType}"
-                    app:onItemSelectedListener="@{(newValue) -> viewModel.onFeeSelectedListener(newValue)}"
+                    app:selectedValue="@={viewModel.currentDropOff.feeType}"
                     android:hint="@string/hint_fee"
                     android:textColor="@color/rs_black"
                     android:textColorHint="@color/rs_black" />
@@ -103,8 +102,7 @@
                     android:layout_marginEnd="28dp"
                     android:hint="@string/hint_service"
                     app:entries="@{viewModel.serviceTypes}"
-                    app:newValue="@{viewModel.currentDropOff.serviceType}"
-                    app:onItemSelectedListener="@{(newValue) -> viewModel.onServiceSelectedListener(newValue)}"
+                    app:selectedValue="@={viewModel.currentDropOff.serviceType}"
                     android:textColor="@color/rs_black"
                     android:textColorHint="@color/rs_black" />
 
@@ -121,7 +119,7 @@
                     android:textColor="@color/rs_black"
                     android:textColorHint="@color/rs_black" />
 
-                <com.google.android.material.checkbox.MaterialCheckBox
+                <CheckBox
                     android:id="@+id/saveClientCheckBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

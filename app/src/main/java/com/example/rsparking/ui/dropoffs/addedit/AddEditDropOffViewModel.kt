@@ -92,20 +92,8 @@ class AddEditDropOffViewModel(
         }
     }
 
-    fun resetCheckBox() {
-        isChecked.value = false
-    }
-
     fun doneUpdating() {
         _updateDropOffEvent.value = null
-    }
-
-    fun onFeeSelectedListener(value: String) {
-        currentDropOff.value?.feeType = value
-    }
-
-    fun onServiceSelectedListener(value: String) {
-        currentDropOff.value?.serviceType = value
     }
 
 

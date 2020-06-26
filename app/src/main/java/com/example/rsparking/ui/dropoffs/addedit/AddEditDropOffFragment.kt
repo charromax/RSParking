@@ -31,6 +31,7 @@ class AddEditDropOffFragment : Fragment() {
     val args: AddEditDropOffFragmentArgs by navArgs()
     private val formatter = SimpleDateFormat(Constants.FOR_SQL)
     private var dropOffIDarg: String? = null
+    private var stopLoop: Boolean = false
 
 
     override fun onCreateView(
@@ -59,23 +60,26 @@ class AddEditDropOffFragment : Fragment() {
             .get(AddEditDropOffViewModel::class.java)
         binding.viewModel = viewModel
 
-        viewModel.saveDropOffEvent.observe(viewLifecycleOwner, Observer {
-            if (it != null && it == true) {
-                currentDropOff?.let {
-                    viewModel.updateDropOff()
-                    viewModel.doneUpdating()
-                }
-            } else if (it != null && it == false) {
-                val newDropOff = setNewDropOff()
-                viewModel.saveDropOff(newDropOff, setNewClient(newDropOff))
-                //TODO aca se cuelga el loop
+        viewModel.saveDropOffEvent.observe(viewLifecycleOwner, Observer { saveORupdate ->
+            if (!stopLoop) {
+                stopLoop = true
+                saveORupdate?.let {
+                    currentDropOff?.let {
+                        viewModel.updateDropOff()
+                        viewModel.doneUpdating()
+                    }
+                    if (currentDropOff == null) {
+                        val newDropOff = setNewDropOff()
+                        viewModel.saveDropOff(newDropOff, setNewClient(newDropOff))
+                    }
+                    //TODO aca se colgaba el loop, quedo medio una chanchada pero anda
 
+                }
+                viewModel.doneSaving()
+                Snackbar.make(this.requireView(), R.string.saved_succesfully, Snackbar.LENGTH_SHORT)
+                    .show()
+                this.findNavController().navigateUp()
             }
-            viewModel.doneSaving()
-            viewModel.resetCheckBox()
-            Snackbar.make(this.requireView(), R.string.saved_succesfully, Snackbar.LENGTH_SHORT)
-                .show()
-            this.findNavController().navigateUp()
 
         })
         viewModel.currentDropOff.observe(viewLifecycleOwner, Observer {
