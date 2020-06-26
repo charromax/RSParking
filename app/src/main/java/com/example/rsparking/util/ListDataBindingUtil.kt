@@ -1,14 +1,16 @@
 package com.example.rsparking.util
 
 import android.widget.ImageView
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import com.bumptech.glide.Glide
 import com.example.rsparking.R
 import com.example.rsparking.data.model.ListItem
+import com.example.rsparking.util.SpinnerExtensions.setSpinnerEntries
 
 @BindingAdapter("title")
-fun TextView.setListItemTitle(listItem: ListItem?) {
+fun TextView.setListItemTitle(listItem: ListItem?) {          // tengo la sensacion de que estos estan al pedo
     listItem?.let {
         text = it.title
     }
@@ -28,7 +30,7 @@ fun TextView.setListItemExtra(listItem: ListItem?) {
     }
 }
 
-@BindingAdapter("image")
+@BindingAdapter("image")                            // este no
 fun ImageView.setProfilePic(imageString: String?) {
     imageString?.let {
         Glide.with(context)
@@ -36,4 +38,9 @@ fun ImageView.setProfilePic(imageString: String?) {
             .error(R.drawable.ic_drivers)
             .into(this)
     }
+}
+
+@BindingAdapter("entries")                         //este tampoco
+fun Spinner.setEntries(entries: ArrayList<String>?) {
+    setSpinnerEntries(entries)
 }

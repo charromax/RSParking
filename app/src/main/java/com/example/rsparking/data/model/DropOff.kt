@@ -19,7 +19,7 @@ data class DropOff(
     var parkingLot: String = "",
     var isPickedUp: Boolean = false,
     var realDateOut: String = "",
-    var serviceType: String = "",
-    var feeType: String = ""
+    var serviceType: String = "NONE",
+    var feeType: String = "Hourly"
 ) : Parcelable {
 }

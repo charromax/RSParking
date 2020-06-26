@@ -11,7 +11,7 @@ import com.example.rsparking.util.Converter
 
 @Database(
     entities = [Driver::class, Client::class, Vehicle::class, DropOff::class, ParkingLot::class],
-    version = 2, exportSchema = false
+    version = 3, exportSchema = false
 )
 @TypeConverters(Converter::class)
 abstract class RSParkingDatabase : RoomDatabase() {
@@ -21,6 +21,7 @@ abstract class RSParkingDatabase : RoomDatabase() {
      */
     abstract val driverDAO: DriverDAO
     abstract val dropOffDAO: DropOffDAO
+    abstract val clientDAO: ClientDAO
 
     /**
      * Define a companion object, this allows us to add functions on the SleepDatabase class.

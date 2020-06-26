@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -78,29 +79,28 @@
                     android:textColor="@color/rs_black"
                     android:textColorHint="@color/rs_black" />
 
-                <EditText
-                    android:id="@+id/txtFeeType"
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spinFeeType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="28dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="28dp"
+                    android:spinnerMode="dropdown"
+                    app:entries="@{viewModel.feeTypes}"
                     android:hint="@string/hint_fee"
-                    android:inputType="text"
-                    android:text="@={viewModel.currentDropOff.feeType}"
                     android:textColor="@color/rs_black"
                     android:textColorHint="@color/rs_black" />
 
-                <EditText
-                    android:id="@+id/txtServiceType"
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spinServiceType"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="28dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="28dp"
                     android:hint="@string/hint_service"
-                    android:inputType="text"
-                    android:text="@={viewModel.currentDropOff.serviceType}"
+                    app:entries="@{viewModel.serviceTypes}"
                     android:textColor="@color/rs_black"
                     android:textColorHint="@color/rs_black" />
 
@@ -116,6 +116,16 @@
                     android:text="@={viewModel.currentDropOff.parkingLot}"
                     android:textColor="@color/rs_black"
                     android:textColorHint="@color/rs_black" />
+
+                <com.google.android.material.checkbox.MaterialCheckBox
+                    android:id="@+id/saveClientCheckBox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="28dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="28dp"
+                    android:checked="@={viewModel._saveNewClient}"
+                    android:text="@string/check_save_new_client" />
             </LinearLayout>
         </ScrollView>
 

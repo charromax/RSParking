@@ -44,8 +44,9 @@ class DropOffListAdapter(var clickListener: DropOffListClickListener) :
                 profilePic = ""
             )
             binding.listItem = listItem
-            binding.executePendingBindings()
             binding.root.setOnClickListener { listener.onClick(dropOff) }
+            binding.executePendingBindings()
+
         }
 
         companion object {

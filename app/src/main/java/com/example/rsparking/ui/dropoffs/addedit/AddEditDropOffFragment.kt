@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.rsparking.R
+import com.example.rsparking.data.model.Client
 import com.example.rsparking.data.model.DropOff
 import com.example.rsparking.databinding.DropOffAddFragmentBinding
 import com.example.rsparking.util.Constants
@@ -39,7 +40,7 @@ class AddEditDropOffFragment : Fragment() {
     ): View? {
         binding =
             DataBindingUtil.inflate(inflater, R.layout.drop_off_add_fragment, container, false)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = this.viewLifecycleOwner
         val actionbar = requireActivity().actionBar
         actionbar?.title = FRAG_TITLE
         val application = requireNotNull(this.activity).application
@@ -59,17 +60,23 @@ class AddEditDropOffFragment : Fragment() {
         binding.viewModel = viewModel
 
         viewModel.saveDropOffEvent.observe(viewLifecycleOwner, Observer {
-            it?.let {
+            if (it != null && it == true) {
                 currentDropOff?.let {
                     viewModel.updateDropOff()
                     viewModel.doneUpdating()
-                } ?: viewModel.saveDropOff(setNewDropOff())
+                }
+            } else if (it != null && it == false) {
+                val newDropOff = setNewDropOff()
+                viewModel.saveDropOff(newDropOff, setNewClient(newDropOff))
+                //TODO aca se cuelga el loop
 
-                viewModel.doneSaving()
-                Snackbar.make(this.requireView(), R.string.saved_succesfully, Snackbar.LENGTH_SHORT)
-                    .show()
-                this.findNavController().navigateUp()
             }
+            viewModel.doneSaving()
+            viewModel.resetCheckBox()
+            Snackbar.make(this.requireView(), R.string.saved_succesfully, Snackbar.LENGTH_SHORT)
+                .show()
+            this.findNavController().navigateUp()
+
         })
         viewModel.currentDropOff.observe(viewLifecycleOwner, Observer {
             Log.i("FRAG_TITLE", "dropOFf name: ${it.clientName}")
@@ -77,6 +84,23 @@ class AddEditDropOffFragment : Fragment() {
 
 
         return binding.root
+    }
+
+    private fun setNewClient(dropOff: DropOff): Client? {
+        var client: Client? = null
+        viewModel.saveNewClient.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                client = Client(
+                    id = UUID.randomUUID().toString(),
+                    name = dropOff.clientName,
+                    phone = dropOff.clientPhone,
+                    plateNumber = dropOff.plateNumber,
+                    dateAdded = formatter.format(Date()),
+                    score = arrayListOf()
+                )
+            }
+        })
+        return client
     }
 
 
@@ -89,8 +113,8 @@ class AddEditDropOffFragment : Fragment() {
             plateNumber = binding.txtPlateNumber.text.toString(),
             clientPhone = binding.txtClientPhone.text.toString(),
             parkingLot = binding.txtParkingLot.text.toString(),
-            serviceType = binding.txtServiceType.text.toString(),
-            feeType = binding.txtFeeType.text.toString()
+            serviceType = binding.spinServiceType.selectedItem.toString(),
+            feeType = binding.spinFeeType.selectedItem.toString()
         )
     }
 

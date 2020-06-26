@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="listItem"
             type="com.example.rsparking.data.model.ListItem" />
@@ -38,7 +37,6 @@
                     android:layout_height="65dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="8dp"
-                    android:src="@drawable/ic_android"
                     app:civ_border_color="@color/rs_black"
                     app:civ_border_width="1dp"
                     app:image="@{listItem.profilePic}" />

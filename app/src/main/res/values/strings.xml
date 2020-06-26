@@ -57,16 +57,19 @@
     <string name="card_parkinglist">Leaving today</string>
 
 
-    <string-array name="payment_mode">
-        <item>Bank Xfer</item>
-        <item>Cash</item>
+    <string-array name="fee_types">
+        <item>Hourly</item>
+        <item>Daily</item>
+        <item>Turnaround</item>
+        <item>Layover</item>
+        <item>Special Rate</item>
     </string-array>
 
-    <string-array name="payment_plan">
-        <item>Full Month</item>
-        <item>Leave 10</item>
-        <item>Leave 20</item>
-        <item>Special Rate</item>
+    <string-array name="service_types">
+        <item>NONE</item>
+        <item>Exterior</item>
+        <item>Complete</item>
+
     </string-array>
 
     <string-array name="tables">
@@ -126,5 +129,6 @@
     <string name="hint_fee">Fee</string>
     <string name="hint_service">Service</string>
     <string name="hint_parking_lot">Parking Lot #</string>
+    <string name="check_save_new_client">Save new Client?</string>
 
 </resources>
