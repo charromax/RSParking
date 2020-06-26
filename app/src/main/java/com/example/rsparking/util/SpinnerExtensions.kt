@@ -38,7 +38,7 @@ object SpinnerExtensions {
                     id: Long
                 ) {
                     if (tag != position) {
-                        listener.onItemSelected(parent.getItemAtPosition(position))
+                        listener.onItemSelected(parent.getItemAtPosition(position).toString())
                     }
                 }
 
@@ -74,9 +74,9 @@ object SpinnerExtensions {
     /**
      * set spinner value
      */
-    fun Spinner.setSpinnerValue(value: Any?) {
+    fun Spinner.setSpinnerValue(value: String?) {
         if (adapter != null) {
-            val position = (adapter as ArrayAdapter<Any>).getPosition(value)
+            val position = (adapter as ArrayAdapter<String>).getPosition(value)
             setSelection(position, false)
             tag = position
         }
@@ -85,11 +85,11 @@ object SpinnerExtensions {
     /**
      * get spinner value
      */
-    fun Spinner.getSpinnerValue(): Any? {
-        return selectedItem
+    fun Spinner.getSpinnerValue(): String? {
+        return selectedItem.toString()
     }
 
     interface ItemSelectedListener {
-        fun onItemSelected(item: Any)
+        fun onItemSelected(item: String)
     }
 }

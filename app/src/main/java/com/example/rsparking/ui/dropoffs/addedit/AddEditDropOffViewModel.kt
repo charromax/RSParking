@@ -22,7 +22,8 @@ import kotlin.collections.ArrayList
 
 
 class AddEditDropOffViewModel(
-    dropOffID: String?, application: Application
+    dropOffID: String?,
+    application: Application
 ) : AndroidViewModel(application) {
     private val dropOffDAO: DropOffDAO = RSParkingDatabase.getInstance(application).dropOffDAO
     private val clientDAO: ClientDAO = RSParkingDatabase.getInstance(application).clientDAO
@@ -48,15 +49,12 @@ class AddEditDropOffViewModel(
     val updateDropOffEvent: LiveData<Boolean>
         get() = _updateDropOffEvent
 
-    val _saveNewClient = MutableLiveData<Boolean>()
-    val saveNewClient: LiveData<Boolean>
-        get() = _saveNewClient
+    var isChecked = MutableLiveData<Boolean>()
     //TODO data binding checkbox
 
     init {
         dropOffRepository = DropOffRepository(dropOffDAO)
         clientRepository = ClientRepository(clientDAO)
-        resetCheckBox()
         dropOffID?.let {
             getDropOff(it)
         }
@@ -94,20 +92,20 @@ class AddEditDropOffViewModel(
         }
     }
 
-    fun onUpdateEvent() {
-        _updateDropOffEvent.value = true
+    fun resetCheckBox() {
+        isChecked.value = false
     }
 
     fun doneUpdating() {
         _updateDropOffEvent.value = null
     }
 
-    fun onCheckBoxClick() {
-        _saveNewClient.value = true
+    fun onFeeSelectedListener(value: String) {
+        currentDropOff.value?.feeType = value
     }
 
-    fun resetCheckBox() {
-        _saveNewClient.value = false
+    fun onServiceSelectedListener(value: String) {
+        currentDropOff.value?.serviceType = value
     }
 
 

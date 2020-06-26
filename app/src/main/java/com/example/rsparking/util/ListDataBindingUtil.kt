@@ -1,5 +1,6 @@
 package com.example.rsparking.util
 
+import android.widget.ArrayAdapter
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
@@ -8,6 +9,7 @@ import com.bumptech.glide.Glide
 import com.example.rsparking.R
 import com.example.rsparking.data.model.ListItem
 import com.example.rsparking.util.SpinnerExtensions.setSpinnerEntries
+import com.example.rsparking.util.SpinnerExtensions.setSpinnerItemSelectedListener
 
 @BindingAdapter("title")
 fun TextView.setListItemTitle(listItem: ListItem?) {          // tengo la sensacion de que estos estan al pedo
@@ -43,4 +45,18 @@ fun ImageView.setProfilePic(imageString: String?) {
 @BindingAdapter("entries")                         //este tampoco
 fun Spinner.setEntries(entries: ArrayList<String>?) {
     setSpinnerEntries(entries)
+}
+
+@BindingAdapter("newValue")
+fun Spinner.setSpinnerValue(value: Any?) {
+    if (adapter != null) {
+        val position = (adapter as ArrayAdapter<Any>).getPosition(value)
+        setSelection(position, false)
+        tag = position
+    }
+}
+
+@BindingAdapter("onItemSelectedListener")                         //este tampoco
+fun Spinner.setOnItemSelectedListener(listener: SpinnerExtensions.ItemSelectedListener) {
+    setSpinnerItemSelectedListener(listener)
 }

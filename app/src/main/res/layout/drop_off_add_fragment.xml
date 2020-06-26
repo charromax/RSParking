@@ -88,6 +88,8 @@
                     android:layout_marginEnd="28dp"
                     android:spinnerMode="dropdown"
                     app:entries="@{viewModel.feeTypes}"
+                    app:newValue="@{viewModel.currentDropOff.feeType}"
+                    app:onItemSelectedListener="@{(newValue) -> viewModel.onFeeSelectedListener(newValue)}"
                     android:hint="@string/hint_fee"
                     android:textColor="@color/rs_black"
                     android:textColorHint="@color/rs_black" />
@@ -101,6 +103,8 @@
                     android:layout_marginEnd="28dp"
                     android:hint="@string/hint_service"
                     app:entries="@{viewModel.serviceTypes}"
+                    app:newValue="@{viewModel.currentDropOff.serviceType}"
+                    app:onItemSelectedListener="@{(newValue) -> viewModel.onServiceSelectedListener(newValue)}"
                     android:textColor="@color/rs_black"
                     android:textColorHint="@color/rs_black" />
 
@@ -124,7 +128,7 @@
                     android:layout_marginStart="28dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="28dp"
-                    android:checked="@={viewModel._saveNewClient}"
+                    android:checked="@={viewModel.isChecked}"
                     android:text="@string/check_save_new_client" />
             </LinearLayout>
         </ScrollView>

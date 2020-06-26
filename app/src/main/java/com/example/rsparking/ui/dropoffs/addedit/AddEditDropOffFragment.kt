@@ -88,18 +88,17 @@ class AddEditDropOffFragment : Fragment() {
 
     private fun setNewClient(dropOff: DropOff): Client? {
         var client: Client? = null
-        viewModel.saveNewClient.observe(viewLifecycleOwner, Observer {
-            if (it) {
-                client = Client(
-                    id = UUID.randomUUID().toString(),
-                    name = dropOff.clientName,
-                    phone = dropOff.clientPhone,
-                    plateNumber = dropOff.plateNumber,
-                    dateAdded = formatter.format(Date()),
-                    score = arrayListOf()
-                )
-            }
-        })
+        if (viewModel.isChecked.value == true) {
+            client = Client(
+                id = UUID.randomUUID().toString(),
+                name = dropOff.clientName,
+                phone = dropOff.clientPhone,
+                plateNumber = dropOff.plateNumber,
+                dateAdded = formatter.format(Date()),
+                score = arrayListOf()
+            )
+        }
+
         return client
     }
 
