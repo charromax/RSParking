@@ -75,8 +75,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nav_pickups -> {
                 this.findNavController(R.id.nav_host).navigate(R.id.dropOffListFragment)
             }
-            R.id.nav_reg_cars -> {
-                Log.i(TAG, "onNavigationItemSelected: regCars")
+            R.id.nav_history -> {
+                this.findNavController(R.id.nav_host).navigate(R.id.historyListFragment)
             }
             R.id.nav_reports -> {
                 Log.i(TAG, "onNavigationItemSelected: drivers")

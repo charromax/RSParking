@@ -34,23 +34,9 @@ class HistoryListViewModel(application: Application) : AndroidViewModel(applicat
     val doneDeletingItem: LiveData<Boolean>
         get() = _doneDeletingItem
 
-    private val _doneDeliveringCar = MutableLiveData<Boolean>()
-    val doneDeliveringCar: LiveData<Boolean>
-        get() = _doneDeliveringCar
-
-
     init {
         repo = DropOffRepository(database)
     }
-
-    fun onFabClicked() {
-        _navigateToAddEditFragment.value = true
-    }
-
-    fun doneNavigating() {
-        _navigateToAddEditFragment.value = null
-    }
-
 
     fun onListItemClicked(dropOff: DropOff) {
         _navigateToAddEditFragmentWithDropOff.value = dropOff
@@ -60,27 +46,20 @@ class HistoryListViewModel(application: Application) : AndroidViewModel(applicat
         _navigateToAddEditFragmentWithDropOff.value = null
     }
 
-    fun onListItemSwipeRight() {
+    fun doneDeletingItem() {
         _doneDeletingItem.value = null
     }
 
-    private fun doneDeletingItem() {
-        _doneDeletingItem.value = true
-    }
-
-    fun onListItemSwipeLeft() {
-        _doneDeliveringCar.value = null
-    }
-
-    private fun doneDeliveringCar() {
-        _doneDeliveringCar.value = true
-    }
-
     fun onConfirmDelete(position: Int) {
+        //TODO delete from database all where isPickedUp == true
         allDropoffs.value?.let {
             val dropOffToDelete = it[position]
             deleteDropOff(dropOffToDelete)
         }
+    }
+
+    fun onFabClicked() {
+
     }
 
     private fun deleteDropOff(dropOff: DropOff) {
@@ -88,23 +67,6 @@ class HistoryListViewModel(application: Application) : AndroidViewModel(applicat
             repo.DeleteDropOffFromDatabase(dropOff)
         }
         doneDeletingItem()
-    }
-
-    fun onConfirmDeliver(position: Int) {
-        allDropoffs.value?.let {
-            val dropOffToUpdate = it[position].copy(isPickedUp = true)
-            uiScope.launch {
-                repo.UpdateDropOff(dropOffToUpdate)
-            }
-        }
-        doneDeliveringCar()
-    }
-
-
-    fun getDropOffByDate(date: String) {
-        uiScope.launch {
-            _dropOffsByDate.value = repo.getDropOffByDateOut(date)
-        }
     }
 
     override fun onCleared() {
