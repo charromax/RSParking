@@ -35,6 +35,9 @@
         <action
             android:id="@+id/action_dropOffListFragment_to_driverListFragment"
             app:destination="@id/driverListFragment" />
+        <action
+            android:id="@+id/action_dropOffListFragment_to_clientListFragment"
+            app:destination="@id/clientListFragment" />
     </fragment>
     <fragment
         android:id="@+id/addEditDropOffFragment"
@@ -44,6 +47,25 @@
         <argument
             android:name="selectedDropOff"
             app:argType="com.example.rsparking.data.model.DropOff"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/clientListFragment"
+        android:name="com.example.rsparking.ui.client.list.ClientListFragment"
+        tools:layout="@layout/client_list_fragment"
+        android:label="ClientListFragment" >
+        <action
+            android:id="@+id/action_clientListFragment_to_addEditClientFragment"
+            app:destination="@id/addEditClientFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addEditClientFragment"
+        android:name="com.example.rsparking.ui.client.addedit.AddEditClientFragment"
+        tools:layout="@layout/client_add_edit_fragment"
+        android:label="AddEditClientFragment" >
+        <argument
+            android:name="selectedClient"
+            app:argType="com.example.rsparking.data.model.Client"
             app:nullable="true" />
     </fragment>
 </navigation>

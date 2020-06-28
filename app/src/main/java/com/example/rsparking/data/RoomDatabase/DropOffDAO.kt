@@ -8,8 +8,11 @@ import com.example.rsparking.util.Constants
 @Dao
 interface DropOffDAO {
 
-    @Query("SELECT * FROM ${Constants.TABLE_DROPOFFS} ORDER BY id")
-    fun getAllDropOffs(): LiveData<MutableList<DropOff>>
+    @Query("SELECT * FROM ${Constants.TABLE_DROPOFFS} where isPickedUp=0 ORDER BY dateOUT")
+    fun getAllDropOffsExceptPickedUp(): LiveData<MutableList<DropOff>>
+
+    @Query("SELECT * FROM ${Constants.TABLE_DROPOFFS} where isPickedUp=1 ORDER BY dateOUT")
+    fun getAllDropOffsPickedUp(): LiveData<MutableList<DropOff>>
 
     @Query("SELECT * FROM ${Constants.TABLE_DROPOFFS} WHERE id=:key ORDER BY dateOUT")
     fun getDropOff(key: String): DropOff?

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
         <variable
-            name="driverViewModel"
-            type="com.example.rsparking.ui.driver.addedit.AddEditDriverViewModel" />
+            name="viewModel"
+            type="com.example.rsparking.ui.client.addedit.AddEditClientViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -21,19 +22,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 >
-                <ImageView
-                    android:id="@+id/imgPhoto"
-                    android:clickable="true"
-                    app:image="@{driverViewModel.currentdriver.image}"
-                    android:onClick="@{()-> driverViewModel.onOpenCameraEvent()}"
-                    android:layout_width="200dp"
-                    android:layout_height="200dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="32dp"
-                    android:background="@drawable/button_background"
-                    android:elevation="10dp"
-                    android:padding="10dp"
-                    android:src="@drawable/ic_camera_alt_black_24dp" />
 
                 <EditText
                     android:id="@+id/txtName"
@@ -44,22 +32,22 @@
                     android:layout_marginTop="81dp"
                     android:layout_marginEnd="28dp"
                     android:ems="10"
-                    android:text="@={driverViewModel.currentdriver.name}"
+                    android:text="@={viewModel.currentClient.name}"
                     android:inputType="textPersonName"
                     android:textColor="@color/rs_black"
                     android:textColorHint="@color/rs_lightgray" />
 
                 <EditText
-                    android:id="@+id/txtLastName"
-                    android:hint="@string/hint_last_name"
+                    android:id="@+id/txtPlate"
+                    android:hint="@string/hint_plate_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="28dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="28dp"
                     android:ems="10"
-                    android:text="@={driverViewModel.currentdriver.lastName}"
-                    android:inputType="textPersonName"
+                    android:text="@={viewModel.currentClient.plateNumber}"
+                    android:inputType="textCapWords"
                     android:textColor="@color/rs_black"
                     android:textColorHint="@color/rs_lightgray" />
 
@@ -72,33 +60,47 @@
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="28dp"
                     android:ems="10"
-                    android:text="@={driverViewModel.currentdriver.eMail}"
+                    android:text="@={viewModel.currentClient.eMail}"
                     android:inputType="textEmailAddress"
                     android:textColor="@color/rs_black"
                     android:textColorHint="@color/rs_lightgray" />
 
                 <EditText
-                    android:id="@+id/txtPhone"
+                    android:id="@+id/txtPhoneNumber"
                     android:hint="@string/hint_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="28dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="28dp"
-                    android:text="@={driverViewModel.currentdriver.phone}"
+                    android:text="@={viewModel.currentClient.phone}"
                     android:inputType="phone"
+                    android:textColor="@color/rs_black"
+                    android:textColorHint="@color/rs_lightgray"/>
+                <EditText
+                    android:id="@+id/txtNotes"
+                    android:hint="@string/notes_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="28dp"
+                    android:gravity="top"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="28dp"
+                    android:lines="6"
+                    android:text="@={viewModel.currentClient.notes}"
+                    android:inputType="textMultiLine"
                     android:textColor="@color/rs_black"
                     android:textColorHint="@color/rs_lightgray"/>
             </LinearLayout>
         </ScrollView>
-            <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/clientFab"
-                android:onClick="@{() -> driverViewModel.onSaveEvent()}"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom|end"
-                android:layout_margin="16dp"
-                android:backgroundTint="@color/colorAccent"
-                android:src="@drawable/ic_save_button"/>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/clientFab"
+            android:onClick="@{() -> viewModel.onSaveEvent()}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="16dp"
+            android:backgroundTint="@color/colorAccent"
+            android:src="@drawable/ic_save_button"/>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

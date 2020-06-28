@@ -6,7 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class DropOffRepository(val database: DropOffDAO) {
-    val allDropOffs = database.getAllDropOffs()
+    val allDropOffs = database.getAllDropOffsExceptPickedUp()
 
     suspend fun getDropOffByID(key: String): DropOff? {
         return withContext(Dispatchers.IO) {

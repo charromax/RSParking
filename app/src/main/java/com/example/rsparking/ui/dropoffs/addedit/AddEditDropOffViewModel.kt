@@ -45,6 +45,10 @@ class AddEditDropOffViewModel(
     val saveDropOffEvent: LiveData<Boolean>
         get() = _saveDropOffEvent
 
+    private val _dateOutClickedEvent = MutableLiveData<Boolean>()
+    val dateOutClickedEvent: LiveData<Boolean>
+        get() = _dateOutClickedEvent
+
     private val _updateDropOffEvent = MutableLiveData<Boolean>()
     val updateDropOffEvent: LiveData<Boolean>
         get() = _updateDropOffEvent
@@ -78,8 +82,21 @@ class AddEditDropOffViewModel(
         }
     }
 
+    fun updateDateOut(date:String) {
+        currentDropOff.value?.let { dropOff ->
+            dropOff.dateOUT = date
+        }
+    }
+    fun openPicker() {
+        _dateOutClickedEvent.value = true
+    }
+    fun doneWithPicker() {
+        _dateOutClickedEvent.value = null
+    }
+
+
     fun doneSaving() {
-        _saveDropOffEvent.value = null
+        _saveDropOffEvent.value = false
     }
 
     fun onSaveEvent() {

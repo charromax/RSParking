@@ -1,4 +1,4 @@
-package com.example.rsparking.ui.dropoffs.list
+package com.example.rsparking.ui.history
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -13,22 +13,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class DropOffListViewModel(application: Application) : AndroidViewModel(application) {
+class HistoryListViewModel(application: Application) : AndroidViewModel(application) {
     private val database: DropOffDAO = RSParkingDatabase.getInstance(application).dropOffDAO
     private val repo: DropOffRepository
 
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
-    val allDropoffs = database.getAllDropOffsExceptPickedUp()
+    val allDropoffs = database.getAllDropOffsPickedUp()
 
     private val _dropOffsByDate = MutableLiveData<List<DropOff>>()
     val dropOffsByDate: LiveData<List<DropOff>>
         get() = _dropOffsByDate
-
-    private val _navigateToAddEditFragment = MutableLiveData<Boolean>()
-    val navigateToAddEditFragment: LiveData<Boolean>
-        get() = _navigateToAddEditFragment
 
     private val _navigateToAddEditFragmentWithDropOff = MutableLiveData<DropOff>()
     val navigateToAddEditFragmentWithDropOff: LiveData<DropOff>

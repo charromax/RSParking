@@ -68,13 +68,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         when (item.itemId) {
             R.id.nav_drivers -> {
                 this.findNavController(R.id.nav_host).navigate(R.id.driverListFragment)
-
             }
             R.id.nav_clients -> {
-                Log.i(TAG, "onNavigationItemSelected: clients")
+                this.findNavController(R.id.nav_host).navigate(R.id.clientListFragment)
             }
             R.id.nav_pickups -> {
-                Log.i(TAG, "onNavigationItemSelected: inhousecars")
+                this.findNavController(R.id.nav_host).navigate(R.id.dropOffListFragment)
             }
             R.id.nav_reg_cars -> {
                 Log.i(TAG, "onNavigationItemSelected: regCars")

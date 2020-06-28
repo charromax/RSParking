@@ -1,4 +1,4 @@
-package com.example.rsparking.ui.dropoffs.list
+package com.example.rsparking.ui.history
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -10,9 +10,9 @@ import com.example.rsparking.data.model.DropOff
 import com.example.rsparking.data.model.ListItem
 import com.example.rsparking.databinding.RecyclerItemLayoutBinding
 
-class DropOffListAdapter(var clickListener: DropOffListClickListener, private val context: Context) :
-    ListAdapter<DropOff, DropOffListAdapter.ViewHolder>(
-        DropOffListDiffCallBack()
+class HistoryListAdapter(var clickListener: HistoryListClickListener, private val context: Context) :
+    ListAdapter<DropOff, HistoryListAdapter.ViewHolder>(
+        HistoryListDiffCallBack()
     ) {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -34,7 +34,7 @@ class DropOffListAdapter(var clickListener: DropOffListClickListener, private va
 
         fun bind(
             dropOff: DropOff,
-            listener: DropOffListClickListener,
+            listener: HistoryListClickListener,
             context: Context
         ) {
 
@@ -49,6 +49,9 @@ class DropOffListAdapter(var clickListener: DropOffListClickListener, private va
             binding.root.setOnClickListener { listener.onClick(dropOff) }
             if(dropOff.isPickedUp == true) {
                 itemView.setBackgroundColor(context.resources.getColor(android.R.color.holo_green_light))
+            }
+            if(dropOff.isPickedUp == false) {
+                itemView.setBackgroundColor(context.resources.getColor(android.R.color.holo_red_light))
             }
             binding.executePendingBindings()
 
@@ -65,7 +68,7 @@ class DropOffListAdapter(var clickListener: DropOffListClickListener, private va
     }
 }
 
-class DropOffListDiffCallBack : DiffUtil.ItemCallback<DropOff>() {
+class HistoryListDiffCallBack : DiffUtil.ItemCallback<DropOff>() {
     override fun areItemsTheSame(oldItem: DropOff, newItem: DropOff): Boolean {
         return oldItem.id == newItem.id
     }
@@ -76,7 +79,7 @@ class DropOffListDiffCallBack : DiffUtil.ItemCallback<DropOff>() {
 
 }
 
-interface DropOffListClickListener {
+interface HistoryListClickListener {
     fun onClick(dropOff: DropOff)
 }
 

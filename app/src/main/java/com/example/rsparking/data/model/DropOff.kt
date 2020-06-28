@@ -20,6 +20,7 @@ data class DropOff(
     var isPickedUp: Boolean = false,
     var realDateOut: String = "",
     var serviceType: String = "NONE",
-    var feeType: String = "Hourly"
+    var feeType: String = "Hourly",
+    var notes: String = ""
 ) : Parcelable {
 }

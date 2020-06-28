@@ -27,7 +27,7 @@ class ClientRepository(val database: ClientDAO) {
         }
     }
 
-    suspend fun DeleteClientFromDatabase(client: Client) {
+    suspend fun deleteClientFromDatabase(client: Client) {
         withContext(Dispatchers.IO) {
             database.delete(client)
         }

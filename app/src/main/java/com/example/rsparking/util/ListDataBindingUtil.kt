@@ -1,5 +1,6 @@
 package com.example.rsparking.util
 
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
@@ -13,6 +14,12 @@ import com.example.rsparking.util.SpinnerExtensions.getSpinnerValue
 import com.example.rsparking.util.SpinnerExtensions.setSpinnerEntries
 import com.example.rsparking.util.SpinnerExtensions.setSpinnerInverseBindingListener
 import com.example.rsparking.util.SpinnerExtensions.setSpinnerValue
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.*
+import kotlin.collections.ArrayList
+
 
 @BindingAdapter("title")
 fun TextView.setListItemTitle(listItem: ListItem?) {          // tengo la sensacion de que estos estan al pedo

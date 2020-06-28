@@ -1,11 +1,10 @@
-package com.example.rsparking.ui.dropoffs.list
+package com.example.rsparking.ui.history
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import android.widget.Toast.makeText
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -25,7 +24,7 @@ const val FRAG_TITLE = "DropOff List"
 
 class DropOffListFragment : Fragment() {
 
-    private lateinit var viewModel: DropOffListViewModel
+    private lateinit var viewModel: HistoryListViewModel
     private lateinit var binding: DropOffListFragmentBinding
     private lateinit var adapter: DropOffListAdapter
     override fun onCreateView(
@@ -43,11 +42,11 @@ class DropOffListFragment : Fragment() {
         val application = requireNotNull(this.activity).application
         activity?.actionBar?.title = FRAG_TITLE
         val viewModelFactory =
-            DropOffViewModelFactory(
+            HistoryViewModelFactory(
                 application
             )
         viewModel =
-            ViewModelProviders.of(this, viewModelFactory).get(DropOffListViewModel::class.java)
+            ViewModelProviders.of(this, viewModelFactory).get(HistoryListViewModel::class.java)
         binding.listViewModel = viewModel
         binding.dropOffList.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         setupAdapter()
@@ -102,7 +101,7 @@ class DropOffListFragment : Fragment() {
 
     private fun setupAdapter() {
         adapter = DropOffListAdapter(object :
-            DropOffListClickListener {
+            HistoryListClickListener {
             override fun onClick(dropOff: DropOff) {
                 viewModel.onListItemClicked(dropOff)
             }

@@ -3,8 +3,8 @@ package com.example.rsparking.util
 object Constants{
     var USR_LEVEL: String? = null
     const val TAG_LOGIN = "LoginScreen"
-    const val FOR_HUMANS = "dd-MM-yyyy HH:mm:ss"
-    const val FOR_SQL = "yyyy-MM-dd HH:mm:ss"
+    const val FOR_HUMANS = "E, dd MMM yyyy HH:mm"
+    const val FOR_SQL = "yyyy-MM-dd HH:mm"
 
     const val DATABASE_NAME = "rstand"
     const val TABLE_DRIVERS = "drivers"

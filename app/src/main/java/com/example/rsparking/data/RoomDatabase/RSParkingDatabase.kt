@@ -11,7 +11,7 @@ import com.example.rsparking.util.Converter
 
 @Database(
     entities = [Driver::class, Client::class, Vehicle::class, DropOff::class, ParkingLot::class],
-    version = 3, exportSchema = false
+    version = 5, exportSchema = false
 )
 @TypeConverters(Converter::class)
 abstract class RSParkingDatabase : RoomDatabase() {

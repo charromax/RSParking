@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="listViewModel"
-            type="com.example.rsparking.ui.dropoffs.list.DropOffListViewModel" />
+            type="com.example.rsparking.ui.client.list.ClientListViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -18,15 +18,14 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/dropOffList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:id="@+id/clientList"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/recycler_item_layout"
                 android:scrollbars="vertical"
-                android:textColor="@color/rs_black"
-                tools:listitem="@layout/recycler_item_layout" />
-
+                android:textColor="@color/rs_black"/>
             <ImageView
                 android:id="@+id/splash_logo2"
                 android:layout_width="300dp"
@@ -36,17 +35,17 @@
                 app:srcCompat="@drawable/logo_full" />
 
         </RelativeLayout>
-
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/add_new_fab"
             android:layout_width="wrap_content"
+            app:elevation="8dp"
+            android:onClick="@{()-> listViewModel.onFabClicked()}"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            android:layout_margin="16dp"
-            android:contentDescription="Add new Driver"
-            android:onClick="@{()-> listViewModel.onFabClicked()}"
             android:src="@drawable/ic_add_new"
+            android:contentDescription="Add new Client"
             app:backgroundTint="@color/colorAccent"
-            app:elevation="8dp" />
+            android:layout_margin="16dp"
+            />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
