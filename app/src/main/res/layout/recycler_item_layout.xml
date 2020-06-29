@@ -9,37 +9,32 @@
             type="com.example.rsparking.data.model.ListItem" />
     </data>
 
-    <androidx.cardview.widget.CardView
+    <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/cardView"
         android:layout_margin="8dp"
+        card_view:contentPadding="8dp"
         app:cardBackgroundColor="@android:color/white"
-        app:cardCornerRadius="8dp"
+        card_view:cardCornerRadius="12dp"
         app:cardElevation="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginBottom="20dp"
-            android:orientation="vertical"
-            android:padding="16dp"
-            tools:targetApi="lollipop">
+            android:layout_marginTop="24dp"
+            android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profileImage"
-                    android:layout_width="65dp"
-                    android:layout_height="65dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="8dp"
-                    app:civ_border_color="@color/rs_black"
-                    app:civ_border_width="1dp"
-                    app:image="@{listItem.profilePic}" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profileImage"
+                android:layout_width="65dp"
+                android:layout_height="65dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="8dp"
+                app:civ_border_color="@color/rs_black"
+                app:civ_border_width="1dp"
+                tools:src="@drawable/ic_clients"
+                app:image="@{listItem.profilePic}" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -53,7 +48,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/main_title"
                         android:textColor="@color/rs_black"
-                        android:textSize="20sp"
+                        style="@style/TextAppearance.AppCompat.Title"
                         app:title="@{listItem}" />
 
                     <TextView
@@ -74,10 +69,26 @@
                         android:textSize="16sp"
                         app:extraInfo="@{listItem}" />
 
+                    <per.wsj.library.AndRatingBar
+                        android:id="@+id/miniScore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="18dp"
+                        android:stepSize="0.5"
+                        android:visibility="gone"
+                        app:starColor="@color/rs_yellow"
+                        tools:visibility="visible"
+                        android:numStars="5"
+                        app:starDrawable="@drawable/ic_twotone_star_empty" />
                 </LinearLayout>
-
-            </LinearLayout>
-
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/crewIcon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            tools:visibility="visible"
+            android:src="@drawable/ic_baseline_airplanemode_active_24"
+            android:visibility="gone" />
+
     </androidx.cardview.widget.CardView>
 </layout>

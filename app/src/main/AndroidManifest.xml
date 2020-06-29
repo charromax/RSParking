@@ -35,7 +35,7 @@
         <activity android:name=".ui.LoginScreen" />
         <activity
             android:name=".ui.mainactivity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".ui.SplashScreen"
             android:theme="@style/SplashTheme">

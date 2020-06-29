@@ -13,14 +13,17 @@ data class DropOff(
     var id: String = "",
     var dateAdded: String = "",
     var dateOUT: String = "",
+    var clientID: String = "",
     var clientName: String = "",
     var clientPhone: String = "",
     var plateNumber: String = "",
+    var isCrew: Boolean = false,
     var parkingLot: String = "",
     var isPickedUp: Boolean = false,
     var realDateOut: String = "",
     var serviceType: String = "NONE",
     var feeType: String = "Hourly",
-    var notes: String = ""
+    var notes: String = "",
+    var score: Float = 0.0f
 ) : Parcelable {
 }

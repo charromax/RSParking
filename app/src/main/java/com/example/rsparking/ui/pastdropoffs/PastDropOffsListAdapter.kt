@@ -1,4 +1,4 @@
-package com.example.rsparking.ui.dropoffs.list
+package com.example.rsparking.ui.pastdropoffs
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -14,12 +14,12 @@ import com.example.rsparking.data.model.DropOff
 import com.example.rsparking.data.model.ListItem
 import com.example.rsparking.databinding.RecyclerItemLayoutBinding
 
-class DropOffListAdapter(
-    var clickListener: DropOffListClickListener,
+class PastDropOffsListAdapter(
+    var clickListener: PastDropOffsListClickListener,
     private val context: Context
 ) :
-    ListAdapter<DropOff, DropOffListAdapter.ViewHolder>(
-        DropOffListDiffCallBack()
+    ListAdapter<DropOff, PastDropOffsListAdapter.ViewHolder>(
+        PastDropOffsListDiffCallBack()
     ), Filterable {
     private var filterList = ArrayList<DropOff>()
 
@@ -76,7 +76,7 @@ class DropOffListAdapter(
 
         fun bind(
             dropOff: DropOff,
-            listener: DropOffListClickListener,
+            listener: PastDropOffsListClickListener,
             context: Context
         ) {
 
@@ -90,7 +90,7 @@ class DropOffListAdapter(
             binding.listItem = listItem
             binding.root.setOnClickListener { listener.onClick(dropOff) }
             if (dropOff.isPickedUp == true) {
-                binding.cardView.setCardBackgroundColor(context.resources.getColor(android.R.color.holo_green_light))
+                binding.cardView.setCardBackgroundColor(context.resources.getColor(android.R.color.holo_green_dark))
             } else {
                 binding.cardView.setCardBackgroundColor(context.resources.getColor(R.color.rs_white))
             }
@@ -99,11 +99,8 @@ class DropOffListAdapter(
             } else {
                 binding.crewIcon.visibility = View.GONE
             }
+            binding.extraInfo.setTextColor(context.resources.getColor(R.color.rs_white))
             binding.profileImage.visibility = View.GONE
-            binding.miniScore.apply {
-                rating = dropOff.score
-                visibility = View.VISIBLE
-            }
             binding.executePendingBindings()
 
         }
@@ -117,10 +114,9 @@ class DropOffListAdapter(
         }
 
     }
-
 }
 
-class DropOffListDiffCallBack : DiffUtil.ItemCallback<DropOff>() {
+class PastDropOffsListDiffCallBack : DiffUtil.ItemCallback<DropOff>() {
     override fun areItemsTheSame(oldItem: DropOff, newItem: DropOff): Boolean {
         return oldItem.id == newItem.id
     }
@@ -131,7 +127,7 @@ class DropOffListDiffCallBack : DiffUtil.ItemCallback<DropOff>() {
 
 }
 
-interface DropOffListClickListener {
+interface PastDropOffsListClickListener {
     fun onClick(dropOff: DropOff)
 }
 

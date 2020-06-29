@@ -3,9 +3,7 @@ package com.example.rsparking.data.model
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverters
 import com.example.rsparking.util.Constants
-import com.example.rsparking.util.Converter
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
@@ -19,8 +17,11 @@ data class Client(
     var plateNumber: String = "",
     var notes: String = "",
     var dateAdded: String = "",
-    @TypeConverters(Converter::class)
-    var score: ArrayList<Float>?
+    var isCrew: Boolean = false,
+    var score: Float = 0.0f
 ) : Parcelable {
+    override fun toString(): String {
+        return "${plateNumber}"
+    }
 
 }

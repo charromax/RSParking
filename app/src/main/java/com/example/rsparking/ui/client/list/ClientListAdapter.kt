@@ -1,7 +1,10 @@
 package com.example.rsparking.ui.client.list
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +15,43 @@ import com.example.rsparking.databinding.RecyclerItemLayoutBinding
 class ClientListAdapter(var clickListener: ClientListClickListener) :
     ListAdapter<Client, ClientListAdapter.ViewHolder>(
         ClientListDiffCallback()
-    ) {
+    ), Filterable {
+
+    private var filterList = ArrayList<Client>()
+
+    fun updateList(list: MutableList<Client>) {
+        filterList.addAll(list)
+        submitList(list)
+    }
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun publishResults(p0: CharSequence?, filterResults: FilterResults?) {
+                submitList(filterResults?.values as ArrayList<Client>)
+            }
+
+            override fun performFiltering(charSequence: CharSequence?): FilterResults {
+                val results = FilterResults()
+                val suggestions = ArrayList<Client>()
+
+                if (charSequence == null || charSequence.length == 0) {
+                    suggestions.addAll(filterList)
+                } else {
+                    for (client in currentList) {
+                        if (client.plateNumber.contains(charSequence) ||
+                            client.name.toLowerCase().contains(charSequence) ||
+                            client.phone.toLowerCase().contains(charSequence)
+                        ) {
+                            suggestions.add(client)
+                        }
+                    }
+                }
+                results.values = suggestions
+                results.count = suggestions.size
+                return results
+            }
+        }
+    }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         getItem(position).let {
@@ -44,6 +83,16 @@ class ClientListAdapter(var clickListener: ClientListClickListener) :
                 profilePic = ""
             )
             binding.listItem = listItem
+            if (client.isCrew == true) {
+                binding.crewIcon.visibility = View.VISIBLE
+            } else {
+                binding.crewIcon.visibility = View.GONE
+            }
+            binding.profileImage.visibility = View.GONE
+            binding.miniScore.apply {
+                rating = client.score
+                visibility = View.VISIBLE
+            }
             binding.executePendingBindings()
             binding.root.setOnClickListener { listener.onClick(client) }
         }

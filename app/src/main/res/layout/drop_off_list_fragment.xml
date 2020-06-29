@@ -23,6 +23,7 @@
                 android:id="@+id/dropOffList"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/rs_lightgray"
                 android:scrollbars="vertical"
                 android:textColor="@color/rs_black"
                 tools:listitem="@layout/recycler_item_layout" />

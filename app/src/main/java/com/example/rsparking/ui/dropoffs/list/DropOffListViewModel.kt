@@ -8,14 +8,18 @@ import com.example.rsparking.data.RoomDatabase.DropOffDAO
 import com.example.rsparking.data.RoomDatabase.RSParkingDatabase
 import com.example.rsparking.data.model.DropOff
 import com.example.rsparking.data.repo.DropOffRepository
+import com.example.rsparking.util.Constants
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 class DropOffListViewModel(application: Application) : AndroidViewModel(application) {
     private val database: DropOffDAO = RSParkingDatabase.getInstance(application).dropOffDAO
     private val repo: DropOffRepository
+    private val formatter = SimpleDateFormat(Constants.FOR_SQL)
 
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -95,8 +99,12 @@ class DropOffListViewModel(application: Application) : AndroidViewModel(applicat
     }
 
     fun onConfirmDeliver(position: Int) {
+        val realDateOUT = formatter.format(Date())
         allDropoffs.value?.let {
-            val dropOffToUpdate = it[position].copy(isPickedUp = true)
+            val dropOffToUpdate = it[position].copy(
+                isPickedUp = true,
+                realDateOut = realDateOUT
+            )
             uiScope.launch {
                 repo.UpdateDropOff(dropOffToUpdate)
             }

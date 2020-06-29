@@ -1,12 +1,11 @@
 package com.example.rsparking.ui.dropoffs.list
 
+import android.graphics.Canvas
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
-import android.widget.Toast.makeText
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -18,16 +17,45 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.rsparking.R
 import com.example.rsparking.data.model.DropOff
 import com.example.rsparking.databinding.DropOffListFragmentBinding
-import com.example.rsparking.ui.driver.addedit.FRAG_TITLE
+import com.example.rsparking.util.ToolbarInterface
 import com.google.android.material.snackbar.Snackbar
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
-const val FRAG_TITLE = "DropOff List"
+
+const val FRAG_TITLE = "DropOffs List"
 
 class DropOffListFragment : Fragment() {
 
     private lateinit var viewModel: DropOffListViewModel
     private lateinit var binding: DropOffListFragmentBinding
     private lateinit var adapter: DropOffListAdapter
+    private lateinit var toolbarCallback: ToolbarInterface
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+        toolbarCallback = activity as ToolbarInterface
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        val menuInflater = requireActivity().menuInflater
+        menuInflater.inflate(R.menu.main, menu)
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView =
+            searchItem.actionView as SearchView
+        searchView.setOnQueryTextListener(object :
+            SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(s: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(s: String): Boolean {
+                adapter.filter.filter(s.toLowerCase())
+                return false
+            }
+        })
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -41,7 +69,7 @@ class DropOffListFragment : Fragment() {
         )
         binding.lifecycleOwner = this
         val application = requireNotNull(this.activity).application
-        activity?.actionBar?.title = FRAG_TITLE
+        toolbarCallback.getToolbarResources(FRAG_TITLE, 1)
         val viewModelFactory =
             DropOffViewModelFactory(
                 application
@@ -58,7 +86,7 @@ class DropOffListFragment : Fragment() {
 
         viewModel.allDropoffs.observe(viewLifecycleOwner, Observer {
             it?.let {
-                adapter.submitList(it)
+                adapter.updateList(it)
             }
         })
 
@@ -127,7 +155,7 @@ class DropOffListFragment : Fragment() {
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
             val position = viewHolder.adapterPosition
 
-            if (direction == ItemTouchHelper.RIGHT) {
+            if (direction == ItemTouchHelper.LEFT) {
                 val builder = AlertDialog.Builder(requireContext())
                 builder.setTitle("Confirm delete")
                 builder.setMessage(resources.getString(R.string.confirm_delete))
@@ -159,6 +187,31 @@ class DropOffListFragment : Fragment() {
                 alertDialog.show()
             }
 
+        }
+
+        override fun onChildDraw(
+            c: Canvas,
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            dX: Float,
+            dY: Float,
+            actionState: Int,
+            isCurrentlyActive: Boolean
+        ) {
+            RecyclerViewSwipeDecorator.Builder(
+                c,
+                recyclerView,
+                viewHolder,
+                dX,
+                dY,
+                actionState,
+                isCurrentlyActive
+            )
+                .addSwipeLeftActionIcon(R.drawable.ic_delete_red)
+                .addSwipeRightActionIcon(R.drawable.ic_check_green)
+                .create()
+                .decorate()
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
         }
 
     }

@@ -3,8 +3,6 @@ package com.example.rsparking.ui.mainactivity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
@@ -17,11 +15,13 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.rsparking.R
 import com.example.rsparking.databinding.ActivityMainBinding
+import com.example.rsparking.util.ToolbarInterface
 import com.google.android.material.navigation.NavigationView
 
 const val TAG= "MainActivity"
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+    ToolbarInterface {
     private lateinit var binding: ActivityMainBinding
     private lateinit var toolbar: Toolbar
     private lateinit var drawerLayout: DrawerLayout
@@ -34,9 +34,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toolbar = binding.toolbar
         drawerLayout = binding.drawerLayout
         navView = binding.navView
-        setSupportActionBar(binding.toolbar)
-        supportActionBar?.title = "RS Parking"
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        setSupportActionBar(toolbar)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDisplayShowHomeEnabled(true)
         val toggle = ActionBarDrawerToggle(this, drawerLayout, toolbar, 0, 0)
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
@@ -58,13 +58,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        val inflater: MenuInflater = menuInflater
-        inflater.inflate(R.menu.main, menu)
-        return true
-    }
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        item.setChecked(true)
         when (item.itemId) {
             R.id.nav_drivers -> {
                 this.findNavController(R.id.nav_host).navigate(R.id.driverListFragment)
@@ -76,7 +71,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 this.findNavController(R.id.nav_host).navigate(R.id.dropOffListFragment)
             }
             R.id.nav_history -> {
-                this.findNavController(R.id.nav_host).navigate(R.id.historyListFragment)
+                this.findNavController(R.id.nav_host).navigate(R.id.pastDropOffsListFragment)
             }
             R.id.nav_reports -> {
                 Log.i(TAG, "onNavigationItemSelected: drivers")
@@ -91,5 +86,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun getToolbarResources(title: String, visibility: Int) {
+        supportActionBar?.title = title
     }
 }

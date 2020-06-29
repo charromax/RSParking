@@ -4,16 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
 import com.example.rsparking.data.model.*
 import com.example.rsparking.util.Constants.DATABASE_NAME
-import com.example.rsparking.util.Converter
 
 @Database(
     entities = [Driver::class, Client::class, Vehicle::class, DropOff::class, ParkingLot::class],
-    version = 5, exportSchema = false
+    version = 8, exportSchema = false
 )
-@TypeConverters(Converter::class)
 abstract class RSParkingDatabase : RoomDatabase() {
 
     /**

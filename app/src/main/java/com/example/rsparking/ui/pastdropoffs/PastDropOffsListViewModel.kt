@@ -1,4 +1,4 @@
-package com.example.rsparking.ui.history
+package com.example.rsparking.ui.pastdropoffs
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
@@ -13,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-class HistoryListViewModel(application: Application) : AndroidViewModel(application) {
+class PastDropOffsListViewModel(application: Application) : AndroidViewModel(application) {
     private val database: DropOffDAO = RSParkingDatabase.getInstance(application).dropOffDAO
     private val repo: DropOffRepository
 

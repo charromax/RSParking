@@ -29,7 +29,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="28dp"
-                    android:layout_marginTop="81dp"
+                    android:layout_marginTop="48dp"
                     android:layout_marginEnd="28dp"
                     android:ems="10"
                     android:text="@={viewModel.currentClient.name}"
@@ -90,7 +90,22 @@
                     android:text="@={viewModel.currentClient.notes}"
                     android:inputType="textMultiLine"
                     android:textColor="@color/rs_black"
-                    android:textColorHint="@color/rs_lightgray"/>
+                    android:textColorHint="@color/rs_lightgray" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/client_rating"
+                    style="@style/remoteStand_Form" />
+
+                <per.wsj.library.AndRatingBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="40sp"
+                    app:starColor="@color/rs_yellow"
+                    app:starDrawable="@drawable/ic_twotone_star_empty"
+                    style="@style/ImageRatingBar"
+                    android:rating="@={viewModel.currentClient.score}"
+                    android:id="@+id/scoreBar" />
             </LinearLayout>
         </ScrollView>
         <com.google.android.material.floatingactionbutton.FloatingActionButton

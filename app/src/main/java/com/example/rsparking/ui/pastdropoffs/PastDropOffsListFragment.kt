@@ -1,9 +1,8 @@
-package com.example.rsparking.ui.history
+package com.example.rsparking.ui.pastdropoffs
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -11,17 +10,45 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.rsparking.R
 import com.example.rsparking.data.model.DropOff
-import com.example.rsparking.databinding.HistoryListFragmentBinding
-import com.example.rsparking.ui.driver.addedit.FRAG_TITLE
+import com.example.rsparking.databinding.PastDropoffsListFragmentBinding
+import com.example.rsparking.util.ToolbarInterface
 import com.google.android.material.snackbar.Snackbar
 
-const val FRAG_TITLE = "DropOff List"
 
-class HistoryListFragment : Fragment() {
+const val FRAG_TITLE = "PastDropOffs List"
 
-    private lateinit var viewModel: HistoryListViewModel
-    private lateinit var binding: HistoryListFragmentBinding
-    private lateinit var adapter: HistoryListAdapter
+class PastDropOffsListFragment : Fragment() {
+
+    private lateinit var viewModel: PastDropOffsListViewModel
+    private lateinit var binding: PastDropoffsListFragmentBinding
+    private lateinit var adapter: PastDropOffsListAdapter
+    private lateinit var toolbarCallback: ToolbarInterface
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+        toolbarCallback = activity as ToolbarInterface
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        val menuInflater = requireActivity().menuInflater
+        menuInflater.inflate(R.menu.main, menu)
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView =
+            searchItem.actionView as SearchView
+        searchView.setOnQueryTextListener(object :
+            SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(s: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(s: String): Boolean {
+                adapter.filter.filter(s.toLowerCase())
+                return false
+            }
+        })
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -29,20 +56,20 @@ class HistoryListFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(
             inflater,
-            R.layout.history_list_fragment,
+            R.layout.past_dropoffs_list_fragment,
             container,
             false
         )
         binding.lifecycleOwner = this
         val application = requireNotNull(this.activity).application
-        activity?.actionBar?.title = FRAG_TITLE
         val viewModelFactory =
-            HistoryViewModelFactory(
+            PastDropOffsViewModelFactory(
                 application
             )
         viewModel =
-            ViewModelProviders.of(this, viewModelFactory).get(HistoryListViewModel::class.java)
+            ViewModelProviders.of(this, viewModelFactory).get(PastDropOffsListViewModel::class.java)
         binding.listViewModel = viewModel
+        toolbarCallback.getToolbarResources(FRAG_TITLE, 1)
         binding.historyList.layoutManager =
             StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         setupAdapter()
@@ -50,7 +77,7 @@ class HistoryListFragment : Fragment() {
 
         viewModel.allDropoffs.observe(viewLifecycleOwner, Observer {
             it?.let {
-                adapter.submitList(it)
+                adapter.updateList(it)
             }
         })
 
@@ -77,8 +104,8 @@ class HistoryListFragment : Fragment() {
     }
 
     private fun setupAdapter() {
-        adapter = HistoryListAdapter(object :
-            HistoryListClickListener {
+        adapter = PastDropOffsListAdapter(object :
+            PastDropOffsListClickListener {
             override fun onClick(dropOff: DropOff) {
                 viewModel.onListItemClicked(dropOff)
             }

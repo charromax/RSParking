@@ -29,7 +29,7 @@
     <string name="hint_last_name">Last Name</string>
     <string name="hint_email">eMail</string>
     <string name="hint_insert_plate">Insert Plate #</string>
-    <string name="hint_phone">Phone Number</string>
+    <string name="hint_phone">Phone # as 0553559856</string>
 
 
     <string name="status_chkbox">Status</string>
@@ -134,5 +134,7 @@
     <string name="check_save_new_client">Save new Client?</string>
     <string name="select_fee_type">Select fee type:</string>
     <string name="select_service_type">Select service type:</string>
+    <string name="is_crew">is Crew?</string>
+    <string name="client_rating">Client rating:</string>
 
 </resources>

@@ -15,6 +15,13 @@ class ClientRepository(val database: ClientDAO) {
         }
     }
 
+    suspend fun getClientWithPlate(key: String): Client? {
+        return withContext(Dispatchers.IO) {
+            val foundClient = database.getClientWithPlate(key)
+            foundClient
+        }
+    }
+
     suspend fun saveNewClient(client: Client) {
         withContext(Dispatchers.IO) {
             database.insert(client)

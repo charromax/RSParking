@@ -1,16 +1,16 @@
-package com.example.rsparking.ui.history
+package com.example.rsparking.ui.pastdropoffs
 
 import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
-class HistoryViewModelFactory(
+class PastDropOffsViewModelFactory(
     private val application: Application
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(HistoryListViewModel::class.java)) {
-            return HistoryListViewModel(
+        if (modelClass.isAssignableFrom(PastDropOffsListViewModel::class.java)) {
+            return PastDropOffsListViewModel(
                 application
             ) as T
         }

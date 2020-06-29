@@ -1,5 +1,6 @@
 package com.example.rsparking.ui.driver.list
 
+import android.graphics.Canvas
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rsparking.R
 import com.example.rsparking.data.model.Driver
 import com.example.rsparking.databinding.DriverListFragmentBinding
-import com.example.rsparking.ui.driver.addedit.FRAG_TITLE
+import com.example.rsparking.util.ToolbarInterface
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 const val FRAG_TITLE = "Driver List"
 class DriverListFragment: Fragment() {
@@ -24,6 +26,13 @@ class DriverListFragment: Fragment() {
     private lateinit var viewModel: DriverListViewModel
     private lateinit var binding: DriverListFragmentBinding
     private lateinit var adapter: DriverListAdapter
+    private lateinit var toolbarCallback: ToolbarInterface
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+        toolbarCallback = activity as ToolbarInterface
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,7 +47,7 @@ class DriverListFragment: Fragment() {
         )
         binding.lifecycleOwner = this
         val application = requireNotNull(this.activity).application
-        activity?.actionBar?.title = FRAG_TITLE
+        toolbarCallback.getToolbarResources(com.example.rsparking.ui.driver.list.FRAG_TITLE, 1)
         val viewModelFactory =
             DriverListViewModelFactory(
                 application
@@ -128,6 +137,30 @@ class DriverListFragment: Fragment() {
             val alertDialog = builder.create()
             alertDialog.show()
 
+        }
+
+        override fun onChildDraw(
+            c: Canvas,
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            dX: Float,
+            dY: Float,
+            actionState: Int,
+            isCurrentlyActive: Boolean
+        ) {
+            RecyclerViewSwipeDecorator.Builder(
+                c,
+                recyclerView,
+                viewHolder,
+                dX,
+                dY,
+                actionState,
+                isCurrentlyActive
+            )
+                .addSwipeRightActionIcon(R.drawable.ic_delete_red)
+                .create()
+                .decorate()
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
         }
 
     }

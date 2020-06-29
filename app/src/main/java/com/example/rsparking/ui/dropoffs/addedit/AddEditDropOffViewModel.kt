@@ -39,11 +39,15 @@ class AddEditDropOffViewModel(
 
     // drop off info
     val currentDropOff = MutableLiveData<DropOff>()
-
+    var allClients = clientDAO.getAllClients()
 
     private val _saveDropOffEvent = MutableLiveData<Boolean>()
     val saveDropOffEvent: LiveData<Boolean>
         get() = _saveDropOffEvent
+
+    private val _foundClient = MutableLiveData<Boolean>()
+    val foundClient: LiveData<Boolean>
+        get() = _foundClient
 
     private val _dateOutClickedEvent = MutableLiveData<Boolean>()
     val dateOutClickedEvent: LiveData<Boolean>
@@ -54,6 +58,8 @@ class AddEditDropOffViewModel(
         get() = _updateDropOffEvent
 
     var isChecked = MutableLiveData<Boolean>()
+
+    var isCrew = MutableLiveData<Boolean>()
     //TODO data binding checkbox
 
     init {
@@ -62,6 +68,7 @@ class AddEditDropOffViewModel(
         dropOffID?.let {
             getDropOff(it)
         }
+        allClients = clientRepository.allClients
     }
 
     fun saveDropOff(dropOff: DropOff, client: Client?) {
@@ -111,6 +118,21 @@ class AddEditDropOffViewModel(
 
     fun doneUpdating() {
         _updateDropOffEvent.value = null
+    }
+
+    fun onPlateNumberInput(plate: CharSequence) {
+        var client: Client? = null
+        uiScope.launch {
+            client = clientRepository.getClientWithPlate(plate.toString())
+        }
+        currentDropOff.value?.let { dropOff ->
+            client?.let { client ->
+                dropOff.clientID = client.id
+                dropOff.clientName = client.name
+                dropOff.clientPhone = client.name
+                _foundClient.value = true
+            }
+        }
     }
 
 

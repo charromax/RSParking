@@ -28,6 +28,7 @@ import com.example.rsparking.R
 import com.example.rsparking.data.model.Driver
 import com.example.rsparking.databinding.DriverAddFragmentBinding
 import com.example.rsparking.util.Constants
+import com.example.rsparking.util.ToolbarInterface
 import com.google.android.material.snackbar.Snackbar
 import com.yalantis.ucrop.UCrop
 import java.io.File
@@ -36,7 +37,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 const val REQUEST_CAMERA = 1
-const val FRAG_TITLE = "Add/Edit Fragment"
+const val FRAG_TITLE = "Add/Edit Driver"
 const val PERMISSION_REQUEST_CODE = 101
 
 class AddEditDriverFragment : Fragment() {
@@ -49,7 +50,13 @@ class AddEditDriverFragment : Fragment() {
     private var currentPhotoPath = ""
     private var driverImagePath: String = ""
     private lateinit var photoURI: Uri
+    private lateinit var toolbarCallback: ToolbarInterface
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        toolbarCallback = activity as ToolbarInterface
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,8 +65,6 @@ class AddEditDriverFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.driver_add_fragment, container, false)
         binding.lifecycleOwner = this
-        val actionbar = requireActivity().actionBar
-        actionbar?.title = FRAG_TITLE
         val application = requireNotNull(this.activity).application
 
         args.selectedDriver?.let {
@@ -71,6 +76,7 @@ class AddEditDriverFragment : Fragment() {
                 driverIDArg,
                 application
             )
+        toolbarCallback.getToolbarResources(FRAG_TITLE, 1)
 
         viewModelAddEdit = ViewModelProviders.of(this, viewModelFactory)
             .get(AddEditDriverViewModel::class.java)

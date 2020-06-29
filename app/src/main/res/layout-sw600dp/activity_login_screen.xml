@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@style/Theme.AppCompat.Light">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/rs_white"
+            android:fitsSystemWindows="true"
+            android:padding="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/loginImage"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/logo_full" />
+
+            <EditText
+                android:id="@+id/txtLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/loginImage"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="16dp"
+                android:drawableStart="@drawable/ic_face_black_24dp"
+                android:drawablePadding="3dp"
+                android:ems="10"
+                android:hint="@string/login"
+                android:inputType="textPersonName"
+                android:textColor="@color/rs_black"
+                android:textColorHint="@color/rs_lightgray" />
+
+            <EditText
+                android:id="@+id/txtPass"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtLogin"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp"
+                android:drawableStart="@drawable/ic_key_black_24dp"
+                android:drawablePadding="3dp"
+                android:ems="10"
+                android:hint="@string/password"
+                android:inputType="textPassword"
+                android:textColor="@color/rs_black"
+                android:textColorHint="@color/rs_lightgray"
+                app:layout_constraintBottom_toTopOf="@+id/btnSubmit"
+                tools:layout_editor_absoluteX="99dp" />
+
+            <Button
+                android:id="@+id/btnSubmit"
+                android:layout_width="130dp"
+                android:layout_height="56dp"
+                android:layout_below="@id/txtPass"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="120dp"
+                android:background="@drawable/button_background"
+                android:text="@string/submit_button"
+                android:textColor="@color/rs_white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

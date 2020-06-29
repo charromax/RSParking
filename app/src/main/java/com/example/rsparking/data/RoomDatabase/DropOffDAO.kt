@@ -14,6 +14,9 @@ interface DropOffDAO {
     @Query("SELECT * FROM ${Constants.TABLE_DROPOFFS} where isPickedUp=1 ORDER BY dateOUT")
     fun getAllDropOffsPickedUp(): LiveData<MutableList<DropOff>>
 
+    @Query("SELECT * FROM ${Constants.TABLE_DROPOFFS} where clientID=:key ORDER BY dateOUT")
+    fun getAllDropOffsForClientID(key: String): List<DropOff>
+
     @Query("SELECT * FROM ${Constants.TABLE_DROPOFFS} WHERE id=:key ORDER BY dateOUT")
     fun getDropOff(key: String): DropOff?
 

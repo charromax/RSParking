@@ -1,6 +1,5 @@
 package com.example.rsparking.util
 
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Spinner
 import android.widget.TextView
@@ -14,11 +13,6 @@ import com.example.rsparking.util.SpinnerExtensions.getSpinnerValue
 import com.example.rsparking.util.SpinnerExtensions.setSpinnerEntries
 import com.example.rsparking.util.SpinnerExtensions.setSpinnerInverseBindingListener
 import com.example.rsparking.util.SpinnerExtensions.setSpinnerValue
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 @BindingAdapter("title")
@@ -51,6 +45,13 @@ fun ImageView.setProfilePic(imageString: String?) {
             .into(this)
     }
 }
+
+//@BindingAdapter("rating")
+//fun RatingBar.setRating(score: Float?) {
+//    score?.let {
+//        rating = score
+//    }
+//}
 
 @BindingAdapter("entries")                         //este tampoco
 fun Spinner.setEntries(entries: ArrayList<String>?) {

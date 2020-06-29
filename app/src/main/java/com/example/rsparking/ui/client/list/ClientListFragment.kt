@@ -1,11 +1,11 @@
 package com.example.rsparking.ui.client.list
 
+import android.graphics.Canvas
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rsparking.R
 import com.example.rsparking.data.model.Client
 import com.example.rsparking.databinding.ClientListFragmentBinding
-import com.example.rsparking.ui.driver.addedit.FRAG_TITLE
-import com.example.rsparking.ui.driver.list.DriverListFragmentDirections
+import com.example.rsparking.util.ToolbarInterface
+import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 const val FRAG_TITLE = "Client List"
 class ClientListFragment: Fragment() {
@@ -25,6 +25,32 @@ class ClientListFragment: Fragment() {
     private lateinit var viewModel: ClientListViewModel
     private lateinit var binding: ClientListFragmentBinding
     private lateinit var adapter: ClientListAdapter
+    private lateinit var toolbarCallback: ToolbarInterface
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+        toolbarCallback = activity as ToolbarInterface
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        val menuInflater = requireActivity().menuInflater
+        menuInflater.inflate(R.menu.main, menu)
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView =
+            searchItem.actionView as SearchView
+        searchView.setOnQueryTextListener(object :
+            SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(s: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(s: String): Boolean {
+                adapter.filter.filter(s.toLowerCase())
+                return false
+            }
+        })
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,17 +65,16 @@ class ClientListFragment: Fragment() {
         )
         binding.lifecycleOwner = this
         val application = requireNotNull(this.activity).application
-        activity?.actionBar?.title = FRAG_TITLE
         val viewModelFactory =
             ClientListViewModelFactory(
                 application
             )
+        toolbarCallback.getToolbarResources(FRAG_TITLE, 1)
         viewModel =
             ViewModelProviders.of(this, viewModelFactory).get(ClientListViewModel::class.java)
         binding.listViewModel = viewModel
         setupAdapter()
         binding.clientList.adapter = adapter
-
         val itemTouchHelper = ItemTouchHelper(listTouchHelperCallback)
         itemTouchHelper.attachToRecyclerView(binding.clientList)
 
@@ -132,5 +157,28 @@ class ClientListFragment: Fragment() {
 
         }
 
+        override fun onChildDraw(
+            c: Canvas,
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            dX: Float,
+            dY: Float,
+            actionState: Int,
+            isCurrentlyActive: Boolean
+        ) {
+            RecyclerViewSwipeDecorator.Builder(
+                c,
+                recyclerView,
+                viewHolder,
+                dX,
+                dY,
+                actionState,
+                isCurrentlyActive
+            )
+                .addSwipeRightActionIcon(R.drawable.ic_delete_red)
+                .create()
+                .decorate()
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+        }
     }
 }

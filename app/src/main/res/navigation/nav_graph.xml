@@ -40,7 +40,7 @@
             app:destination="@id/clientListFragment" />
         <action
             android:id="@+id/action_dropOffListFragment_to_historyListFragment"
-            app:destination="@id/historyListFragment" />
+            app:destination="@id/pastDropOffsListFragment" />
     </fragment>
     <fragment
         android:id="@+id/addEditDropOffFragment"
@@ -72,8 +72,8 @@
             app:nullable="true" />
     </fragment>
     <fragment
-        android:id="@+id/historyListFragment"
-        android:name="com.example.rsparking.ui.history.HistoryListFragment"
-        tools:layout="@layout/history_list_fragment"
+        android:id="@+id/pastDropOffsListFragment"
+        android:name="com.example.rsparking.ui.pastdropoffs.PastDropOffsListFragment"
+        tools:layout="@layout/past_dropoffs_list_fragment"
         android:label="HistoryListFragment" />
 </navigation>
