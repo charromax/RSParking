@@ -81,43 +81,28 @@
         <item>Cars</item>
     </string-array>
 
-    <string-array name="parking_fields">
-        <item>ID</item>
-        <item>ID Client</item>
-        <item>Date IN</item>
+    <string-array name="drop_off_headers">
+        <item>Plate Number</item>
+        <item>Client Name</item>
+        <item>Client Phone</item>
+        <item>Is Crew</item>
+        <item>Date Added</item>
         <item>Date OUT</item>
         <item>Real Date OUT</item>
-        <item>IN-House</item>
-        <item>Plate Number</item>
         <item>Parking Lot</item>
-    </string-array>
-    <string-array name="client_fields">
-        <item>ID</item>
-        <item>Name</item>
-        <item>Last Name</item>
-        <item>Phone</item>
-        <item>E-Mail</item>
-        <item>Plan</item>
-        <item>Payment Mode</item>
-        <item>Online Receipt</item>
-        <item>Notes</item>
+        <item>Service Type</item>
+        <item>Fee Type</item>
         <item>Score</item>
     </string-array>
-    <string-array name="driver_fields">
+    <string-array name="client_headers">
         <item>ID</item>
         <item>Name</item>
-        <item>Last Name</item>
         <item>Phone</item>
         <item>E-Mail</item>
-        <item>Status</item>
-    </string-array>
-    <string-array name="car_fields">
         <item>Plate Number</item>
-        <item>ID Client</item>
-        <item>Color</item>
-        <item>Brand</item>
-        <item>Model</item>
-        <item>Notes</item>
+        <item>Client Since</item>
+        <item>Is Crew</item>
+        <item>Score</item>
     </string-array>
     <string name="sms_message">Hi %1$s! Thank you for trusting us with your car while you\'re away,
      we\'ll be happy to welcome you back on %2$s to pick it up with Pickup ID #%3$s . If this changes or is not correct, please

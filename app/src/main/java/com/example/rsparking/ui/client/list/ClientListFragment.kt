@@ -1,11 +1,17 @@
 package com.example.rsparking.ui.client.list
 
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Canvas
 import android.os.Bundle
+import android.os.Environment
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,8 +22,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.rsparking.R
 import com.example.rsparking.data.model.Client
 import com.example.rsparking.databinding.ClientListFragmentBinding
+import com.example.rsparking.ui.driver.addedit.PERMISSION_REQUEST_CODE
 import com.example.rsparking.util.ToolbarInterface
+import com.google.android.material.snackbar.Snackbar
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
+import java.io.File
+import java.io.FileWriter
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 const val FRAG_TITLE = "Client List"
 class ClientListFragment: Fragment() {
@@ -26,11 +39,131 @@ class ClientListFragment: Fragment() {
     private lateinit var binding: ClientListFragmentBinding
     private lateinit var adapter: ClientListAdapter
     private lateinit var toolbarCallback: ToolbarInterface
+    private val STORAGE_PERMISSION_CODE = 4
+    private var tableFileName = ""
+    private lateinit var storagePermission: Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         toolbarCallback = activity as ToolbarInterface
+        storagePermission = arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (adapter.currentList.size > 0) {
+            if (item.itemId == R.id.action_export) {
+                if (checkStoragePermission()) {
+                    exportCSVandShare()
+                } else {
+                    requestPermission()
+                }
+                return false
+            }
+        } else {
+            Toast.makeText(requireContext(), "The list is empty!", Toast.LENGTH_SHORT).show()
+            return super.onOptionsItemSelected(item)
+        }
+        return false
+    }
+
+    private fun checkStoragePermission(): Boolean {
+        return (ContextCompat.checkSelfPermission(
+            requireContext(),
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED)
+    }
+
+    private fun requestPermission() {
+        ActivityCompat.requestPermissions(
+            requireActivity(),
+            storagePermission,
+            PERMISSION_REQUEST_CODE
+        )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == STORAGE_PERMISSION_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                //permission granted
+                exportCSVandShare()
+            } else {
+                //permission allowed
+                Snackbar.make(requireView(), "Permission denied", Snackbar.LENGTH_SHORT)
+            }
+        }
+    }
+
+    private fun exportCSVandShare(): Boolean {
+        val fullPathFilename = createCSVFile()
+
+        val tableArray = makeTableArray()
+        try {
+            val fileWriter = FileWriter(fullPathFilename)
+            for (row in tableArray) {
+                for (i in row.indices) {
+                    if (i == (row.size - 1)) {
+                        fileWriter.append("${row[i]}\n")
+                    } else {
+                        fileWriter.append("${row[i]},")
+                    }
+                }
+            }
+            fileWriter.flush()
+            fileWriter.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        shareFile()
+        return true
+    }
+
+    private fun shareFile() {
+        val fileLocation = File(
+            requireActivity().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS),
+            tableFileName
+        )
+        val path = FileProvider.getUriForFile(
+            requireContext(),
+            "com.example.rsparking.fileprovider",
+            fileLocation
+        )
+
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = "text/csv"
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        shareIntent.putExtra(Intent.EXTRA_STREAM, path)
+        startActivity(
+            Intent.createChooser(shareIntent, "Export table to:")
+        )
+    }
+
+    private fun createCSVFile(): String {
+        val timeStamp = SimpleDateFormat(
+            "MMdd_HHmm",
+            Locale.getDefault()
+        ).format(Date())
+        tableFileName = "CNT_$timeStamp.csv"
+        val storageDir = requireActivity().getExternalFilesDir(Environment.DIRECTORY_DOCUMENTS)
+
+        return "$storageDir/$tableFileName"
+    }
+
+    private fun makeTableArray(): ArrayList<ArrayList<String>> {
+        val headers =
+            ArrayList<String>(Arrays.asList(*resources.getStringArray(R.array.client_headers)))
+        val data = ArrayList<Client>(adapter.currentList)
+        var array = ArrayList<ArrayList<String>>()
+        array.add(headers)
+        for (item in data) {
+            array.add(item.toArrayList())
+        }
+        return array
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

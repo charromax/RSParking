@@ -4,11 +4,6 @@
         name="my_images"
         path="Android/data/com.example.rsparking/files/Pictures" />
     <external-path
-        name="my_clients"
-        path="Android/data/com.example.rsparking/files/DCIM" />
-    <files-paths
         name="exported_tables"
-        path="Android/data/com.example.rsparking/files/Export">
-
-    </files-paths>
+        path="Android/data/com.example.rsparking/files/Documents" />
 </paths>

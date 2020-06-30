@@ -26,4 +26,27 @@ data class DropOff(
     var notes: String = "",
     var score: Float = 0.0f
 ) : Parcelable {
+    override fun toString(): String {
+        return "${plateNumber},${clientName},${clientPhone},${isCrew},${dateAdded},${dateOUT},${realDateOut},${parkingLot},${serviceType},${feeType},${score}"
+    }
+
+    fun toArrayList(): ArrayList<String> {
+        var array = ArrayList<String>()
+        array.addAll(
+            listOf(
+                this.plateNumber,
+                this.clientName,
+                this.clientPhone,
+                this.isCrew.toString(),
+                this.dateAdded,
+                this.dateOUT,
+                this.realDateOut,
+                this.parkingLot,
+                this.serviceType,
+                this.feeType,
+                this.score.toString()
+            )
+        )
+        return array
+    }
 }

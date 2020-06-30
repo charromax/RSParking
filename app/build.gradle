@@ -88,5 +88,6 @@ dependencies {
     implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
     implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.3'
     implementation 'com.github.giswangsj:AndRatingBar:1.0.4'
+    implementation files('libs/opencsv-5.1.jar')
 
 }

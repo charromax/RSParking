@@ -26,6 +26,10 @@ class PastDropOffsListViewModel(application: Application) : AndroidViewModel(app
     val dropOffsByDate: LiveData<List<DropOff>>
         get() = _dropOffsByDate
 
+    private val _finishExport = MutableLiveData<Boolean>()
+    val finishExport: LiveData<Boolean>
+        get() = _finishExport
+
     private val _navigateToAddEditFragmentWithDropOff = MutableLiveData<DropOff>()
     val navigateToAddEditFragmentWithDropOff: LiveData<DropOff>
         get() = _navigateToAddEditFragmentWithDropOff
@@ -58,8 +62,23 @@ class PastDropOffsListViewModel(application: Application) : AndroidViewModel(app
         }
     }
 
-    fun onFabClicked() {
+    fun onFinishExport() {
+        _finishExport.value = true
+    }
 
+    fun onFinishDeleteAll() {
+        _finishExport.value = null
+    }
+
+    fun onConfirmDeleteAll() {
+        deleteAll()
+
+    }
+
+    private fun deleteAll() {
+        uiScope.launch {
+            repo.deleteAllDropOffPickedUp()
+        }
     }
 
     private fun deleteDropOff(dropOff: DropOff) {

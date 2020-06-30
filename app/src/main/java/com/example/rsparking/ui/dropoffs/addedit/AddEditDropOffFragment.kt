@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
-import android.telephony.PhoneNumberUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -70,6 +69,9 @@ class AddEditDropOffFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         args.selectedDropOff?.let {
             dropOffIDarg = it.id
             currentDropOff = it
+            binding.isCrewCheckBox.isChecked = it.isCrew
+            binding.saveClientCheckBox.visibility = View.GONE
+            binding.crewIcon.visibility = if (it.isCrew) View.VISIBLE else View.GONE
         }
         val viewModelFactory =
             AddEditDropOffViewModelFactory(
@@ -131,7 +133,7 @@ class AddEditDropOffFragment : Fragment(), DatePickerDialog.OnDateSetListener,
 
     private fun createConfirmationDialog(dropOff: DropOff) {
         val builder = AlertDialog.Builder(requireContext())
-        builder.setTitle("Confirm delete")
+        builder.setTitle("Send Message?")
         builder.setMessage(resources.getString(R.string.confirm_send_message))
         builder.setPositiveButton(R.string.yes) { dialog, which ->
             if (foundClient != null) {
@@ -190,12 +192,12 @@ class AddEditDropOffFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                 R.string.sms_message,
                 dropOff.clientName,
                 formatterForMSG.format(pickupDate),
-                dropOff.id
+                dropOff.id.takeLast(4)
             )
         )
         intent.setPackage(whatsAppAppId)
         intent.putExtra(Intent.EXTRA_TEXT, text);
-        val smsNumber = PhoneNumberUtils.stripSeparators(dropOff.clientPhone)
+        val smsNumber = "+".plus(dropOff.clientPhone)
         intent.putExtra(
             "jid",
             "$smsNumber@s.whatsapp.net"

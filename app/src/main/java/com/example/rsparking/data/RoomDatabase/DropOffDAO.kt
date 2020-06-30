@@ -29,8 +29,8 @@ interface DropOffDAO {
     @Update
     suspend fun update(dropOff: DropOff)
 
-    @Query("DELETE FROM ${Constants.TABLE_DROPOFFS}")
-    suspend fun deleteAllDropOffs()
+    @Query("DELETE FROM ${Constants.TABLE_DROPOFFS} WHERE isPickedUp=1")
+    suspend fun deleteAllDropOffsPickedUp()
 
     @Delete
     suspend fun delete(dropOff: DropOff)

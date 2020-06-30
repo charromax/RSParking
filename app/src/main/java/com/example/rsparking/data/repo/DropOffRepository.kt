@@ -47,4 +47,10 @@ class DropOffRepository(val database: DropOffDAO) {
             database.delete(dropOff)
         }
     }
+
+    suspend fun deleteAllDropOffPickedUp() {
+        withContext(Dispatchers.IO) {
+            database.deleteAllDropOffsPickedUp()
+        }
+    }
 }

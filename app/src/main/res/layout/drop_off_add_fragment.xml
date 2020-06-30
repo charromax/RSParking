@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -23,6 +24,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/crewIcon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_margin="24dp"
+                    tools:visibility="visible"
+                    android:layout_gravity="end"
+                    android:src="@drawable/ic_baseline_airplanemode_active_24"
+                    android:visibility="gone" />
 
                 <AutoCompleteTextView
                     android:id="@+id/txtPlateNumber"
@@ -174,17 +185,16 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="28dp"
                         android:layout_marginTop="16dp"
-                        android:layout_marginEnd="28dp"
                         android:checked="@={viewModel.isChecked}"
                         android:text="@string/check_save_new_client" />
 
                     <CheckBox
                         android:id="@+id/isCrewCheckBox"
-                        android:layout_alignParentEnd="true"
+                        android:layout_toEndOf="@id/saveClientCheckBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:layout_marginEnd="28dp"
+                        android:layout_marginStart="28dp"
                         android:checked="@={viewModel.isCrew}"
                         android:text="@string/is_crew" />
                 </RelativeLayout>

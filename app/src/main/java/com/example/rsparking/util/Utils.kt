@@ -16,3 +16,8 @@ fun formatPhoneNumber(number: String): String? {
     )
     return number
 }
+
+fun createHeaderString(headers: List<String>): String {
+    return headers.joinToString { it }
+}
+

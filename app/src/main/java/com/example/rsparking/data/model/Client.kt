@@ -24,4 +24,21 @@ data class Client(
         return "${plateNumber}"
     }
 
+    fun toArrayList(): ArrayList<String> {
+        var array = ArrayList<String>()
+        array.addAll(
+            listOf(
+                this.id,
+                this.name,
+                this.phone,
+                this.eMail,
+                this.plateNumber,
+                this.dateAdded,
+                this.isCrew.toString(),
+                this.score.toString()
+            )
+        )
+        return array
+    }
+
 }
