@@ -6,7 +6,7 @@
     <color name="colorPrimaryDark">#4a62ff</color>
     <color name="colorAccent">#0aa3f5</color>
     <color name="rs_lightblue">#4a62ff</color>
-    <color name="rs_darkblue">#3e50c7</color>
+    <color name="rs_lighterblue">#BBDEFB</color>
     <color name="rs_lightgray">#BABABA</color>
     <color name="rs_white">#F4F4F4</color>
     <color name="rs_full_white">#F4F4F4FF</color>

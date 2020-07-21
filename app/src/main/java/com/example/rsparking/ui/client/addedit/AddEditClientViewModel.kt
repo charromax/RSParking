@@ -81,12 +81,12 @@ class AddEditClientViewModel(
 
     private fun setClientAVGScore() {
         //TODO improve this
-        var scoreList = listOf<DropOff>()
+        var scoreList: ArrayList<DropOff>
         var score = 0.0f
         var sum = 0.0f
         currentClient.value?.let {
             uiScope.launch {
-                scoreList = dropRepo.getDropOffsForClientID(it.id)
+                scoreList = ArrayList(dropRepo.getDropOffsForClientID(it.id))
                 for (item in scoreList) {
                     sum += item.score
                 }

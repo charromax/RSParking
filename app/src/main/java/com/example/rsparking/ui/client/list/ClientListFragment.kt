@@ -238,8 +238,10 @@ class ClientListFragment: Fragment() {
         viewModel.doneDeletingItem.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (it) {
-                    Toast.makeText(requireContext(), R.string.on_item_deleted, Toast.LENGTH_SHORT)
-                        .show()
+                    Snackbar.make(binding.root, R.string.on_item_deleted, Snackbar.LENGTH_LONG)
+                        .setAction("UNDO", {
+                            viewModel.putBackIntoList()
+                        }).show()
                 }
             }
         })

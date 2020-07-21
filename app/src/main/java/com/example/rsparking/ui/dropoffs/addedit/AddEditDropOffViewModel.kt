@@ -57,7 +57,6 @@ class AddEditDropOffViewModel(
     val updateDropOffEvent: LiveData<Boolean>
         get() = _updateDropOffEvent
 
-    var isChecked = MutableLiveData<Boolean>()
 
     var isCrew = MutableLiveData<Boolean>()
     //TODO data binding checkbox
@@ -129,7 +128,8 @@ class AddEditDropOffViewModel(
             client?.let { client ->
                 dropOff.clientID = client.id
                 dropOff.clientName = client.name
-                dropOff.clientPhone = client.name
+                dropOff.clientPhone = client.phone
+                dropOff.isCrew = client.isCrew
                 _foundClient.value = true
             }
         }

@@ -21,6 +21,7 @@ class PastDropOffsListViewModel(application: Application) : AndroidViewModel(app
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     val allDropoffs = database.getAllDropOffsPickedUp()
+    private var undoList = ArrayList<DropOff>()
 
     private val _dropOffsByDate = MutableLiveData<List<DropOff>>()
     val dropOffsByDate: LiveData<List<DropOff>>
@@ -40,6 +41,9 @@ class PastDropOffsListViewModel(application: Application) : AndroidViewModel(app
 
     init {
         repo = DropOffRepository(database)
+        allDropoffs.value?.let {
+            undoList = ArrayList(it)
+        }
     }
 
     fun onListItemClicked(dropOff: DropOff) {
@@ -62,17 +66,27 @@ class PastDropOffsListViewModel(application: Application) : AndroidViewModel(app
         }
     }
 
+    fun putBackIntoList() {
+        uiScope.launch {
+            if (undoList.size > 0) {
+                for (item in undoList) {
+                    repo.saveNewDropOff(item)
+                }
+            }
+        }
+    }
+
     fun onFinishExport() {
         _finishExport.value = true
     }
 
     fun onFinishDeleteAll() {
         _finishExport.value = null
+        _doneDeletingItem.value = true
     }
 
     fun onConfirmDeleteAll() {
         deleteAll()
-
     }
 
     private fun deleteAll() {

@@ -40,55 +40,40 @@
                     android:hint="@string/hint_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="28dp"
                     android:layout_marginTop="81dp"
-                    android:layout_marginEnd="28dp"
                     android:ems="10"
                     android:text="@={driverViewModel.currentdriver.name}"
                     android:inputType="textPersonName"
-                    android:textColor="@color/rs_black"
-                    android:textColorHint="@color/rs_lightgray" />
+                    style="@style/rstand_form" />
 
                 <EditText
                     android:id="@+id/txtLastName"
                     android:hint="@string/hint_last_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="28dp"
+                    style="@style/rstand_form"
                     android:ems="10"
                     android:text="@={driverViewModel.currentdriver.lastName}"
-                    android:inputType="textPersonName"
-                    android:textColor="@color/rs_black"
-                    android:textColorHint="@color/rs_lightgray" />
+                    android:inputType="textPersonName" />
 
                 <EditText
                     android:id="@+id/txtEmail"
                     android:hint="@string/hint_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="28dp"
+                    style="@style/rstand_form"
                     android:ems="10"
                     android:text="@={driverViewModel.currentdriver.eMail}"
-                    android:inputType="textEmailAddress"
-                    android:textColor="@color/rs_black"
-                    android:textColorHint="@color/rs_lightgray" />
+                    android:inputType="textEmailAddress" />
 
                 <EditText
                     android:id="@+id/txtPhone"
                     android:hint="@string/hint_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="28dp"
+                    style="@style/rstand_form"
                     android:text="@={driverViewModel.currentdriver.phone}"
-                    android:inputType="phone"
-                    android:textColor="@color/rs_black"
-                    android:textColorHint="@color/rs_lightgray"/>
+                    android:inputType="phone" />
             </LinearLayout>
         </ScrollView>
             <com.google.android.material.floatingactionbutton.FloatingActionButton

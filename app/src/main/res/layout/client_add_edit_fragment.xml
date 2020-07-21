@@ -28,64 +28,48 @@
                     android:hint="@string/hint_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="28dp"
                     android:layout_marginTop="48dp"
-                    android:layout_marginEnd="28dp"
                     android:ems="10"
                     android:text="@={viewModel.currentClient.name}"
                     android:inputType="textPersonName"
-                    android:textColor="@color/rs_black"
-                    android:textColorHint="@color/rs_lightgray" />
+                    style="@style/rstand_form" />
 
                 <EditText
                     android:id="@+id/txtPlate"
                     android:hint="@string/hint_plate_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="28dp"
+                    style="@style/rstand_form"
                     android:ems="10"
                     android:text="@={viewModel.currentClient.plateNumber}"
-                    android:inputType="textCapWords"
-                    android:textColor="@color/rs_black"
-                    android:textColorHint="@color/rs_lightgray" />
+                    android:inputType="textCapWords" />
 
                 <EditText
                     android:id="@+id/txtEmail"
                     android:hint="@string/hint_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="28dp"
+                    style="@style/rstand_form"
                     android:ems="10"
                     android:text="@={viewModel.currentClient.eMail}"
-                    android:inputType="textEmailAddress"
-                    android:textColor="@color/rs_black"
-                    android:textColorHint="@color/rs_lightgray" />
+                    android:inputType="textEmailAddress" />
 
                 <EditText
                     android:id="@+id/txtPhoneNumber"
                     android:hint="@string/hint_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="28dp"
+                    style="@style/rstand_form"
                     android:text="@={viewModel.currentClient.phone}"
-                    android:inputType="phone"
-                    android:textColor="@color/rs_black"
-                    android:textColorHint="@color/rs_lightgray"/>
+                    android:inputType="phone" />
+
                 <EditText
                     android:id="@+id/txtNotes"
                     android:hint="@string/notes_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="28dp"
-                    android:gravity="top"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="28dp"
+                    style="@style/rstand_form"
+                    android:gravity="bottom"
                     android:lines="6"
                     android:text="@={viewModel.currentClient.notes}"
                     android:inputType="textMultiLine"
@@ -96,7 +80,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/client_rating"
-                    style="@style/remoteStand_Form" />
+                    style="@style/rstand_form"
+                    android:background="@android:color/transparent" />
 
                 <per.wsj.library.AndRatingBar
                     android:layout_width="wrap_content"

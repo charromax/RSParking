@@ -6,12 +6,12 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/rs_white">
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/rs_white"
             android:fitsSystemWindows="true"
             android:padding="20dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -34,14 +34,12 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/loginImage"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="16dp"
                 android:drawableStart="@drawable/ic_face_black_24dp"
                 android:drawablePadding="3dp"
                 android:ems="10"
                 android:hint="@string/login"
                 android:inputType="textPersonName"
-                android:textColor="@color/rs_black"
-                android:textColorHint="@color/rs_lightgray" />
+                style="@style/rstand_form" />
 
             <EditText
                 android:id="@+id/txtPass"
@@ -56,8 +54,7 @@
                 android:ems="10"
                 android:hint="@string/password"
                 android:inputType="textPassword"
-                android:textColor="@color/rs_black"
-                android:textColorHint="@color/rs_lightgray"
+                style="@style/rstand_form"
                 app:layout_constraintBottom_toTopOf="@+id/btnSubmit"
                 tools:layout_editor_absoluteX="99dp" />
 

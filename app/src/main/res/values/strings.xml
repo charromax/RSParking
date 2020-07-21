@@ -11,7 +11,7 @@
     <string name="add_car_button">Add Car</string>
     <string name="submit_button">Submit</string>
     <string name="date_in_button">Date IN</string>
-    <string name="date_out_button">Double tap to select date OUT</string>
+    <string name="date_out_button">Tap to select date OUT</string>
     <string name="search_menu">Search</string>
 
     <string name="activity_main_screen">Main Screen</string>
@@ -29,7 +29,7 @@
     <string name="hint_last_name">Last Name</string>
     <string name="hint_email">eMail</string>
     <string name="hint_insert_plate">Insert Plate #</string>
-    <string name="hint_phone">Phone # as 0553559856</string>
+    <string name="hint_phone">Phone # as 971553559856</string>
 
 
     <string name="status_chkbox">Status</string>
@@ -104,11 +104,7 @@
         <item>Is Crew</item>
         <item>Score</item>
     </string-array>
-    <string name="sms_message">Hi %1$s! Thank you for trusting us with your car while you\'re away,
-     we\'ll be happy to welcome you back on %2$s to pick it up with Pickup ID #%3$s . If this changes or is not correct, please
-     let us know at +971(058)597-8952. Have a great day! The Remote Stand driver team.</string>
-
-
+    <string name="sms_message">Hi %1$s! Your car will be ready on %2$s with Pickup ID: %3$s. See you soon!</string>
     <string name="meta_position">1</string>
     <string name="meta_title">meta_title</string>
     <string name="main_title">Main Title</string>

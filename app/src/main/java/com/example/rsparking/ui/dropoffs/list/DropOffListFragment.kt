@@ -211,7 +211,8 @@ class DropOffListFragment : Fragment() {
         viewModel =
             ViewModelProviders.of(this, viewModelFactory).get(DropOffListViewModel::class.java)
         binding.listViewModel = viewModel
-        binding.dropOffList.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        binding.dropOffList.layoutManager =
+            StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL)
         setupAdapter()
         binding.dropOffList.adapter = adapter
 
@@ -247,14 +248,14 @@ class DropOffListFragment : Fragment() {
         viewModel.doneDeletingItem.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (it) {
-                    Snackbar.make(binding.root, R.string.on_item_deleted, Snackbar.LENGTH_SHORT)
+                    Snackbar.make(binding.root, R.string.on_item_deleted, Snackbar.LENGTH_LONG)
                         .show()
                 }
             }
         })
         viewModel.doneDeliveringCar.observe(viewLifecycleOwner, Observer {
             it?.let {
-                Snackbar.make(binding.root, R.string.saved_succesfully, Snackbar.LENGTH_SHORT)
+                Snackbar.make(binding.root, R.string.saved_succesfully, Snackbar.LENGTH_LONG)
                     .show()
             }
         })

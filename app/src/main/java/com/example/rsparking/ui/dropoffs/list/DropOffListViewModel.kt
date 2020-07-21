@@ -20,6 +20,8 @@ class DropOffListViewModel(application: Application) : AndroidViewModel(applicat
     private val database: DropOffDAO = RSParkingDatabase.getInstance(application).dropOffDAO
     private val repo: DropOffRepository
     private val formatter = SimpleDateFormat(Constants.FOR_SQL)
+    private var undoItem = DropOff()
+    private var undoItemPosition: Int = 0
 
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -88,6 +90,7 @@ class DropOffListViewModel(application: Application) : AndroidViewModel(applicat
         allDropoffs.value?.let {
             val dropOffToDelete = it[position]
             deleteDropOff(dropOffToDelete)
+            undoItem = dropOffToDelete
         }
     }
 
@@ -113,9 +116,9 @@ class DropOffListViewModel(application: Application) : AndroidViewModel(applicat
     }
 
 
-    fun getDropOffByDate(date: String) {
+    fun putBackIntoList() {
         uiScope.launch {
-            _dropOffsByDate.value = repo.getDropOffByDateOut(date)
+            repo.saveNewDropOff(undoItem)
         }
     }
 

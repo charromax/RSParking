@@ -34,6 +34,8 @@ class ClientListViewModel(application: Application): AndroidViewModel(applicatio
     val doneDeletingItem: LiveData<Boolean>
         get() = _doneDeletingItem
 
+    private var undoItem = Client()
+
 
     init {
         repo = ClientRepository(database)
@@ -77,6 +79,12 @@ class ClientListViewModel(application: Application): AndroidViewModel(applicatio
             repo.deleteClientFromDatabase(client)
         }
         doneDeletingItem()
+    }
+
+    fun putBackIntoList() {
+        uiScope.launch {
+            repo.saveNewClient(undoItem)
+        }
     }
 
     override fun onCleared() {

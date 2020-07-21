@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="viewModel"
             type="com.example.rsparking.ui.dropoffs.addedit.AddEditDropOffViewModel" />
@@ -29,175 +28,135 @@
                     android:id="@+id/crewIcon"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:layout_margin="24dp"
-                    tools:visibility="visible"
                     android:layout_gravity="end"
+                    android:layout_margin="24dp"
                     android:src="@drawable/ic_baseline_airplanemode_active_24"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    tools:visibility="visible" />
 
                 <AutoCompleteTextView
                     android:id="@+id/txtPlateNumber"
+                    style="@style/rstand_form"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginTop="48dp"
-                    android:layout_marginEnd="28dp"
                     android:ems="10"
                     android:hint="@string/hint_plate_number"
-                    android:text="@={viewModel.currentDropOff.plateNumber}"
-                    android:textColor="@color/rs_black"
-                    android:textColorHint="@color/rs_lightgray" />
+                    android:text="@={viewModel.currentDropOff.plateNumber}" />
 
                 <EditText
                     android:id="@+id/txtClientName"
+                    style="@style/rstand_form"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="28dp"
                     android:ems="10"
                     android:hint="@string/hint_name"
                     android:inputType="textPersonName"
-                    android:text="@={viewModel.currentDropOff.clientName}"
-                    android:textColor="@color/rs_black"
-                    android:textColorHint="@color/rs_lightgray" />
+                    android:text="@={viewModel.currentDropOff.clientName}" />
 
                 <EditText
                     android:id="@+id/txtClientPhone"
+                    style="@style/rstand_form"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="28dp"
                     android:ems="10"
                     android:hint="@string/hint_phone"
                     android:inputType="phone"
-                    android:text="@={viewModel.currentDropOff.clientPhone}"
-                    android:textColor="@color/rs_black"
-                    android:textColorHint="@color/rs_lightgray" />
+                    android:text="@={viewModel.currentDropOff.clientPhone}" />
 
                 <EditText
                     android:id="@+id/txtDateOut"
+                    style="@style/rstand_form"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:hint="@string/date_out_button"
+                    android:inputType="none"
+                    android:onClick="@{() -> viewModel.openPicker()}"
+                    android:text="@={viewModel.currentDropOff.dateOUT}" />
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="28dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="28dp"
-                    android:editable="false"
-                    android:hint="@string/date_out_button"
-                    android:clickable="true"
-                    android:inputType="datetime"
-                    android:text="@={viewModel.currentDropOff.dateOUT}"
-                    android:onClick="@{() -> viewModel.openPicker()}"
-                    android:textColor="@color/rs_black"
-                    android:textColorHint="@color/rs_lightgray" />
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/select_fee_type"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="28dp"/>
+                    android:text="@string/select_fee_type" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/spinFeeType"
+                    android:layout_marginTop="0dp"
+                    style="@style/rstand_form"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginEnd="28dp"
+                    android:hint="@string/hint_fee"
                     android:spinnerMode="dropdown"
                     app:entries="@{viewModel.feeTypes}"
-                    app:selectedValue="@={viewModel.currentDropOff.feeType}"
-                    android:hint="@string/hint_fee"
-                    android:textColor="@color/rs_black"
-                    android:textColorHint="@color/rs_lightgray" />
+                    app:selectedValue="@={viewModel.currentDropOff.feeType}" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/select_service_type"
                     android:layout_marginStart="28dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="28dp"/>
+                    android:layout_marginEnd="28dp"
+                    android:text="@string/select_service_type" />
 
                 <androidx.appcompat.widget.AppCompatSpinner
                     android:id="@+id/spinServiceType"
+                    style="@style/rstand_form"
+                    android:layout_marginTop="0dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginEnd="28dp"
                     android:hint="@string/hint_service"
                     app:entries="@{viewModel.serviceTypes}"
-                    app:selectedValue="@={viewModel.currentDropOff.serviceType}"
-                    android:textColor="@color/rs_black"
-                    android:textColorHint="@color/rs_lightgray" />
+                    app:selectedValue="@={viewModel.currentDropOff.serviceType}" />
 
                 <EditText
                     android:id="@+id/txtParkingLot"
+                    style="@style/rstand_form"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="28dp"
                     android:hint="@string/hint_parking_lot"
                     android:inputType="text"
-                    android:text="@={viewModel.currentDropOff.parkingLot}"
-                    android:textColor="@color/rs_black"
-                    android:textColorHint="@color/rs_lightgray" />
+                    android:text="@={viewModel.currentDropOff.parkingLot}" />
+
                 <EditText
                     android:id="@+id/txtNotes"
+                    style="@style/rstand_form"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="28dp"
-                    android:layout_marginTop="16dp"
-                    android:lines="3"
-                    android:maxLines="3"
-                    android:layout_marginEnd="28dp"
                     android:hint="@string/notes_text"
                     android:inputType="text"
-                    android:text="@={viewModel.currentDropOff.parkingLot}"
-                    android:textColor="@color/rs_black"
-                    android:textColorHint="@color/rs_lightgray" />
+                    android:lines="3"
+                    android:maxLines="3"
+                    android:text="@={viewModel.currentDropOff.notes}" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/rating"
                     android:layout_marginStart="28dp"
                     android:layout_marginTop="16dp"
-                    android:layout_marginEnd="28dp" />
+                    android:layout_marginEnd="28dp"
+                    android:text="@string/rating" />
 
                 <per.wsj.library.AndRatingBar
-                    app:starDrawable="@drawable/ic_twotone_star_empty"
                     android:id="@+id/scoreBar"
+                    style="@style/ImageRatingBar"
                     android:layout_width="wrap_content"
-                    app:starColor="@color/rs_yellow"
                     android:layout_height="45sp"
                     android:rating="@={viewModel.currentDropOff.score}"
-                    style="@style/ImageRatingBar" />
+                    app:starColor="@color/rs_yellow"
+                    app:starDrawable="@drawable/ic_twotone_star_empty" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <CheckBox
-                        android:id="@+id/saveClientCheckBox"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="28dp"
-                        android:layout_marginTop="16dp"
-                        android:checked="@={viewModel.isChecked}"
-                        android:text="@string/check_save_new_client" />
-
-                    <CheckBox
-                        android:id="@+id/isCrewCheckBox"
-                        android:layout_toEndOf="@id/saveClientCheckBox"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginStart="28dp"
-                        android:checked="@={viewModel.isCrew}"
-                        android:text="@string/is_crew" />
-                </RelativeLayout>
+                <CheckBox
+                    android:id="@+id/isCrewCheckBox"
+                    style="@style/rstand_form"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/transparent"
+                    android:checked="@={viewModel.isCrew}"
+                    android:text="@string/is_crew" />
             </LinearLayout>
         </ScrollView>
 
@@ -207,6 +166,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
             android:layout_margin="16dp"
+            android:background="@color/colorAccent"
             android:backgroundTint="@color/colorAccent"
             android:onClick="@{() -> viewModel.onSaveEvent()}"
             android:src="@drawable/ic_save_button" />

@@ -207,7 +207,7 @@ class PastDropOffsListFragment : Fragment() {
         binding.listViewModel = viewModel
         toolbarCallback.getToolbarResources(FRAG_TITLE, 1)
         binding.historyList.layoutManager =
-            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL)
         setupAdapter()
         binding.historyList.adapter = adapter
 
@@ -238,8 +238,12 @@ class PastDropOffsListFragment : Fragment() {
         viewModel.doneDeletingItem.observe(viewLifecycleOwner, Observer {
             it?.let {
                 if (it) {
-                    Snackbar.make(binding.root, R.string.on_item_deleted, Snackbar.LENGTH_SHORT)
-                        .show()
+                    Snackbar.make(binding.root, R.string.on_item_deleted, Snackbar.LENGTH_LONG)
+                        .setAction("UNDO", {
+                            viewModel.putBackIntoList()
+                            adapter.notifyDataSetChanged()
+                        }).show()
+
                 }
             }
         })

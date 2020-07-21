@@ -2,6 +2,7 @@ package com.example.rsparking.ui.dropoffs.addedit
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
@@ -70,7 +71,6 @@ class AddEditDropOffFragment : Fragment(), DatePickerDialog.OnDateSetListener,
             dropOffIDarg = it.id
             currentDropOff = it
             binding.isCrewCheckBox.isChecked = it.isCrew
-            binding.saveClientCheckBox.visibility = View.GONE
             binding.crewIcon.visibility = if (it.isCrew) View.VISIBLE else View.GONE
         }
         val viewModelFactory =
@@ -136,11 +136,7 @@ class AddEditDropOffFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         builder.setTitle("Send Message?")
         builder.setMessage(resources.getString(R.string.confirm_send_message))
         builder.setPositiveButton(R.string.yes) { dialog, which ->
-            if (foundClient != null) {
-                addContactToDevice(dropOff)
-            } else {
                 sendWhatsAppMsg(dropOff)
-            }
         }
         builder.setNegativeButton(R.string.no) { dialog, which ->
             Toast.makeText(requireContext(), R.string.on_cancel_delete, Toast.LENGTH_SHORT)
@@ -183,39 +179,27 @@ class AddEditDropOffFragment : Fragment(), DatePickerDialog.OnDateSetListener,
 
     private fun sendWhatsAppMsg(dropOff: DropOff) {
         val pickupDate = formatter.parse(dropOff.dateOUT)
-        val whatsAppAppId = "com.whatsapp"
-        val packageManager = requireActivity().packageManager
-        val intent = Intent(Intent.ACTION_SEND)
-        intent.type = "text/plain"
+        val msgID = dropOff.id.takeLast(4).toUpperCase()
         val text = String.format(
             resources.getString(
                 R.string.sms_message,
                 dropOff.clientName,
                 formatterForMSG.format(pickupDate),
-                dropOff.id.takeLast(4)
+                msgID
             )
         )
-        intent.setPackage(whatsAppAppId)
-        intent.putExtra(Intent.EXTRA_TEXT, text);
-        val smsNumber = "+".plus(dropOff.clientPhone)
-        intent.putExtra(
-            "jid",
-            "$smsNumber@s.whatsapp.net"
-        ) //phone number without "+" prefix
-
-
-        if (intent.resolveActivity(packageManager) == null) {
-            Toast.makeText(requireContext(), "Whatsapp not installed.", Toast.LENGTH_SHORT)
-                .show()
-            return
-        }
-        startActivity(intent)
+        val uri: Uri =
+            Uri.parse("https://api.whatsapp.com/send?phone=${dropOff.clientPhone}&text=$text") // phone = int phone number
+        val sendIntent = Intent(
+            Intent.ACTION_VIEW,
+            uri
+        )                                                // text = message
+        startActivity(sendIntent)
     }
 
 
     private fun setNewClient(dropOff: DropOff): Client? {
         var client: Client? = null
-        if (viewModel.isChecked.value == true) {
             var id = ""
             if (dropOff.clientID == id) id = UUID.randomUUID().toString() else id = dropOff.clientID
             client = Client(
@@ -227,7 +211,7 @@ class AddEditDropOffFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                 dateAdded = formatter.format(Date()),
                 score = dropOff.score
             )
-        }
+
 
         return client
     }
@@ -286,8 +270,11 @@ class AddEditDropOffFragment : Fragment(), DatePickerDialog.OnDateSetListener,
 
     override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         foundClient = parent?.getItemAtPosition(position) as Client
-        binding.txtClientName.setText(foundClient?.name)
-        binding.txtClientPhone.setText(foundClient?.phone)
+        foundClient?.let {
+            binding.txtClientName.setText(it.name)
+            binding.txtClientPhone.setText(it.phone)
+            binding.isCrewCheckBox.isChecked = it.isCrew
+        }
     }
 
 }

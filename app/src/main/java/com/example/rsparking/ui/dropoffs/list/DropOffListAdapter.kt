@@ -83,7 +83,8 @@ class DropOffListAdapter(
             val listItem = ListItem(
                 id = dropOff.id,
                 title = "Plate #: ${dropOff.plateNumber}\nName: ${dropOff.clientName}",
-                subTitle = "Date OUT: ${dropOff.dateOUT}",
+                subTitle = "ID: ${dropOff.id.takeLast(4)
+                    .toUpperCase()} - Date OUT: ${dropOff.dateOUT}",
                 extraInfo = "Service: ${dropOff.serviceType} - Fee: ${dropOff.feeType}",
                 profilePic = ""
             )
