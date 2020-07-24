@@ -11,8 +11,9 @@ object Constants{
     const val TABLE_CLIENTS = "clients"
     const val TABLE_VEHICLES = "vehicles"
     const val TABLE_DROPOFFS = "drop_offs"
-    const val TABLE_WALKIN = "walkin"
+    const val TABLE_SCORE = "scores"
     const val TABLE_PARKLOTS = "parking_lots"
+    const val TABLE_HIRED_PLAN = "hired_plans"
 
 
 }

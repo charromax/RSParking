@@ -14,37 +14,37 @@ data class DropOff(
     var dateAdded: String = "",
     var dateOUT: String = "",
     var clientID: String = "",
-    var clientName: String = "",
-    var clientPhone: String = "",
-    var plateNumber: String = "",
-    var isCrew: Boolean = false,
+    var vehicleID: String = "",
     var parkingLot: String = "",
     var isPickedUp: Boolean = false,
     var realDateOut: String = "",
-    var serviceType: String = "NONE",
-    var feeType: String = "Hourly",
+    var serviceType: String = ServiceType.NONE.code,
+    var planCode: String = PayPlan.DAILY.code,
     var notes: String = "",
-    var score: Float = 0.0f
+    var redCard: Boolean = false,
+    var score: Float = 0.0f,
+    var cost: Double = 0.0
 ) : Parcelable {
     override fun toString(): String {
-        return "${plateNumber},${clientName},${clientPhone},${isCrew},${dateAdded},${dateOUT},${realDateOut},${parkingLot},${serviceType},${feeType},${score}"
+        return "${vehicleID},${clientID},${dateAdded},${dateOUT},${realDateOut},${parkingLot}," +
+                "${serviceType},${planCode},$redCard, ${score}, $cost"
     }
 
     fun toArrayList(): ArrayList<String> {
         var array = ArrayList<String>()
         array.addAll(
             listOf(
-                this.plateNumber,
-                this.clientName,
-                this.clientPhone,
-                this.isCrew.toString(),
+                this.vehicleID,
+                this.clientID,
                 this.dateAdded,
                 this.dateOUT,
                 this.realDateOut,
                 this.parkingLot,
                 this.serviceType,
-                this.feeType,
-                this.score.toString()
+                this.planCode,
+                this.redCard.toString(),
+                this.score.toString(),
+                this.cost.toString()
             )
         )
         return array

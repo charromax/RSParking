@@ -183,6 +183,7 @@ class DropOffListFragment : Fragment() {
             ArrayList<String>(Arrays.asList(*resources.getStringArray(R.array.drop_off_headers)))
         val data = ArrayList<DropOff>(adapter.currentList)
         var array = ArrayList<ArrayList<String>>()
+        //TODO("Check headers against data class")
         array.add(headers)
         for (item in data) {
             array.add(item.toArrayList())

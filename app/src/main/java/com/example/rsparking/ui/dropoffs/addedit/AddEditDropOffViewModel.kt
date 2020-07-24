@@ -5,41 +5,56 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.rsparking.R
-import com.example.rsparking.data.RoomDatabase.ClientDAO
-import com.example.rsparking.data.RoomDatabase.DropOffDAO
-import com.example.rsparking.data.RoomDatabase.RSParkingDatabase
-import com.example.rsparking.data.model.Client
-import com.example.rsparking.data.model.DropOff
+import com.example.rsparking.data.RoomDatabase.*
+import com.example.rsparking.data.model.*
 import com.example.rsparking.data.repo.ClientRepository
 import com.example.rsparking.data.repo.DropOffRepository
+import com.example.rsparking.data.repo.HiredPlanRepository
+import com.example.rsparking.data.repo.VehicleRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.util.*
-import kotlin.collections.ArrayList
 
 
 class AddEditDropOffViewModel(
     dropOffID: String?,
     application: Application
 ) : AndroidViewModel(application) {
+
     private val dropOffDAO: DropOffDAO = RSParkingDatabase.getInstance(application).dropOffDAO
     private val clientDAO: ClientDAO = RSParkingDatabase.getInstance(application).clientDAO
+    private val vehicleDAO: VehicleDAO = RSParkingDatabase.getInstance(application).vehicleDAO
+    private val hiredPlanDAO: HiredPlanDAO = RSParkingDatabase.getInstance(application).hiredPlanDAO
     private val dropOffRepository: DropOffRepository
     private val clientRepository: ClientRepository
+    private val vehicleRepository: VehicleRepository
+    private val hiredPlanRepository: HiredPlanRepository
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
     val feeTypes =
-        ArrayList<String>(Arrays.asList(*application.resources.getStringArray(R.array.fee_types)))
+        ArrayList<String>()
     val serviceTypes =
-        ArrayList<String>(Arrays.asList(*application.resources.getStringArray(R.array.service_types)))
+        ArrayList<String>()
 
 
     // drop off info
     val currentDropOff = MutableLiveData<DropOff>()
-    var allClients = clientDAO.getAllClients()
+
+    private val _currentClient = MutableLiveData<Client>()
+    val currentClient: LiveData<Client>
+        get() = _currentClient
+
+    private val _currentVehicle = MutableLiveData<Vehicle>()
+    val currentVehicle: LiveData<Vehicle>
+        get() = _currentVehicle
+
+    private val _currentHiredPlan = MutableLiveData<HiredPlan>()
+    val currentHiredPlan: LiveData<HiredPlan>
+        get() = _currentHiredPlan
+
+    var allClients: LiveData<MutableList<Client>>
+    var allVehicles: LiveData<MutableList<Vehicle>>
 
     private val _saveDropOffEvent = MutableLiveData<Boolean>()
     val saveDropOffEvent: LiveData<Boolean>
@@ -64,10 +79,23 @@ class AddEditDropOffViewModel(
     init {
         dropOffRepository = DropOffRepository(dropOffDAO)
         clientRepository = ClientRepository(clientDAO)
+        vehicleRepository = VehicleRepository(vehicleDAO)
+        hiredPlanRepository = HiredPlanRepository(hiredPlanDAO)
         dropOffID?.let {
             getDropOff(it)
         }
+        setSpinnerArrays()
         allClients = clientRepository.allClients
+        allVehicles = vehicleRepository.allVehicles
+    }
+
+    private fun setSpinnerArrays() {
+        for (plan in PayPlan.values()) {
+            feeTypes.add(plan.code)
+        }
+        for (service in ServiceType.values()) {
+            serviceTypes.add(service.code)
+        }
     }
 
     fun saveDropOff(dropOff: DropOff, client: Client?) {
@@ -115,24 +143,21 @@ class AddEditDropOffViewModel(
         }
     }
 
-    fun doneUpdating() {
-        _updateDropOffEvent.value = null
+    fun getCurrentClient(key: String) {
+        uiScope.launch {
+            _currentClient.value = clientRepository.getClientFromDatabase(key)
+        }
     }
 
-    fun onPlateNumberInput(plate: CharSequence) {
-        var client: Client? = null
+    fun getCurrentHiredPlan(clientID: String) {
         uiScope.launch {
-            client = clientRepository.getClientWithPlate(plate.toString())
+            _currentHiredPlan.value = hiredPlanRepository.getCurrentPlanForClientID(clientID)
         }
-        currentDropOff.value?.let { dropOff ->
-            client?.let { client ->
-                dropOff.clientID = client.id
-                dropOff.clientName = client.name
-                dropOff.clientPhone = client.phone
-                dropOff.isCrew = client.isCrew
-                _foundClient.value = true
-            }
-        }
+    }
+
+
+    fun doneUpdating() {
+        _updateDropOffEvent.value = null
     }
 
 

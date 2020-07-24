@@ -14,25 +14,23 @@ data class Client(
     var name: String = "",
     var phone: String = "",
     var eMail: String = "",
-    var plateNumber: String = "",
     var notes: String = "",
     var dateAdded: String = "",
     var isCrew: Boolean = false,
     var score: Float = 0.0f
 ) : Parcelable {
     override fun toString(): String {
-        return "${plateNumber}"
+        return "${name}"
     }
 
-    fun toArrayList(): ArrayList<String> {
-        var array = ArrayList<String>()
+    fun toArrayList(): ArrayList<String> {   //convert to arraylist of strings to be used
+        var array = ArrayList<String>()      // for exporting csv tables
         array.addAll(
             listOf(
                 this.id,
                 this.name,
                 this.phone,
                 this.eMail,
-                this.plateNumber,
                 this.dateAdded,
                 this.isCrew.toString(),
                 this.score.toString()

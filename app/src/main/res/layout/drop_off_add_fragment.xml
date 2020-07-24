@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:ems="10"
                     android:hint="@string/hint_plate_number"
-                    android:text="@={viewModel.currentDropOff.plateNumber}" />
+                    android:text="@{viewModel.currentVehicle.plateNumber}" />
 
                 <EditText
                     android:id="@+id/txtClientName"
@@ -51,7 +51,7 @@
                     android:ems="10"
                     android:hint="@string/hint_name"
                     android:inputType="textPersonName"
-                    android:text="@={viewModel.currentDropOff.clientName}" />
+                    android:text="@{viewModel.currentClient.name}" />
 
                 <EditText
                     android:id="@+id/txtClientPhone"
@@ -61,7 +61,7 @@
                     android:ems="10"
                     android:hint="@string/hint_phone"
                     android:inputType="phone"
-                    android:text="@={viewModel.currentDropOff.clientPhone}" />
+                    android:text="@{viewModel.currentClient.phone}" />
 
                 <EditText
                     android:id="@+id/txtDateOut"
@@ -73,7 +73,7 @@
                     android:hint="@string/date_out_button"
                     android:inputType="none"
                     android:onClick="@{() -> viewModel.openPicker()}"
-                    android:text="@={viewModel.currentDropOff.dateOUT}" />
+                    android:text="@{viewModel.currentDropOff.dateOUT}" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -92,7 +92,7 @@
                     android:hint="@string/hint_fee"
                     android:spinnerMode="dropdown"
                     app:entries="@{viewModel.feeTypes}"
-                    app:selectedValue="@={viewModel.currentDropOff.feeType}" />
+                    app:selectedValue="@{viewModel.currentDropOff.feeType}" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -102,15 +102,59 @@
                     android:layout_marginEnd="28dp"
                     android:text="@string/select_service_type" />
 
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/spinServiceType"
-                    style="@style/rstand_form"
-                    android:layout_marginTop="0dp"
+                <RadioGroup
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/hint_service"
-                    app:entries="@{viewModel.serviceTypes}"
-                    app:selectedValue="@={viewModel.currentDropOff.serviceType}" />
+                    android:id="@+id/serviceGroup"
+                    android:orientation="horizontal"
+                    android:gravity="center_horizontal"
+                    android:layout_marginHorizontal="28dp">
+
+                    <RadioButton
+                        android:id="@+id/serviceNone"
+                        android:layout_marginRight="8dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_height="wrap_content"
+                        android:textAllCaps="true"
+                        android:background="@drawable/service_selector"
+                        android:button="@android:color/transparent"
+                        android:paddingVertical="16dp"
+                        android:paddingHorizontal="32dp"
+                        tools:checked="true"
+                        android:text="@string/service_none"
+                        android:textColor="@drawable/text_color_selector" />
+
+                    <RadioButton
+                        android:id="@+id/serviceExt"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_height="wrap_content"
+                        android:textAllCaps="true"
+                        android:background="@drawable/service_selector"
+                        android:button="@android:color/transparent"
+                        android:paddingVertical="16dp"
+                        android:paddingHorizontal="32dp"
+                        android:text="@string/service_basic"
+                        android:textColor="@drawable/text_color_selector" />
+
+                    <RadioButton
+                        android:id="@+id/serviceFull"
+                        android:layout_marginLeft="8dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:layout_height="wrap_content"
+                        android:textAllCaps="true"
+                        android:background="@drawable/service_selector"
+                        android:button="@android:color/transparent"
+                        android:paddingVertical="16dp"
+                        android:paddingHorizontal="32dp"
+                        android:text="@string/service_full"
+                        android:textColor="@drawable/text_color_selector" />
+                </RadioGroup>
 
                 <EditText
                     android:id="@+id/txtParkingLot"
@@ -119,7 +163,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/hint_parking_lot"
                     android:inputType="text"
-                    android:text="@={viewModel.currentDropOff.parkingLot}" />
+                    android:text="@{viewModel.currentDropOff.parkingLot}" />
 
                 <EditText
                     android:id="@+id/txtNotes"
@@ -130,7 +174,7 @@
                     android:inputType="text"
                     android:lines="3"
                     android:maxLines="3"
-                    android:text="@={viewModel.currentDropOff.notes}" />
+                    android:text="@{viewModel.currentDropOff.notes}" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -145,7 +189,7 @@
                     style="@style/ImageRatingBar"
                     android:layout_width="wrap_content"
                     android:layout_height="45sp"
-                    android:rating="@={viewModel.currentDropOff.score}"
+                    android:rating="@{viewModel.currentDropOff.score}"
                     app:starColor="@color/rs_yellow"
                     app:starDrawable="@drawable/ic_twotone_star_empty" />
 
@@ -155,7 +199,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
-                    android:checked="@={viewModel.isCrew}"
+                    android:checked="@{viewModel.isCrew}"
                     android:text="@string/is_crew" />
             </LinearLayout>
         </ScrollView>

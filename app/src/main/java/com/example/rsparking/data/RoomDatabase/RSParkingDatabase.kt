@@ -19,6 +19,8 @@ abstract class RSParkingDatabase : RoomDatabase() {
     abstract val driverDAO: DriverDAO
     abstract val dropOffDAO: DropOffDAO
     abstract val clientDAO: ClientDAO
+    abstract val vehicleDAO: VehicleDAO
+    abstract val hiredPlanDAO: HiredPlanDAO
 
     /**
      * Define a companion object, this allows us to add functions on the SleepDatabase class.

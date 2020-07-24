@@ -16,9 +16,6 @@ interface ClientDAO {
     @Query("SELECT * FROM ${Constants.TABLE_CLIENTS} WHERE id= :key")
     fun getClient(key: String): Client?
 
-    @Query("SELECT * FROM ${Constants.TABLE_CLIENTS} WHERE plateNumber LIKE :key")
-    fun getClientWithPlate(key: String): Client?
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(client: Client)
 

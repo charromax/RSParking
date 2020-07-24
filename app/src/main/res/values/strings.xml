@@ -58,22 +58,6 @@
     <string name="card_reports">Reports</string>
     <string name="card_parkinglist">Leaving today</string>
 
-
-    <string-array name="fee_types">
-        <item>Hourly</item>
-        <item>Daily</item>
-        <item>Turnaround</item>
-        <item>Layover</item>
-        <item>Special Rate</item>
-    </string-array>
-
-    <string-array name="service_types">
-        <item>NONE</item>
-        <item>Exterior</item>
-        <item>Complete</item>
-
-    </string-array>
-
     <string-array name="tables">
         <item>Parkings</item>
         <item>Clients</item>
@@ -113,9 +97,14 @@
     <string name="hint_service">Service</string>
     <string name="hint_parking_lot">Parking Lot #</string>
     <string name="check_save_new_client">Save new Client?</string>
-    <string name="select_fee_type">Select fee type:</string>
-    <string name="select_service_type">Select service type:</string>
+    <string name="select_fee_type">Select plan:</string>
+    <string name="select_service_type">Select service:</string>
     <string name="is_crew">is Crew?</string>
     <string name="client_rating">Client rating:</string>
+    <string name="extra_info">Extra Info</string>
+    <string name="service_none">NONE</string>
+    <string name="service_exterior">Exterior</string>
+    <string name="service_full">full</string>
+    <string name="service_basic">basic</string>
 
 </resources>

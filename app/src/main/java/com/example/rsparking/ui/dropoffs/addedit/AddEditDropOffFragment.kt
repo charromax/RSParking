@@ -3,9 +3,7 @@ package com.example.rsparking.ui.dropoffs.addedit
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.ContactsContract
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -23,11 +21,11 @@ import androidx.navigation.fragment.navArgs
 import com.example.rsparking.R
 import com.example.rsparking.data.model.Client
 import com.example.rsparking.data.model.DropOff
+import com.example.rsparking.data.model.Vehicle
 import com.example.rsparking.databinding.DropOffAddFragmentBinding
 import com.example.rsparking.ui.mainactivity.TAG
 import com.example.rsparking.util.Constants
 import com.example.rsparking.util.ToolbarInterface
-import com.example.rsparking.util.formatPhoneNumber
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import java.text.SimpleDateFormat
@@ -70,8 +68,6 @@ class AddEditDropOffFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         args.selectedDropOff?.let {
             dropOffIDarg = it.id
             currentDropOff = it
-            binding.isCrewCheckBox.isChecked = it.isCrew
-            binding.crewIcon.visibility = if (it.isCrew) View.VISIBLE else View.GONE
         }
         val viewModelFactory =
             AddEditDropOffViewModelFactory(
@@ -91,7 +87,7 @@ class AddEditDropOffFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                 viewModel.doneWithPicker()
             }
         })
-        viewModel.allClients.observe(viewLifecycleOwner, Observer {
+        viewModel.allVehicles.observe(viewLifecycleOwner, Observer {
             binding.txtPlateNumber.setAdapter(
                 ArrayAdapter(
                     requireContext(),
@@ -100,6 +96,12 @@ class AddEditDropOffFragment : Fragment(), DatePickerDialog.OnDateSetListener,
                 )
             )
             binding.txtPlateNumber.setOnItemClickListener(this)
+        })
+        viewModel.currentClient.observe(viewLifecycleOwner, Observer { currentClient ->
+            viewModel.getCurrentHiredPlan(currentClient.id)
+        })
+        viewModel.currentHiredPlan.observe(viewLifecycleOwner, Observer {
+            setSpinnerSelectedItem(it)
         })
 
         viewModel.saveDropOffEvent.observe(viewLifecycleOwner, Observer { saveORupdate ->
@@ -125,18 +127,28 @@ class AddEditDropOffFragment : Fragment(), DatePickerDialog.OnDateSetListener,
 
         })
         viewModel.currentDropOff.observe(viewLifecycleOwner, Observer {
-            Log.i("FRAG_TITLE", "dropOff name: ${it.clientName}")
+            Log.i("FRAG_TITLE", "dropOff name: ${it.id}")
+
         })
 
         return binding.root
     }
 
-    private fun createConfirmationDialog(dropOff: DropOff) {
+    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+        val selectedVehicle = parent?.getItemAtPosition(position) as Vehicle
+        viewModel.getCurrentClient(selectedVehicle.clientID)
+    }
+
+    private fun createConfirmationDialog(dropOff: DropOff, client: Client) {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle("Send Message?")
         builder.setMessage(resources.getString(R.string.confirm_send_message))
         builder.setPositiveButton(R.string.yes) { dialog, which ->
-                sendWhatsAppMsg(dropOff)
+            sendWhatsAppMsg(
+                dropOff,
+                clientName = client.name,
+                clientPhone = client.phone
+            )
         }
         builder.setNegativeButton(R.string.no) { dialog, which ->
             Toast.makeText(requireContext(), R.string.on_cancel_delete, Toast.LENGTH_SHORT)
@@ -147,17 +159,6 @@ class AddEditDropOffFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         alertDialog.show()
     }
 
-    private fun addContactToDevice(dropOff: DropOff) {
-        val formattedNumber = formatPhoneNumber(dropOff.clientPhone)
-        val intent = Intent(ContactsContract.Intents.Insert.ACTION)
-        intent.setType(ContactsContract.RawContacts.CONTENT_TYPE)
-        if (Integer.valueOf(Build.VERSION.SDK) > 14)
-            intent.putExtra("finishActivityOnSaveCompleted", true)
-        intent.putExtra(ContactsContract.Intents.Insert.NAME, dropOff.clientName)
-        intent.putExtra(ContactsContract.Intents.Insert.PHONE, formattedNumber)
-        startActivityForResult(intent, CONTACT_REQUEST_CODE)
-
-    }
     override fun onActivityResult(
         requestCode: Int,
         resultCode: Int,
@@ -177,19 +178,19 @@ class AddEditDropOffFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         this.findNavController().navigateUp()
     }
 
-    private fun sendWhatsAppMsg(dropOff: DropOff) {
+    private fun sendWhatsAppMsg(dropOff: DropOff, clientName: String, clientPhone: String) {
         val pickupDate = formatter.parse(dropOff.dateOUT)
         val msgID = dropOff.id.takeLast(4).toUpperCase()
         val text = String.format(
             resources.getString(
                 R.string.sms_message,
-                dropOff.clientName,
+                clientName,
                 formatterForMSG.format(pickupDate),
                 msgID
             )
         )
         val uri: Uri =
-            Uri.parse("https://api.whatsapp.com/send?phone=${dropOff.clientPhone}&text=$text") // phone = int phone number
+            Uri.parse("https://api.whatsapp.com/send?phone=${clientPhone}&text=$text") // phone = int phone number
         val sendIntent = Intent(
             Intent.ACTION_VIEW,
             uri
@@ -268,13 +269,5 @@ class AddEditDropOffFragment : Fragment(), DatePickerDialog.OnDateSetListener,
         binding.txtDateOut.setText(formatter.format(_date))
     }
 
-    override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-        foundClient = parent?.getItemAtPosition(position) as Client
-        foundClient?.let {
-            binding.txtClientName.setText(it.name)
-            binding.txtClientPhone.setText(it.phone)
-            binding.isCrewCheckBox.isChecked = it.isCrew
-        }
-    }
 
 }

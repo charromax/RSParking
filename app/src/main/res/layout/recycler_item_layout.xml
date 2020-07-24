@@ -9,86 +9,126 @@
             type="com.example.rsparking.data.model.ListItem" />
     </data>
 
-    <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/cardView"
         android:layout_margin="8dp"
-        card_view:contentPadding="8dp"
+        app:contentPadding="8dp"
         app:cardBackgroundColor="@android:color/white"
-        card_view:cardCornerRadius="12dp"
+        app:cardCornerRadius="12dp"
         app:cardElevation="10dp">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/crewIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_baseline_airplanemode_active_24"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/washIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="8dp"
+                tools:src="@drawable/ic_carwashfull"
+                android:visibility="gone"
+                app:layout_constraintEnd_toStartOf="@+id/planIcon"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible" />
+
+            <ImageView
+                android:id="@+id/planIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="8dp"
+                android:visibility="gone"
+                app:layout_constraintEnd_toStartOf="@+id/crewIcon"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_month1_full"
+                tools:visibility="visible" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profileImage"
-                android:layout_width="65dp"
-                android:layout_height="65dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginEnd="8dp"
+                android:layout_width="75dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
                 app:civ_border_color="@color/rs_black"
                 app:civ_border_width="1dp"
-                tools:src="@drawable/ic_clients"
-                app:image="@{listItem.profilePic}" />
+                app:image="@{listItem.profilePic}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_clients" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/mainTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/main_title"
-                        android:textColor="@color/rs_black"
-                        style="@style/TextAppearance.AppCompat.Title"
-                        app:title="@{listItem}" />
+            <TextView
+                android:id="@+id/mainTitle"
+                style="@style/TextAppearance.AppCompat.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:text="@string/main_title"
+                android:textColor="@color/rs_black"
+                app:layout_constraintBottom_toTopOf="@+id/subTitle"
+                app:layout_constraintStart_toEndOf="@+id/profileImage"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                app:title="@{listItem}" />
 
-                    <TextView
-                        android:id="@+id/subTitle"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Subtitle"
-                        android:textColor="@color/rs_black"
-                        android:textSize="18sp"
-                        app:subTitle="@{listItem}" />
+            <TextView
+                android:id="@+id/subTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Subtitle"
+                android:textColor="@color/rs_black"
+                android:textSize="18sp"
+                app:layout_constraintBottom_toTopOf="@+id/extraInfo"
+                app:layout_constraintStart_toStartOf="@+id/mainTitle"
+                app:layout_constraintTop_toBottomOf="@+id/mainTitle"
+                app:subTitle="@{listItem}" />
 
-                    <TextView
-                        android:id="@+id/extraInfo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/main_title"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="16sp"
-                        app:extraInfo="@{listItem}" />
+            <TextView
+                android:id="@+id/extraInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/extra_info"
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp"
+                app:extraInfo="@{listItem}"
+                app:layout_constraintBottom_toTopOf="@+id/miniScore"
+                app:layout_constraintStart_toStartOf="@+id/mainTitle"
+                app:layout_constraintTop_toBottomOf="@+id/subTitle" />
 
-                    <per.wsj.library.AndRatingBar
-                        android:id="@+id/miniScore"
-                        android:layout_width="wrap_content"
-                        android:layout_height="18dp"
-                        android:stepSize="0.5"
-                        android:visibility="gone"
-                        app:starColor="@color/rs_yellow"
-                        tools:visibility="visible"
-                        android:numStars="5"
-                        app:starDrawable="@drawable/ic_twotone_star_empty" />
-                </LinearLayout>
-        </LinearLayout>
+            <per.wsj.library.AndRatingBar
+                android:id="@+id/miniScore"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="8dp"
+                android:numStars="5"
+                android:stepSize="0.5"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/profileImage"
+                app:layout_constraintTop_toBottomOf="@+id/extraInfo"
+                app:layout_constraintVertical_bias="0.0"
+                app:starColor="@color/rs_yellow"
+                app:starDrawable="@drawable/ic_twotone_star_empty"
+                tools:rating="3.5"
+                tools:visibility="visible" />
 
-        <ImageView
-            android:id="@+id/crewIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            tools:visibility="visible"
-            android:src="@drawable/ic_baseline_airplanemode_active_24"
-            android:visibility="gone" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
 
     </androidx.cardview.widget.CardView>
 </layout>

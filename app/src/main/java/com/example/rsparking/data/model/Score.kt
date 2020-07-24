@@ -7,12 +7,11 @@ import com.example.rsparking.util.Constants
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-@Entity(tableName = Constants.TABLE_VEHICLES)
-data class Vehicle(
-    @PrimaryKey
-    val plateNumber: String = "",
-    val clientID: String = "",
-    val notes: String = "",
-    val dateAdded: String = ""
-): Parcelable {
+@Entity(tableName = Constants.TABLE_SCORE)
+data class Score(
+    @PrimaryKey(autoGenerate = true)
+    val id: Int,
+    val clientID: String,
+    val score: Double
+) : Parcelable {
 }
